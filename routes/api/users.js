@@ -13,7 +13,7 @@ const validateLoginInput = require("../../validation/login");
 router.get("/test", (req, res) => res.json({ msg: "This is the users route" }));
 
 router.get(
-  "/current",
+  "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     res.json({ message: "Success" });
@@ -115,6 +115,29 @@ router.post("/login", (req, res) => {
         return res.status(400).json({ message: "Invalid credentials" });
       }
     });
+  });
+});
+
+router.patch("/verifyTwoFA", (req, res) => {
+  const token = req.body.token;
+  const userId = req.body.userId;
+  User.findOne({ _id: userId }).then((user) => {
+    const verified = speakeasy.totp.verify({
+      secret: user.secret,
+      encoding: "base32",
+      token,
+    });
+
+    if (verified) {
+      user.verified = true;
+      user.save().then((user) => res.json(user));
+    } else {
+      console.log("Token does not match");
+      //res.json(user);
+      res.status(400).json({ message: "Token does not match" });
+      //create error for errors reducer
+      //res.json({ user });
+    }
   });
 });
 
