@@ -44,23 +44,25 @@
 
 
 .logo-div{
-    width: 168px;
-    height: 122px;
+  width: 111px;
+  height: 91px;
 }
 
 .logo-img{
-    width: 100%;
+    width: 70%;
     height: auto;
+    position: relative;
+    top: 8px;
+    right: 710px;
+    z-index: 5;
+    color: black;
+    background-color: #3b3a30;
 }
-.cirlce{
-    border-radius: 28%;
-    display: inline-block;
-    margin-right: 20px;
-    width: 200px; 
-    height: 200px;
-    background-image: -webkit-radial-gradient(45px 45px, cover, grey, black);
-    /* -webkit-animation-name: spin;
-    -webkit-animation-duration: 5s;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: linear; */
+
+.logo-img:hover{
+    cursor: pointer;
+    width: 73%;
+    transition-property: all;
+    transition-duration: .2s;
+    transition-timing-function: cubic-bezier(2, 1.5, 1.5, 1);
 }
