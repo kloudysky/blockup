@@ -43,7 +43,6 @@ export const login = (user) => (dispatch) =>
       localStorage.setItem("jwtToken", token);
       APIUtil.setAuthToken(token);
       const decoded = jwt_decode(token);
-      console.log(decoded);
       dispatch(receiveCurrentUser(decoded));
     })
     .catch((err) => {
@@ -58,5 +57,7 @@ export const logout = () => (dispatch) => {
 };
 
 export const verifyTwoFA = (data) => (dispatch) => {
-  APIUtil.verifyTwoFA(data).then((user) => dispatch(receiveCurrentUser(user)));
+  APIUtil.verifyTwoFA(data)
+    .then((response) => dispatch(receiveCurrentUser(response.data)))
+    .catch((err) => dispatch(receiveErrors(err.response.data)));
 };

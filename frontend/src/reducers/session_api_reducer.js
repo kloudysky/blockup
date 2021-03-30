@@ -10,10 +10,10 @@ const initialState = {
   user: {},
 };
 
-export default function (state = initialState, action) {
+const SessionAPIReducer = (state = initialState, action) => {
   switch (action.type) {
     case RECEIVE_CURRENT_USER:
-      console.log(action.currentUser);
+      console.log("SESSION API REDUCER");
       return {
         ...state,
         isAuthenticated: !!action.currentUser,
@@ -24,6 +24,7 @@ export default function (state = initialState, action) {
     case RECEIVE_USER_LOGOUT:
       return {
         isAuthenticated: false,
+        isVerified: false,
         user: undefined,
       };
     case RECEIVE_USER_SIGN_IN:
@@ -34,4 +35,6 @@ export default function (state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+export default SessionAPIReducer;
