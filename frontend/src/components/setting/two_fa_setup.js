@@ -37,6 +37,7 @@ class TwoFASetup extends React.Component {
 
   getQrCode() {
     let imgdata;
+    const errors = this.props.errors.message;
     if (this.props.verified) {
       return <h1>Your 2FA has been setup</h1>;
     } else {
@@ -58,6 +59,9 @@ class TwoFASetup extends React.Component {
             />
             <input type="submit" value="Submit" />
           </form>
+          <div>
+            <p>{errors ? `${errors}` : ""}</p>
+          </div>
         </div>
       );
     }

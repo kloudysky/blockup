@@ -10,7 +10,7 @@ export const setAuthToken = (token) => {
 };
 
 export const verifyTwoFA = (data) => {
-  return axios.post("/api/auth/verifyTwoFA", data);
+  return axios.patch("/api/users/verifyTwoFA", data);
 };
 
 export const signup = (userData) => {

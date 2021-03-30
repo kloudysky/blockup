@@ -57,7 +57,7 @@ export const logout = () => (dispatch) => {
 };
 
 export const verifyTwoFA = (data) => (dispatch) => {
-  console.log("session action");
-  console.log(data);
-  APIUtil.verifyTwoFA(data).then((user) => dispatch(receiveCurrentUser(user)));
+  APIUtil.verifyTwoFA(data)
+    .then((response) => dispatch(receiveCurrentUser(response.data)))
+    .catch((err) => dispatch(receiveErrors(err.response.data)));
 };

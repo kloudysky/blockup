@@ -13,7 +13,7 @@ const initialState = {
 const SessionAPIReducer = (state = initialState, action) => {
   switch (action.type) {
     case RECEIVE_CURRENT_USER:
-      console.log(action.currentUser);
+      console.log("SESSION API REDUCER");
       return {
         ...state,
         isAuthenticated: !!action.currentUser,
