@@ -21,6 +21,11 @@ class NavBar extends React.Component {
     this.props.logout();
   }
 
+  returnHome(e){
+    e.preventDefault();
+    <Redirect to="/" />
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     let data = {
@@ -81,7 +86,7 @@ class NavBar extends React.Component {
         <div className= "navbar">
           <div className="circle">_</div>
           <div className="logo-div">
-            <img className="logo-img" src={logo}></img>
+            <img onClick={returnHome} className="logo-img" src={logo}></img>
           </div>
           <div className="nav-signup-login">
               <Link to={'/signup'}>Signup</Link>
