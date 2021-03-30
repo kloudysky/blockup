@@ -9,6 +9,6 @@ export const receiveNewRoom = room => ({
 
 export const composeRoom = data => dispatch => (
     createRoom(data)
-        .then(room = > dispatch(receiveNewRoom(room)))
+        .then(room => dispatch(receiveNewRoom(room)))
         .catch(err => console.log(err))
 );
