@@ -7,10 +7,6 @@ const speakeasy = require("speakeasy");
 const User = require("../../models/User");
 
 router.post("/verifyTwoFA", (req, res) => {
-  console.log("WHAT");
-  console.log(req.body);
-  console.log(req.body.token);
-  console.log(req.body.userId);
   const token = req.body.token;
   const userId = req.body.userId;
   try {
@@ -24,11 +20,11 @@ router.post("/verifyTwoFA", (req, res) => {
       if (verified) {
         user.verified = true;
         user.save();
-        console.log(user);
         res.json({ user });
       } else {
         console.log("Your token doesn't match");
         console.log(user);
+        //create error for errors reducer
         //res.json({ user });
       }
     });

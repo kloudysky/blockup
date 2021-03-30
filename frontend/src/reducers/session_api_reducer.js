@@ -17,6 +17,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isAuthenticated: !!action.currentUser,
+        isVerified: action.currentUser.verified,
         user: action.currentUser,
       };
     case RECEIVE_USER_LOGOUT:
