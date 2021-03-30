@@ -32,6 +32,7 @@ class Rooms extends React.Component {
     let room = {
         name: this.state.name,
     }
+    this.props.createRoom(room);
   }
 
   renderErrors() {
