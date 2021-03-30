@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import qrcode from "qrcode";
-import "./navbar.css";
+
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -77,9 +77,15 @@ class NavBar extends React.Component {
       }
     } else {
       return (
-        <div>
-          <Link to={"/signup"}>Signup</Link>
-          <Link to={"/login"}>Login</Link>
+        <div className= "navbar">
+          <div className="circle"></div>
+          <div className="logo-div">
+            <img className="logo-img"></img>
+          </div>
+          <div className="nav-signup-login">
+              <Link to={'/signup'}>Signup</Link>
+              <Link to={'/login'}>Login</Link>
+          </div>
         </div>
       );
     }
@@ -87,8 +93,7 @@ class NavBar extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Blockup</h1>
+      <div className="top-nav">
         {this.getLinks()}
       </div>
     );

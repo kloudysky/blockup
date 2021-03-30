@@ -1,0 +1,17 @@
+@import 'variables';
+
+.main-page{
+    display: block;
+}
+
+.main-page footer{
+    display: block;
+}
+
+.app{
+    background-color: #3b3a30;
+    height: 750px;
+    color: whitesmoke;
+    font-size: 18px;
+    font-family: -webkit-pictograph;
+}

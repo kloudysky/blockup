@@ -1,0 +1,66 @@
+.navbar{
+    width: inherit;
+    height: 55px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #eaece5;
+    top: 0;
+    bottom: 0;
+    position: sticky;
+    z-index: 9;
+    margin-bottom: 12px;
+}
+
+.nav-signup-login{
+    display: flex;
+    width: 300px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nav-signup-login a {
+    text-decoration: none;
+    width: 106px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 34px;
+    margin: 17px;
+    color: #3b3a30;
+}
+
+.nav-signup-login a:hover {
+    background-color: #3b3a30;
+    cursor: pointer;
+    color: #eaece5;
+    border-radius: 16px;
+    /* width: 165px; */
+    transition-property: all;
+    transition-duration: .5s;
+    transition-timing-function: cubic-bezier(2, 1.5, 1.5, 1);
+}
+
+
+
+.logo-div{
+    width: 168px;
+    height: 122px;
+}
+
+.logo-img{
+    width: 100%;
+    height: auto;
+}
+.cirlce{
+    border-radius: 28%;
+    display: inline-block;
+    margin-right: 20px;
+    width: 200px; 
+    height: 200px;
+    background-image: -webkit-radial-gradient(45px 45px, cover, grey, black);
+    /* -webkit-animation-name: spin;
+    -webkit-animation-duration: 5s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear; */
+}
