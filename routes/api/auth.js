@@ -25,7 +25,6 @@ router.post("/verifyTwoFA", (req, res) => {
         console.log("Your token doesn't match");
         console.log(user);
         //create error for errors reducer
-        //res.json({ user });
       }
     });
   } catch (error) {
