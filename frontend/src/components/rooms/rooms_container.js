@@ -5,6 +5,7 @@ import Rooms from "./rooms";
 const mapStateToProps = (state) => {
   return {
     signedIn: state.session.isSignedIn,
+    verified: state.session.isVerified,
     errors: state.errors.session,
   };
 };

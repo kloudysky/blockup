@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import Nav from "../nav/navbar_container";
 
 class Rooms extends React.Component {
   constructor(props) {
@@ -48,13 +49,18 @@ class Rooms extends React.Component {
   render() {
     return (
       <div className="rooms">
+          <Nav />
           <form onSubmit={this.handleSubmit}>
               <input 
-              className="new-room"
+              className="room-new-input"
               placeholder="Room name"
               value={this.state.name}
               onChange={this.update("name")}>
               </input>
+              <input 
+              type="submit"
+              className="room-submit"
+              ></input>
           </form>
       </div>
     );
