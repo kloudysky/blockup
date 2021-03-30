@@ -3,7 +3,6 @@ const router = express.Router();
 const speakeasy = require("speakeasy");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const qrcode = require("qrcode");
 const passport = require("passport");
 const User = require("../../models/User");
 const keys = require("../../config/keys");
@@ -20,40 +19,6 @@ router.get(
     res.json({ message: "Success" });
   }
 );
-
-// router.post(
-//   "/verifyTwoFA",
-//   passport.authenticate("jwt", { session: false }),
-//   (req, res) => {
-//     const token = req.body.token;
-//     const userId = req.user.id;
-//     console.log(req.body);
-//     console.log(req.user);
-//     try {
-//       User.findOne({ _id: userId }).then((user) => {
-//         const verified = speakeasy.totp.verify({
-//           secret: user.secret,
-//           encoding: "base32",
-//           token,
-//         });
-
-//         if (verified) {
-//           user.verified = true;
-//           user.save();
-//           console.log(user);
-//           res.json({ user });
-//         } else {
-//           console.log("error");
-//           console.log(user);
-//           res.json({ user });
-//         }
-//       });
-//     } catch (error) {
-//       console.log(error);
-//       res.status(500).json({ message: "User not found" });
-//     }
-//   }
-// );
 
 router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
@@ -90,6 +55,7 @@ router.post("/register", (req, res) => {
             .then((user) => {
               const payload = { id: user.id, username: user.username };
               console.log(user);
+
               jwt.sign(
                 payload,
                 keys.secretOrKey,
