@@ -67,7 +67,7 @@ router.post("/register", (req, res) => {
                   });
                 }
               );
-              res.json({ user, qr: user.otpauth_url, secret: user.secret });
+              res.json({ user });
             })
             .catch((err) => console.log(err));
         });
