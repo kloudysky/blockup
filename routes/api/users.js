@@ -3,7 +3,6 @@ const router = express.Router();
 const speakeasy = require("speakeasy");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const qrcode = require("qrcode");
 const passport = require("passport");
 const User = require("../../models/User");
 const keys = require("../../config/keys");
@@ -68,7 +67,7 @@ router.post("/register", (req, res) => {
                   });
                 }
               );
-              res.json({ user, qr: user.otpauth_url, secret: user.secret });
+              res.json({ user });
             })
             .catch((err) => console.log(err));
         });

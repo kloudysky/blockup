@@ -8,6 +8,12 @@ const db = require("./config/keys").mongoURI;
 const users = require("./routes/api/users");
 const auth = require("./routes/api/auth");
 
+const PORT = process.env.PORT || 5000;
+
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const Message = require('./models/Message');
+
 mongoose
   .connect(db, { useNewUrlParser: true })
   .then(() => console.log("Connected to MongoDB successfully"))
@@ -23,6 +29,35 @@ app.use(bodyParser.json());
 app.use("/api/users", users);
 app.use("/api/auth", auth);
 
-const PORT = process.env.PORT || 5000;
+io.on('connection', (socket) => {
 
-app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
+  // Get the last 10 messages from the database.
+  Message.find().sort({createdAt: -1}).limit(10).exec((err, messages) => {
+    if (err) return console.error(err);
+
+    // Send the last messages to the user.
+    socket.emit('init', messages);
+  });
+
+  // Listen to connected users for a new message.
+  socket.on('message', (msg) => {
+    // Create a message with the content and the name of the user.
+    const message = new Message({
+      content: msg.content,
+      
+    });
+
+    // Save the message to the database.
+    message.save((err) => {
+      if (err) return console.error(err);
+    });
+
+    // Notify all other users about a new message.
+    //////will this give to all users or just users associated with message?///
+    socket.broadcast.emit('push', msg);
+  });
+});
+
+http.listen(PORT, () => {
+  console.log('listening on *:' + `${PORT}`);
+});

@@ -29,7 +29,6 @@ router.patch(
         console.log(res.json(user));
         res.status(400).json({ message: "Token does not match" });
         //create error for errors reducer
-        //res.json({ user });
       }
     });
   }

@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import qrcode from "qrcode";
+import logo from "../../logo_transparent.png";
+
 class NavBar extends React.Component {
   constructor(props) {
     super(props);
@@ -36,10 +39,10 @@ class NavBar extends React.Component {
       }
     } else {
       return (
-        <div className="navbar">
-          <div className="circle"></div>
+        <div className= "navbar">
+          <div className="circle">_</div>
           <div className="logo-div">
-            <img className="logo-img" alt=""></img>
+            <img className="logo-img" src={logo}></img>
           </div>
           <div className="nav-signup-login">
             <Link to={"/signup"}>Signup</Link>
