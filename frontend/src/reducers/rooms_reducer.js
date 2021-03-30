@@ -6,7 +6,7 @@ import {RECEIVE_NEW_ROOM } from "../actions/room_actions";
 
 const RoomsReducer = (state= {}, action) => {
     Object.freeze(state);
-    let newState = Object.assign({}. state);
+    let newState = Object.assign({}, state);
     switch (action.type) {
         case RECEIVE_NEW_ROOM:
             newState.new = action.room
