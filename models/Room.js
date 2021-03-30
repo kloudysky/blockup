@@ -12,7 +12,7 @@ const RoomSchema = new Schema (
         }
     },
     {
-    timestamps: true,
+        timestamps: true,
     }
 )
 
