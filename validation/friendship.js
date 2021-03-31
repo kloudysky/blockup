@@ -2,7 +2,7 @@ const Validator = require("validator");
 const validText = require("./valid-text");
 
 module.exports = function validateMessageInput(data) {
-    
+
     let errors = {};
 
     data.friend1 = validText(data.friend1) ? data.friend1 : '';

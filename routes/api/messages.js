@@ -26,10 +26,10 @@ router.get('/room/:room_id', (req, res) => {
     );
 });
 
-router.post('/',
+router.post('/new',
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
-      const { errors, isValid } = validateMessageInput(req.content);
+      const { errors, isValid } = validateMessageInput(req.body);
   
       if (!isValid) {
         return res.status(400).json(errors);

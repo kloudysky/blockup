@@ -22,7 +22,8 @@ router.post('/new' , (req, res) => {
 });
 
 router.get('/:friend_id', (req, res) => {
-    Friendship.find({friend1: req.params.friend_id})
+    // Friendship.find({friend1: req.params.friend_id})
+    Friendship.find({$or: [{friend1: req.params.friend_id}, {friend2: req.params.friend_id}]})
         .populate('friend1','username').populate('friend2','username')
         .then(friendships => res.json(friendships))
         .catch(err =>
@@ -30,4 +31,6 @@ router.get('/:friend_id', (req, res) => {
         )
     );
 });
+
+  module.exports = router;
     

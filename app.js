@@ -7,12 +7,16 @@ const app = express();
 const db = require("./config/keys").mongoURI;
 const users = require("./routes/api/users");
 const auth = require("./routes/api/auth");
+const rooms = require("./routes/api/rooms");
+const messages = require("./routes/api/messages");
+const friendships = require("./routes/api/friendships")
 
 const PORT = process.env.PORT || 5000;
 
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const Message = require('./models/Message');
+
 
 mongoose
   .connect(db, { useNewUrlParser: true })
@@ -27,6 +31,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use("/api/users", users);
 app.use("/api/auth", auth);
+app.use("/api/rooms", rooms);
+app.use("/api/messages", messages);
+app.use("/api/friendships", friendships);
 
 io.on('connection', (socket) => {
 

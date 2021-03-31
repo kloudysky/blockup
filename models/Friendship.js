@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 const FriendshipSchema = new Schema({
 
     friend1: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+      type: Schema.Types.ObjectId,
+      ref: 'User'
     },
     friend2: {
       type: Schema.Types.ObjectId,
