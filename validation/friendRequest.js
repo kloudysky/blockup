@@ -6,7 +6,7 @@ module.exports = function validateMessageInput(data) {
     let errors = {};
 
     data.senderId = validText(data.senderId) ? data.senderId : '';
-    data.receiver = validText(data.receiver) ? data.receiver : '';
+    data.receiverId = validText(data.receiverId) ? data.receiverId : '';
 
 
     if (Validator.isEmpty(data.senderId)) {
@@ -15,7 +15,7 @@ module.exports = function validateMessageInput(data) {
     if (Validator.isEmpty(data.receiverId)) {
         errors.text = 'receiverId field is required';
     }
-
+    
     return {
         errors,
         isValid: Object.keys(errors).length === 0

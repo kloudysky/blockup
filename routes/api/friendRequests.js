@@ -15,7 +15,7 @@ router.post('/new' , (req, res) => {
 
     const friendRequest = new FriendRequest({
         senderId: req.body.senderId,
-        recieverId: req.body.recieverId,
+        receiverId: req.body.receiverId,
         // status: FriendRequest.status
     })
 
