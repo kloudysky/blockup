@@ -6,6 +6,7 @@ import MessageBox from "./message_box";
 const mSTP = (state, ownProps) => {
     return ({
         currentUser: state.session.user,
+        
     })
 }
 

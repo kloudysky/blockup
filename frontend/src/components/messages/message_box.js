@@ -28,8 +28,11 @@ class MessageBox extends React.Component {
         return e => this.setState({['content']: e.target.value})
     }
 
+    
+
     render () {
         const { room, currentUser, fetchRoomMessages, createMessage} = this.props;
+        
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
