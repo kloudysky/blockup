@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-import qrcode from "qrcode";
 import logo from "../../logo_transparent.png";
 
 class NavBar extends React.Component {
@@ -25,7 +23,6 @@ class NavBar extends React.Component {
             <Link to={"/messages"}>Messages</Link>
             <Link to={"/profile"}>Profile</Link>
             <Link to={"/new_message"}>Write a Tweet</Link>
-            {/* <Link to={"/twoFASetup"}>Setup2FA</Link> */}
             <button onClick={this.logoutUser}>Logout</button>
           </div>
         );
@@ -39,11 +36,7 @@ class NavBar extends React.Component {
       }
     } else {
       return (
-        <div className= "navbar">
-          <div className="circle">_</div>
-          <div className="logo-div">
-            <img className="logo-img" src={logo}></img>
-          </div>
+        <div className="navbar">
           <div className="nav-signup-login">
             <Link to={"/signup"}>Signup</Link>
             <Link to={"/login"}>Login</Link>

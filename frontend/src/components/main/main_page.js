@@ -5,7 +5,7 @@ class MainPage extends React.Component {
     return (
       <div className="main-page">
         <h1>Blockup</h1>
-        <footer>Copyright &copy; 2021 Blockup</footer>
+        <footer className="footer">Copyright &copy; 2021 Blockup</footer>
       </div>
     );
   }

@@ -42,22 +42,23 @@ class TwoFASetup extends React.Component {
       return <h1>Your 2FA has been setup</h1>;
     } else {
       return (
-        <div>
-          <h1>Please setup with your Authenticator</h1>
+        <div className="twofa-container">
+          <h1>Please setup Two-Factor Authentication</h1>
+          <p>Use this QR code with your Authenticator</p>
           {qrcode.toDataURL(this.props.otpauth_url, function (err, data) {
             imgdata = data;
             console.log(imgdata);
           })}
           <img src={`${imgdata}`} alt="" />
           <form onSubmit={this.handleSubmit}>
-            <label>Enter Token:</label>
             <input
+              className="input input-token"
               type="text"
               value={this.state.token}
               onChange={this.update()}
               placeholder="000000"
             />
-            <input type="submit" value="Submit" />
+            <input className="btn-session" type="submit" value="Submit Token" />
           </form>
           <div>
             <p>{errors ? `${errors}` : ""}</p>
