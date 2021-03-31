@@ -1,17 +1,79 @@
-@import 'variables';
+/* @import "variables"; */
 
-.main-page{
-    display: block;
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700&family=Ubuntu:wght@300;400;500;700&display=swap");
+
+.main-page {
+  display: block;
+  font-family: "Ubuntu", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
 }
 
-.main-page footer{
-    display: block;
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background-color: whitesmoke;
+  font-family: "Source Sans Pro", sans-serif;
 }
 
-.app{
-    background-color: #3b3a30;
-    height: 750px;
-    color: whitesmoke;
-    font-size: 18px;
-    font-family: -webkit-pictograph;
+a,
+p,
+h1,
+h2,
+h3,
+input,
+button,
+label,
+form {
+  font-family: "Ubuntu", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+p {
+  padding: 10px;
+}
+
+h1,
+h2,
+h3 {
+  padding: 15px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 42px;
+}
+
+h2 {
+  font-size: 36px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+p {
+  font-size: 18px;
+}
+
+.main-page footer {
+  display: block;
+}
+
+.app {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-size: 100%;
+  font-family: inherit;
+  vertical-align: baseline;
+  color: #3b3a30;
+  font-family: -webkit-pictograph;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }

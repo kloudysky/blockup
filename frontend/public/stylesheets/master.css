@@ -1,6 +1,7 @@
-@import './reset.css';
-@import './variables.css';
-@import './main_page.css';
-@import './nav.css';
-@import './signup.css';
-@import './rooms.css';
+@import "./reset.css";
+@import "./variables.css";
+@import "./main_page.css";
+@import "./nav.css";
+@import "./signup.css";
+@import "./rooms.css";
+@import "./twofa.css";

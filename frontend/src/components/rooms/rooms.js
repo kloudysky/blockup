@@ -15,8 +15,8 @@ class Rooms extends React.Component {
     this.clearedErrors = false;
   }
 
-  componentDidMount(){
-    fetchUserRooms(this.props.user.id)
+  componentDidMount() {
+    fetchUserRooms(this.props.user.id);
   }
 
   update(field) {
@@ -29,10 +29,10 @@ class Rooms extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     let room = {
-        name: this.state.name,
-    }
+      name: this.state.name,
+    };
     this.props.createRoom(room);
-    e.currentTarget.value = ""
+    e.currentTarget.value = "";
   }
 
   renderErrors() {
@@ -47,38 +47,33 @@ class Rooms extends React.Component {
 
   render() {
     // debugger
-    const { user } = this.props
+    const { user } = this.props;
     let rooms = this.props.rooms;
     // debugger
     return (
       <div className="rooms">
-          <Nav />
-          <form onSubmit={this.handleSubmit}>
-              
-              <input 
-              className="room-new-input"
-              placeholder="Room name"
-              value={this.state.name}
-              onChange={this.update("name")}>
-              </input>
-              
-              <input 
-              type="submit"
-              className="room-submit"
-              ></input>
-          </form>
-            <ul>{
-              rooms.map(room => {
-                <li>
-                    <RoomListItem 
-                    key={room.id}
-                    name={room.name}
-                    image={room.image_url}
-                  />
-                </li>
-                })
-              }
-            </ul>
+        {/* <Nav /> */}
+        <form onSubmit={this.handleSubmit}>
+          <input
+            className="room-new-input"
+            placeholder="Room name"
+            value={this.state.name}
+            onChange={this.update("name")}
+          ></input>
+
+          <input type="submit" className="room-submit"></input>
+        </form>
+        <ul>
+          {rooms.map((room) => {
+            <li>
+              <RoomListItem
+                key={room.id}
+                name={room.name}
+                image={room.image_url}
+              />
+            </li>;
+          })}
+        </ul>
       </div>
     );
   }

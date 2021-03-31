@@ -1,68 +1,76 @@
-.navbar{
-    width: inherit;
-    height: 55px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: #eaece5;
-    top: 0;
-    bottom: 0;
-    position: sticky;
-    z-index: 9;
-    margin-bottom: 12px;
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
-.nav-signup-login{
-    display: flex;
-    width: 300px;
-    justify-content: space-around;
-    align-items: center;
+.nav-signup-login {
+  display: flex;
+  width: 300px;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .nav-signup-login a {
-    text-decoration: none;
-    width: 106px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 34px;
-    margin: 17px;
-    color: #3b3a30;
+  text-decoration: none;
+  width: 106px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 34px;
+  margin: 17px;
+  color: #3b3a30;
 }
 
 .nav-signup-login a:hover {
-    background-color: #3b3a30;
-    cursor: pointer;
-    color: #eaece5;
-    border-radius: 16px;
-    /* width: 165px; */
-    transition-property: all;
-    transition-duration: .5s;
-    transition-timing-function: cubic-bezier(2, 1.5, 1.5, 1);
+  background-color: #3b3a30;
+  cursor: pointer;
+  color: #eaece5;
+  border-radius: 16px;
+  /* width: 165px; */
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(2, 1.5, 1.5, 1);
 }
 
-
-
-.logo-div{
+.logo-div {
   width: 111px;
   height: 91px;
 }
 
-.logo-img{
-    width: 70%;
-    height: auto;
-    position: relative;
-    top: 8px;
-    right: 710px;
-    z-index: 5;
-    color: black;
-    background-color: #3b3a30;
+.logo-img {
+  width: 70%;
+  height: auto;
+  position: relative;
+  top: 8px;
+  right: 710px;
+  z-index: 5;
+  color: black;
+  background-color: #3b3a30;
 }
 
-.logo-img:hover{
-    cursor: pointer;
-    width: 73%;
-    transition-property: all;
-    transition-duration: .2s;
-    transition-timing-function: cubic-bezier(2, 1.5, 1.5, 1);
+.logo-img:hover {
+  cursor: pointer;
+  width: 73%;
+  transition-property: all;
+  transition-duration: 0.2s;
+  transition-timing-function: cubic-bezier(2, 1.5, 1.5, 1);
+}
+
+.top-nav {
+  display: flex;
+  justify-content: center;
+  background-color: #3b3a30;
+  color: white;
+  height: 50px;
+}
+
+.top-nav a {
+  color: white;
+}
+
+.top-nav button {
+  background: none;
+  border: none;
+  color: white;
 }
