@@ -21,7 +21,7 @@ export const composeRoom = data => dispatch => (
         .catch(err => console.log(err))
 );
 
-export const fetchRooms = id => dispatch => (
+export const fetchUserRooms = id => dispatch => (
     getUserRooms(id)
         .then(rooms => dispatch(receiveRooms(rooms)))
 );
