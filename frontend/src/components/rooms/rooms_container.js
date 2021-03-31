@@ -4,9 +4,10 @@ import Rooms from "./rooms";
 
 const mapStateToProps = (state) => {
   return {
-    user: state.session.currentUser,
+    user: state.session.user,
     verified: state.session.isVerified,
     errors: state.errors.session,
+    rooms: Object.values(state.rooms)
   };
 };
 

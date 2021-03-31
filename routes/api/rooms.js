@@ -11,10 +11,10 @@ router.get('/user/:user_id',
     (req, res) => {
 
     const allRooms = RoomMember.find({member_id: req.params.user_id});
-    let userRooms = []
+    let userRooms = {};
     allRooms.map(obj => {
         Room.findById(obj.roomId)
-          .then(room => userRooms.push(room))
+          .then( room => userRooms[room.id] = room)
     })
     res.json(userRooms);
 })

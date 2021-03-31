@@ -15,8 +15,8 @@ class Rooms extends React.Component {
     this.clearedErrors = false;
   }
 
-  componentWillMount(){
-    this.props.fetchUserRooms(this.props.user.id)
+  componentDidMount(){
+    fetchUserRooms(this.props.user.id)
   }
 
   update(field) {
@@ -45,8 +45,10 @@ class Rooms extends React.Component {
   }
 
   render() {
+    // debugger
     const { user } = this.props
-    let rooms = fetchUserRooms(user.id) || [];
+    let rooms = this.props.rooms;
+    // debugger
     return (
       <div className="rooms">
           <Nav />
