@@ -3,13 +3,13 @@ const Schema = mongoose.Schema;
 
 const RoomMemberSchema = new Schema (
     {
-       room_id:{
-        type: Schema.Type.ObjectId,
-        ref : 'rooms'
+       room:{
+        type: Schema.Types.ObjectId,
+        ref : 'Room'
        },
-       member_id: {
-        type: Schema.Type.ObjectId,
-        ref : 'users'
+       member: {
+        type: Schema.Types.ObjectId,
+        ref : 'User'
        }
     },
     {

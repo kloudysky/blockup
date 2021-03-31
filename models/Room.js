@@ -9,7 +9,13 @@ const RoomSchema = new Schema (
         },
         img_url: {
             type: String,
-        }
+        },
+        room_members: [
+            {type: Schema.Types.ObjectId, ref: 'RoomMember'}
+        ],
+        messages: [
+            {type: Schema.Types.ObjectId, ref: 'Message'}
+        ]
     },
     {
         timestamps: true,
