@@ -13,6 +13,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     createRoom: (room) => dispatch(composeRoom(room)),
+    fetchUserRooms
   };
 };
 
