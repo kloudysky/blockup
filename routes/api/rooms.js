@@ -49,11 +49,10 @@ router.post('/new',
         console.log(newRoom);
         newRoom.save()
             .then((room => {
-                const roomMember = new RoomMember({
+                new RoomMember({
                     room: room._id,
                     member: req.user
-                });
-                roomMember.save();
+                }).save();
                 console.log(room);
                 res.json(room);
             }))
