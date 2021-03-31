@@ -41,21 +41,21 @@ router.post('/new',
         if (!isValid) {
             return res.status(400).json(errors);
         }
-
         const newRoom = new Room({
             name: req.body.name,
             img_url: req.body.img_url || "",
             messages: [],
         })
-
+        console.log(newRoom);
         newRoom.save()
             .then((room => {
                 new RoomMember({
                     room: room._id,
                     member: req.user
-                })
-            }).save())
-            .then(room => res.json(room));
+                }).save();
+                console.log(room);
+                res.json(room);
+            }))
     }
 );
 
