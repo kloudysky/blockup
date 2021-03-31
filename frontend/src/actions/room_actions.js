@@ -1,4 +1,4 @@
-import { createRoom, getUserRooms } from "../util/room_api_util";
+import { createRoom, getUserRooms, showRoom } from "../util/room_api_util";
 
 export const RECEIVE_NEW_ROOM = "RECEIVE_NEW_ROOM";
 export const RECEIVE_ROOMS = "RECEIVE_ROOMS";
@@ -24,6 +24,11 @@ export const composeRoom = data => dispatch => (
         .then(room => {  dispatch(receiveNewRoom(room.data))})
         .catch(err => console.log(err))
 );
+
+export const fetchRoom = id => dispatch => (
+    showRoom(id)
+        .then(room => dispatch(receiveNewRoom(room)))
+)
 
 export const fetchUserRooms = id => dispatch => (
     getUserRooms(id)
