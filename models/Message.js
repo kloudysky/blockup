@@ -6,11 +6,11 @@ const MessageSchema = new Schema({
       type: String,
       required: true
     },
-    room_id: {
+    room: {
      type: Schema.Types.ObjectId,
      ref: 'Room'
     },
-    author_id: {
+    author: {
       type: Schema.Types.ObjectId,
       ref: 'User'
     }}, {
