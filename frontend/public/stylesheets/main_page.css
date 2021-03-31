@@ -58,7 +58,13 @@ p {
 }
 
 .main-page footer {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  bottom: 10px;
+  position: absolute;
+  width: 100%;
 }
 
 .app {
@@ -77,3 +83,10 @@ p {
   flex-direction: column;
   flex-wrap: wrap;
 }
+
+/* .footer {
+  display: flex;
+  bottom: 100px;
+  flex-direction: column;
+  flex-wrap: wrap;
+} */
