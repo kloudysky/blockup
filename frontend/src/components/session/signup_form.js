@@ -57,12 +57,12 @@ class SignupForm extends React.Component {
     return (
       <div className="signup-form-container">
         <div className="slogan">
-          Why use Blockup?
+          <h3>Why use Blockup?</h3>
           <p>
-            Because you get the peace of mind
+            You get the peace of mind
             <br /> knowing your messages are safe,
             <br />
-            and you're spams, are Blocked Up
+            and bots, are Blocked Up
           </p>
         </div>
         <form onSubmit={this.handleSubmit}>
@@ -95,8 +95,10 @@ class SignupForm extends React.Component {
               placeholder="Confirm Password"
               className="input"
             />
-            <input type="submit" value="Submit" className="submit" />
-            {this.renderErrors()}
+            <button type="submit" className="btn-session">
+              Register
+            </button>
+            <p className="error-msg">{this.renderErrors()}</p>
           </div>
         </form>
       </div>

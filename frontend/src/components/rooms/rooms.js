@@ -15,8 +15,8 @@ class Rooms extends React.Component {
     this.clearedErrors = false;
   }
 
-  componentDidMount(){
-    fetchUserRooms(this.props.user.id)
+  componentDidMount() {
+    fetchUserRooms(this.props.user.id);
   }
 
   update(field) {
@@ -29,10 +29,17 @@ class Rooms extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     let room = {
+<<<<<<< HEAD
         name: this.state.name,
     }
     e.currentTarget.value = "";
     this.props.createRoom(room);
+=======
+      name: this.state.name,
+    };
+    this.props.createRoom(room);
+    e.currentTarget.value = "";
+>>>>>>> main
   }
 
   renderErrors() {
@@ -47,6 +54,10 @@ class Rooms extends React.Component {
 
   render() {
     // debugger
+<<<<<<< HEAD
+=======
+    const { user } = this.props;
+>>>>>>> main
     let rooms = this.props.rooms;
     const allRooms = rooms.map(room => (
       <li>
