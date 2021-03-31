@@ -1,6 +1,8 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import { fetchUserRooms } from "../../actions/room_actions";
 import Nav from "../nav/navbar_container";
+import RoomListItem from "./roomListItem";
 
 class Rooms extends React.Component {
   constructor(props) {
@@ -13,12 +15,8 @@ class Rooms extends React.Component {
     this.clearedErrors = false;
   }
 
-  componentWillReceiveProps(nextProps) {
-    // if (nextProps.signedIn === true) {
-    //   this.props.history.push("/login");
-    // }
-
-    // this.setState({ errors: nextProps.errors });
+  componentDidMount(){
+    fetchUserRooms(this.props.user.id)
   }
 
   update(field) {
@@ -47,6 +45,10 @@ class Rooms extends React.Component {
   }
 
   render() {
+    // debugger
+    const { user } = this.props
+    let rooms = this.props.rooms;
+    // debugger
     return (
       <div className="rooms">
           <Nav />
@@ -62,6 +64,18 @@ class Rooms extends React.Component {
               className="room-submit"
               ></input>
           </form>
+            <ul>{
+              rooms.map(room => {
+                <li>
+                    <RoomListItem 
+                    key={room.id}
+                    name={room.name}
+                    image={room.image_url}
+                  />
+                </li>
+                })
+              }
+            </ul>
       </div>
     );
   }
