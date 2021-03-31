@@ -7,16 +7,13 @@ class RoomListItem extends React.Component {
     }
 
     render() {
+        // debugger;
         const {name, image} = this.props
         return(
             <div className="room-item">
-                <div 
-                    className="room-name"
-                    >{name}
-                </div>
+                <div className="room-name">{name}</div>
                 <div>
-                    <img src={image}>
-                    </img>
+                    <img src={image}/>
                 </div>
             </div>
         )

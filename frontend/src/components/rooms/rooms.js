@@ -31,8 +31,8 @@ class Rooms extends React.Component {
     let room = {
         name: this.state.name,
     }
+    e.currentTarget.value = "";
     this.props.createRoom(room);
-    e.currentTarget.value = ""
   }
 
   renderErrors() {
@@ -47,9 +47,16 @@ class Rooms extends React.Component {
 
   render() {
     // debugger
-    const { user } = this.props
     let rooms = this.props.rooms;
-    // debugger
+    const allRooms = rooms.map(room => (
+      <li>
+          <RoomListItem 
+          key={room.id}
+          name={room.name}
+          image={room.image_url}
+        />
+      </li>
+    ))
     return (
       <div className="rooms">
           <Nav />
@@ -67,18 +74,7 @@ class Rooms extends React.Component {
               className="room-submit"
               ></input>
           </form>
-            <ul>{
-              rooms.map(room => {
-                <li>
-                    <RoomListItem 
-                    key={room.id}
-                    name={room.name}
-                    image={room.image_url}
-                  />
-                </li>
-                })
-              }
-            </ul>
+            <ul>{allRooms}</ul>
       </div>
     );
   }
