@@ -7,6 +7,7 @@ import TwoFASetupContainer from "./setting/two_fa_setup_container";
 import MainPage from "./main/main_page";
 import LoginFormContainer from "./session/login_form_container";
 import SignupFormContainer from "./session/signup_form_container";
+import RoomsContainer from "./rooms/rooms_container";
 
 const App = () => (
   <div className="app">
@@ -20,6 +21,10 @@ const App = () => (
       />
       <AuthRoute exact path="/login" component={LoginFormContainer} />
       <AuthRoute exact path="/signup" component={SignupFormContainer} />
+      <ProtectedRoute 
+      exact path="/rooms"
+      component={RoomsContainer}
+      />
     </Switch>
   </div>
 );
