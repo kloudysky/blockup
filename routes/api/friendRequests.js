@@ -15,8 +15,11 @@ router.post('/new' , (req, res) => {
 
     const friendRequest = new FriendRequest({
         senderId: req.body.senderId,
-        recieverId: req.body.recieverId
+        recieverId: req.body.recieverId,
+        // status: FriendRequest.status
     })
 
     friendRequest.save().then(friendRequest => res.json(friendRequest));
 });
+
+module.exports = router;

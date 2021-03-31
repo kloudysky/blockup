@@ -10,6 +10,7 @@ const auth = require("./routes/api/auth");
 const rooms = require("./routes/api/rooms");
 const messages = require("./routes/api/messages");
 const friendships = require("./routes/api/friendships")
+const friendRequests = require("./routes/api/friendRequests")
 
 const PORT = process.env.PORT || 5000;
 
@@ -34,6 +35,7 @@ app.use("/api/auth", auth);
 app.use("/api/rooms", rooms);
 app.use("/api/messages", messages);
 app.use("/api/friendships", friendships);
+app.use("/api/friendRequests", friendRequests);
 
 io.on('connection', (socket) => {
 
