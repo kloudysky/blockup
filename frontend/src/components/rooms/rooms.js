@@ -32,6 +32,7 @@ class Rooms extends React.Component {
         name: this.state.name,
     }
     this.props.createRoom(room);
+    e.currentTarget.value = ""
   }
 
   renderErrors() {
@@ -53,12 +54,14 @@ class Rooms extends React.Component {
       <div className="rooms">
           <Nav />
           <form onSubmit={this.handleSubmit}>
+              
               <input 
               className="room-new-input"
               placeholder="Room name"
               value={this.state.name}
               onChange={this.update("name")}>
               </input>
+              
               <input 
               type="submit"
               className="room-submit"
