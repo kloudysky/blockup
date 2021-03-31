@@ -10,24 +10,15 @@ router.get('/user/:user_id',
     passport.authenticate('jwt', {session: false }),
     (req, res) => {
 
-    const userRooms = RoomMember.find({member_id: req.params.user_id});
-    consile.log(userRooms);
-    Room.find()
-        .then(rooms => res.json(rooms))
-        .catch(err => 
-            res.status(404).json({ noRoomsFound: 'Looks like you have not made any rooms yet!'}
-        )
-    );
+    const allRooms = RoomMember.find({member_id: req.params.user_id});
+    let userRooms = {}
+    allRooms.map(obj => {
+        Room.findById(obj.roomId)
+          .then(room => userRooms.push(room))
+    })
+    res.json(userRooms);
 })
 
-router.get('/', (req, res) => {
-    Room.find()
-        .then(rooms => res.json(rooms))
-        .catch(err => 
-            res.status(404).json({ noRoomsFound: 'Looks like you have not made any rooms yet!'}
-        )
-    );
-})
 
 router.get('/:id', (req, res) => {
     Room.findById(req.params.id)
