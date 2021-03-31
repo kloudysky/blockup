@@ -6,7 +6,7 @@ module.exports = function validateMessageInput(data) {
     let errors = {};
 
     data.senderId = validText(data.senderId) ? data.senderId : '';
-    data.receiverId = validText(data.receiverId) ? data.receiver : '';
+    data.receiverId = validText(data.receiverId) ? data.receiverId : '';
 
 
     if (Validator.isEmpty(data.senderId)) {

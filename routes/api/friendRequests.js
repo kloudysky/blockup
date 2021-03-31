@@ -20,3 +20,5 @@ router.post('/new' , (req, res) => {
 
     friendRequest.save().then(friendRequest => res.json(friendRequest));
 }); 
+
+module.exports = router;
