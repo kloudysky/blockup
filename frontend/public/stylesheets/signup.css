@@ -1,55 +1,95 @@
-.signup-form-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 600px;    
+.signup-form-container {
+  /* flex: 1; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 600px;
 }
 
-.signup-form{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 500px;
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-top: 7px;
-    margin-bottom: 7px;
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 500px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 7px;
+  margin-bottom: 7px;
 }
 
-.input{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-self: center;
-    width: 300px;
-    height: 32px;
-    padding: 7px;
-    border-radius: 10px;
-    border: solid white thin;
-    margin: 8px;
+.input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  width: 300px;
+  height: 32px;
+  padding: 7px;
+  font-size: 16px;
+  border: solid white thin;
+  margin: 8px;
+  background: none;
+  border: none;
+  border-bottom: solid #3b3a30 1px;
 }
 
-.submit{
-   width: 140px;
-    height: 35px;
-    padding: 2px;
-    border-radius: 11px;
-    background: #42b72a;
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
-    border: #42b72a;
+.submit {
+  margin-top: 10px;
+  width: 140px;
+  height: 35px;
+  padding: 2px;
+  border-radius: 11px;
+  background: #3b3a30;
+  color: white;
+  font-size: 16px;
+  border: #3b3a30;
 }
 
-.submit:hover{
-    cursor: pointer;
-    background-color: rgb(122, 241, 122);
+.submit:hover {
+  cursor: pointer;
+  background-color: rgb(122, 241, 122);
 }
 
-.slogan{
-    margin-left: 15px;
-    margin-right: 75px;
-    margin-top: 7px;
-    margin-bottom: 7px;
+.slogan {
+  font-family: "Ubuntu", sans-serif;
+  margin-left: 15px;
+  margin-right: 75px;
+  margin-top: 7px;
+  margin-bottom: 7px;
+}
+
+.slogan > h3 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.slogan > p {
+  font-size: 20px;
+}
+
+.error-msg {
+  margin-top: 15px;
+  font-family: "Ubuntu", sans-serif;
+  color: rgb(221, 111, 77);
+  font-weight: 100;
+}
+
+.btn-session {
+  color: black;
+  margin-top: 10px;
+  width: 150px;
+  height: 40px;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid #42423c;
+  outline: none;
+  transition: 0.5s ease-in-out;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.btn-session:hover {
+  color: white;
+  background-color: #42423c;
 }
