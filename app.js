@@ -7,6 +7,8 @@ const app = express();
 const db = require("./config/keys").mongoURI;
 const users = require("./routes/api/users");
 const auth = require("./routes/api/auth");
+const rooms = require("./routes/api/rooms");
+const messages = require("./routes/api/messages");
 
 const PORT = process.env.PORT || 5000;
 
@@ -27,6 +29,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use("/api/users", users);
 app.use("/api/auth", auth);
+app.use("/api/rooms", rooms);
+app.use("/api/messages", messages);
 
 io.on('connection', (socket) => {
 
