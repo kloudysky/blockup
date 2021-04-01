@@ -30,6 +30,7 @@ class Rooms extends React.Component {
     e.preventDefault();
     let room = {
       name: this.state.name,
+      user: this.props.user,
     };
     this.props.createRoom(room);
     e.currentTarget.value = "";
@@ -46,10 +47,18 @@ class Rooms extends React.Component {
   }
 
   render() {
-    // debugger
     const { user } = this.props;
+
     let rooms = this.props.rooms;
-    // debugger
+    if (rooms.length === 0) return null;
+    rooms = Object.values(rooms);
+    const allRooms = rooms.map((room) => (
+      <RoomListItem
+        key = {room.id}
+        name = {room.name}
+        image = {room.image_url}
+      />
+    ))
     return (
       <div className="rooms">
         {/* <Nav /> */}
@@ -64,15 +73,7 @@ class Rooms extends React.Component {
           <input type="submit" className="room-submit"></input>
         </form>
         <ul>
-          {rooms.map((room) => {
-            <li>
-              <RoomListItem
-                key={room.id}
-                name={room.name}
-                image={room.image_url}
-              />
-            </li>;
-          })}
+          {allRooms}
         </ul>
       </div>
     );
