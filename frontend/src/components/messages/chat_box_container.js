@@ -8,6 +8,7 @@ import ChatBox from "./chat_box";
 const mSTP = (state, ownProps) => {
   return {
     currentUser: state.session.user,
+    activeRoom: { id: 1 },
   };
 };
 

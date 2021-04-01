@@ -1,6 +1,38 @@
 import React from "react";
+import Chatbody from "./chat_body";
 
 export class ChatBox extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      content: "",
+      messages: "",
+    };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  componentDidMount() {
+    // this.props.fetchRoomMessages(this.props.match.params.id)
+    if (this.props.activeRoom) {
+      this.props.fetchRoomMessages(this.props.activeRoom.id);
+    }
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props
+      .createMessage({
+        content: this.state.content,
+        author: this.props.currentUser._id,
+        room: this.props.room._id,
+      })
+      .then(this.props.fetchRoomMessages(this.props.room.id));
+  }
+
+  handleChange() {
+    return (e) => this.setState({ ["content"]: e.target.value });
+  }
+
   setInput() {}
   sendMessage() {}
   render() {
@@ -17,22 +49,15 @@ export class ChatBox extends React.Component {
             <i class="fas fa-phone"></i>
           </div>
         </div>
-        <div className="chat-body">
-          <p className="chat-message">
-            <span className="chat-name">Kloud</span>
-            This is a message
-            <span className="chat-timestamp">3AM!</span>
-          </p>
-          <p className="chat-message chat-reciever">
-            <span className="chat-name">Kloud</span>
-            This is a message
-            <span className="chat-timestamp">3AM!</span>
-          </p>
-        </div>
+        <Chatbody />
         <div className="chat-footer">
           <i class="fas fa-laugh-wink"></i>
-          <form>
-            <input type="text" placeholder="Message" />
+          <form onSubmit={this.handleSubmit}>
+            <input
+              onChange={this.handleChange()}
+              type="text"
+              placeholder="Message"
+            />
             <button type="submit">Send</button>
           </form>
           <i class="fas fa-microphone"></i>

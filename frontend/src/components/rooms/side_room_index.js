@@ -10,7 +10,10 @@ export class SideRoomIndex extends Component {
     return (
       <div className="sidebar">
         <div className="sidebar-header">
-          <i class="fas fa-user-circle"></i>
+          <div className="sidebar-header-left">
+            <i class="fas fa-user-circle"></i>
+            <h3>{this.props.user.username}</h3>
+          </div>
           <div className="sidebar-header-right">
             <i class="fas fa-user-friends"></i>
             <i class="fas fa-comments"></i>
@@ -32,9 +35,6 @@ export class SideRoomIndex extends Component {
           ) : (
             <p>No rooms</p>
           )}
-          {/* <SideRoomItem />
-          <SideRoomItem />
-          <SideRoomItem /> */}
         </div>
       </div>
     );
