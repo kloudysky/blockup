@@ -1,19 +1,19 @@
 import { connect } from "react-redux";
-import { composeRoom, fetchUserRooms } from "../../actions/room_actions";
-import Rooms from "./rooms";
+import { fetchUserRooms } from "../../actions/room_actions";
+import RoomIndex from "./room_index";
 
 const mapStateToProps = (state) => {
   return {
     user: state.session.user,
     errors: state.errors.session,
+    rooms: Object.values(state.rooms)
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createRoom: (room) => dispatch(composeRoom(room)),
     fetchUserRooms: (id) => dispatch(fetchUserRooms(id))
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Rooms);
+export default connect(mapStateToProps, mapDispatchToProps)(RoomIndex);

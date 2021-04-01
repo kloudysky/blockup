@@ -1,8 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { fetchUserRooms } from "../../actions/room_actions";
-import Nav from "../nav/navbar_container";
-import RoomListItem from "./roomListItem";
+import RoomIndex from "./room_index_container";
 
 class Rooms extends React.Component {
   constructor(props) {
@@ -15,9 +13,6 @@ class Rooms extends React.Component {
     this.clearedErrors = false;
   }
 
-  componentDidMount() {
-    fetchUserRooms(this.props.user.id);
-  }
 
   update(field) {
     return (e) =>
@@ -32,8 +27,8 @@ class Rooms extends React.Component {
       name: this.state.name,
       user: this.props.user,
     };
-    this.props.createRoom(room);
     e.currentTarget.value = "";
+    this.props.createRoom(room);
   }
 
   renderErrors() {
@@ -47,21 +42,9 @@ class Rooms extends React.Component {
   }
 
   render() {
-    const { user } = this.props;
-
-    let rooms = this.props.rooms;
-    if (rooms.length === 0) return null;
-    rooms = Object.values(rooms);
-    const allRooms = rooms.map((room) => (
-      <RoomListItem
-        key = {room.id}
-        name = {room.name}
-        image = {room.image_url}
-      />
-    ))
     return (
       <div className="rooms">
-        {/* <Nav /> */}
+
         <form onSubmit={this.handleSubmit}>
           <input
             className="room-new-input"
@@ -72,9 +55,9 @@ class Rooms extends React.Component {
 
           <input type="submit" className="room-submit"></input>
         </form>
-        <ul>
-          {allRooms}
-        </ul>
+
+        <div><RoomIndex /></div>
+    
       </div>
     );
   }
