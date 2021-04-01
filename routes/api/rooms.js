@@ -8,7 +8,11 @@ const RoomMember = require("../../models/RoomMember");
 
 router.get('/user/:user_id',
     (req, res) => {
-       Room.find({"members": {id: req.params.user_id}})
+
+    //    Room.find({"members": {id: req.params.user_id}});
+
+       Room.find({$or: [{'members': {"$elemMatch":{'id':`${req.params.user_id}`}}}]})
+       .limit(10)
        .then(rooms => { console.log(rooms); res.json(rooms) })
 })
 
