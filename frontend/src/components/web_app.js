@@ -1,13 +1,13 @@
 import React from "react";
-import ChatBox from "./messages/chat_box";
-import SideRoomIndex from "./rooms/side_room_index";
+import ChatBoxContainer from "./messages/chat_box_container";
+import SideRoomIndexContainer from "./rooms/side_room_index_container";
 
 function WebApp() {
   return (
     <div className="webapp">
       <div className="webappbody">
-        <SideRoomIndex />
-        <ChatBox />
+        <SideRoomIndexContainer />
+        <ChatBoxContainer />
       </div>
     </div>
   );

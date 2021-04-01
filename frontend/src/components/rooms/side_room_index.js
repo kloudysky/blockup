@@ -8,6 +8,9 @@ import { SearchOutlined } from "@material-ui/icons";
 import SideRoomItem from "./side_room_item";
 
 export class SideRoomIndex extends Component {
+  componentDidMount() {
+    this.props.fetchUserRooms(this.props.user._id);
+  }
   render() {
     return (
       <div className="sidebar">
