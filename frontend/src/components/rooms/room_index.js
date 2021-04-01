@@ -27,8 +27,6 @@ class RoomIndex extends React.Component {
         if (this.props.rooms.length === 0){
             return ( <div>There are no Rooms</div>)
         } else {
-          console.log("room index comp");
-          console.log(this.state.rooms);
             return (
                 <div className="room-index">
                     <h2>Your Rooms</h2>

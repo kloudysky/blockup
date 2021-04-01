@@ -1,6 +1,9 @@
 import React from "react";
 
 export class ChatBox extends React.Component {
+  componentDidMount(){
+    // this.props.fetchRoomMessages(this.props.activeRoom._id)
+  }
   setInput() {}
   sendMessage() {}
   render() {
