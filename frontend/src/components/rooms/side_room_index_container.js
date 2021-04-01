@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
 import { fetchUserRooms } from "../../actions/room_actions";
+import { fetchActiveRoom } from "../../actions/ui_actions";
 import SideRoomIndex from "./side_room_index";
 
 const mapStateToProps = (state) => {
@@ -7,12 +8,14 @@ const mapStateToProps = (state) => {
     user: state.session.user,
     errors: state.errors.session,
     rooms: Object.values(state.rooms),
+    activeRoom: state.ui.activeRoom
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchUserRooms: (id) => dispatch(fetchUserRooms(id)),
+    setActiveRoom: id => dispatch(fetchActiveRoom(id))
   };
 };
 

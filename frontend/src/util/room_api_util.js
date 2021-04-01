@@ -9,6 +9,5 @@ export const showRoom = id => {
 }
 
 export const getUserRooms = id => {
-  console.log("room API");
   return axios.get(`/api/rooms/user/${id}`)
 }
