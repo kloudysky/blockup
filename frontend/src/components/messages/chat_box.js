@@ -26,7 +26,7 @@ export class ChatBox extends React.Component {
           <i class="fas fa-laugh-wink"></i>
           <form onSubmit={this.handleSubmit}>
             <input
-              onChange={this.handleChange()}
+              
               type="text"
               placeholder="Message"
             />
