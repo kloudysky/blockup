@@ -2,37 +2,9 @@ import React from "react";
 import Chatbody from "./chat_body";
 
 export class ChatBox extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      content: "",
-      messages: "",
-    };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
   componentDidMount() {
-    // this.props.fetchRoomMessages(this.props.match.params.id)
-    if (this.props.activeRoom) {
-      this.props.fetchRoomMessages(this.props.activeRoom.id);
-    }
+    // this.props.fetchRoomMessages(this.props.activeRoom._id)
   }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    this.props
-      .createMessage({
-        content: this.state.content,
-        author: this.props.currentUser._id,
-        room: this.props.room._id,
-      })
-      .then(this.props.fetchRoomMessages(this.props.room.id));
-  }
-
-  handleChange() {
-    return (e) => this.setState({ ["content"]: e.target.value });
-  }
-
   setInput() {}
   sendMessage() {}
   render() {

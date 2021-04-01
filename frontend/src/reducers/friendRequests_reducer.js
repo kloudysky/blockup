@@ -1,5 +1,5 @@
 
-import { RECEIVE_FRIEND_REQUEST, RECEIVE_FRIEND_REQUESTS} from '../actions/friendship_actions'
+import { RECEIVE_FRIEND_REQUEST, RECEIVE_FRIEND_REQUESTS,DELETE_FRIEND_REQUEST} from '../actions/friendship_actions'
 
  const friendRequestReducer = (state = {} , action) => {
     Object.freeze(state);
@@ -7,10 +7,26 @@ import { RECEIVE_FRIEND_REQUEST, RECEIVE_FRIEND_REQUESTS} from '../actions/frien
 
     switch(action.type){
         case RECEIVE_FRIEND_REQUESTS:
-            return Object.assign({}, action.friendRequests)
+            // return Object.assign({}, action.friendRequests)
+            let b = {}
+        
+            action.friendRequests.forEach((e)=>{
+                let {senderId, receiverId , _id, status} = e
+                b[e._id] = {senderId, receiverId , _id,status}
+            })
+            return b
     
         case RECEIVE_FRIEND_REQUEST:
-            nextState[action.friendRequest.id] = action.friendRequest
+            // let {senderId, receiverId , _id, status} = action.friendRequest
+            debugger
+
+            nextState[action.friendRequest._id] = action.friendRequest
+            debugger
+            return nextState
+
+        case DELETE_FRIEND_REQUEST:
+            debugger
+            delete nextState[action.friendRequest._id]
             return nextState
 
         default:

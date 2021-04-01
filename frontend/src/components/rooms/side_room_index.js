@@ -1,9 +1,13 @@
 import React, { Component } from "react";
+import UiReducer from "../../reducers/ui_reducer";
 import SideRoomItem from "./side_room_item";
 
 export class SideRoomIndex extends Component {
   componentDidMount() {
     this.props.fetchUserRooms(this.props.user.id);
+    if (this.props.rooms.length > 0) {
+      this.props.setActiveRoom(this.props.rooms[0]._id);
+    }
   }
 
   render() {
@@ -28,13 +32,23 @@ export class SideRoomIndex extends Component {
         </div>
 
         <div className="sidebar-chats">
-          {this.props.rooms.legnth > 0 ? (
+          {console.log(this.props.rooms)}
+          {this.props.rooms.length > 0 ? (
             this.props.rooms.map((room) => (
-              <SideRoomItem key={room.id} id={room.id} name={room.name} />
+              <SideRoomItem
+                key={room._id}
+                id={room._id}
+                name={room.name}
+                setActiveRoom={this.props.setActiveRoom}
+                activeRoom={this.props.activeRoom}
+              />
             ))
           ) : (
             <p>No rooms</p>
           )}
+          {/* <SideRoomItem />
+          <SideRoomItem />
+          <SideRoomItem /> */}
         </div>
       </div>
     );

@@ -1,4 +1,4 @@
-import { RECEIVE_NEW_ROOM, RECEIVE_ROOMS } from "../actions/room_actions";
+import { RECEIVE_NEW_ROOM, RECEIVE_ROOMS, RECEIVE_SINGLE_ROOM } from "../actions/room_actions";
 
 const RoomsReducer = (state = {}, action) => {
   Object.freeze(state);
@@ -11,9 +11,9 @@ const RoomsReducer = (state = {}, action) => {
         roomsObj[room._id] = room;
       });
       const newState = Object.assign({}, state, roomsObj);
-      console.log("rooms reduc");
-      console.log(newState);
       return newState;
+    case RECEIVE_SINGLE_ROOM:
+        return action.room;
     default:
       return state;
   }
