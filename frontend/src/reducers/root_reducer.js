@@ -5,6 +5,7 @@ import RoomsReducer from "./rooms_reducer";
 import MessagesReducer from "./messages_reducer";
 import friendshipReducer from "./friendships_reducer";
 import friendRequestReducer from "./friendRequests_reducer";
+import UiReducer from "./ui_reducer";
 
 const RootReducer = combineReducers({
   errors,
@@ -13,6 +14,7 @@ const RootReducer = combineReducers({
   messages: MessagesReducer,
   friendships: friendshipReducer,
   friendRequests: friendRequestReducer,
+  ui: UiReducer,
 });
 
 export default RootReducer;
