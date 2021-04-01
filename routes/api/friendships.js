@@ -19,6 +19,7 @@ router.post('/new' , (req, res) => {
     })
 
     friendship.save().then(friendship => res.json(friendship));
+
 });
 
 router.get('/:friend_id', (req, res) => {
@@ -32,4 +33,15 @@ router.get('/:friend_id', (req, res) => {
     );
 });
 
+router.delete("/delete/:id", (req, res) => {
+    Friendship.findByIdAndRemove(req.params.id)
+      .then((friendship) => {
+          return res.json(friendship )
+        // res.json({successDelete: "Success Delete"}) 
+      })
+  });
+
   module.exports = router;
+
+//6065203ad7c1173fb7eab396
+//60651f80d7c1173fb7eab395
