@@ -21,7 +21,7 @@ export const receiveError = error => ({
 
 export const composeRoom = data => dispatch => {
     return (createRoom(data)
-        .then(room => { console.log(room); dispatch(receiveNewRoom(room.data))})
+        .then(room => { dispatch(receiveNewRoom(room.data))})
         .catch(err => console.log(err)))
 };
 
