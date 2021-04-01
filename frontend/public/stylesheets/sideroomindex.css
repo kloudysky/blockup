@@ -11,6 +11,10 @@
   /* border-right: 1px solid lightgrey; */
 }
 
+.sidebar-header > .fa-user-circle {
+  font-size: 40px;
+}
+
 .sidebar-header-right {
   display: flex;
   align-items: center;
@@ -21,6 +25,11 @@
 .sidebar-header-right > .MuiSvgIcon-root {
   margin-right: 2vw;
   font-size: 24px imp !important;
+}
+
+.sidebar-header-right > .fas {
+  margin-right: 2vw;
+  font-size: 22px;
 }
 
 .sidebar-search {
@@ -41,6 +50,11 @@
 }
 
 .search-container > .MuiSvgIcon-root {
+  color: gray;
+  padding: 10px;
+}
+
+.search-container > i {
   color: gray;
   padding: 10px;
 }
