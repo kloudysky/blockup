@@ -10,7 +10,6 @@ class RoomIndex extends React.Component {
     }
 
     componentDidMount() {
-      debugger;
         this.props.fetchUserRooms(this.props.user.id);
     }
 
@@ -25,7 +24,6 @@ class RoomIndex extends React.Component {
     }
 
     render() {
-      debugger;
         if (this.props.rooms.length === 0){
             return ( <div>There are no Rooms</div>)
         } else {

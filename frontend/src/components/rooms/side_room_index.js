@@ -1,10 +1,4 @@
 import React, { Component } from "react";
-import ChatIcon from "@material-ui/icons/Chat";
-import DonutSmallOutlinedIcon from "@material-ui/icons/DonutSmallOutlined";
-import PeopleIcon from "@material-ui/icons/People";
-import ExpandMoreOutlinedIcon from "@material-ui/icons/ExpandMoreOutlined";
-import { Avatar, IconButton } from "@material-ui/core";
-import { SearchOutlined } from "@material-ui/icons";
 import SideRoomItem from "./side_room_item";
 
 export class SideRoomIndex extends Component {
