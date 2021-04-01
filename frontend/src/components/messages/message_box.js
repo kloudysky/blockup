@@ -19,7 +19,7 @@ class MessageBox extends React.Component {
         e.preventDefault();
         this.props.createMessage({
             content: this.state.content,
-            user_id: this.props.currentUser._id,
+            author: this.props.currentUser._id,
             room: this.props.room._id
         }).then(fetchRoomMessages(this.props.room._id))
     }
