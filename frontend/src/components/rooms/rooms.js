@@ -13,7 +13,6 @@ class Rooms extends React.Component {
     this.clearedErrors = false;
   }
 
-
   update(field) {
     return (e) =>
       this.setState({
@@ -44,16 +43,17 @@ class Rooms extends React.Component {
   render() {
     return (
       <div className="rooms">
-
         <form onSubmit={this.handleSubmit}>
+          
           <input
             className="room-new-input"
             placeholder="Room name"
             value={this.state.name}
-            onChange={this.update("name")}
-          ></input>
+            onChange={this.update("name")}>
+          </input>
 
           <input type="submit" className="room-submit"></input>
+
         </form>
 
         <div><RoomIndex /></div>
