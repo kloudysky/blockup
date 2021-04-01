@@ -1,7 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { fetchUserRooms } from "../../actions/room_actions";
-import RoomIndexContainer from "./room_index_container";
+import RoomIndex from "./room_index_container";
 
 class Rooms extends React.Component {
   constructor(props) {
@@ -44,7 +43,6 @@ class Rooms extends React.Component {
   render() {
     return (
       <div className="rooms">
-        
         <form onSubmit={this.handleSubmit}>
           
           <input
@@ -57,7 +55,9 @@ class Rooms extends React.Component {
           <input type="submit" className="room-submit"></input>
 
         </form>
-        <div className="room-index-room"> <RoomIndexContainer/> </div>
+
+        <div><RoomIndex /></div>
+    
       </div>
     );
   }
