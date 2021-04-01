@@ -9,7 +9,7 @@ class RoomListItem extends React.Component {
     render() {
         const {name, image} = this.props
         return(
-            <div className="room-item">
+            <li className="room-item">
                 <div 
                     className="room-name"
                     >{name}
@@ -18,7 +18,7 @@ class RoomListItem extends React.Component {
                     <img src={image}>
                     </img>
                 </div>
-            </div>
+            </li>
         )
     }
 }

@@ -10,7 +10,7 @@ module.exports = function validateRoomNameInput(data) {
     if (Validator.isEmpty(data.name)){
         errors.name = "Room name must have valid characters";
     }
-    // if (Validator.isLength(data.name, {min: 3, max:30 })){
+    // if (!(Validator.isLength(data.name, {min: 3, max:30 }))){
     //     errors.name = "Room name must include at least 3 characters";
     // }
 
