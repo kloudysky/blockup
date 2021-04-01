@@ -3,7 +3,6 @@ import { fetchUserRooms } from "../../actions/room_actions";
 import RoomIndex from "./room_index";
 
 const mapStateToProps = (state) => {
-  debugger;
   return {
     user: state.session.user,
     errors: state.errors.session,

@@ -6,7 +6,6 @@ class RoomListItem extends React.Component {
     }
 
     render() {
-        debugger;
         const {name} = this.props
         return(
             <li className="room-item"> Room Item

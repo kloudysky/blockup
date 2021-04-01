@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const validateFriendRequestInput = require('../../validation/friendRequest');
 
-const FriendRequest = require('../../models/FriendRequest')
+const FriendRequest = require('../../models/FriendRequest');
+const User = require('../../models/User');
 
 router.post('/new' , (req, res) => {
     const {errors, isValid} = validateFriendRequestInput(req.body);
@@ -18,7 +19,9 @@ router.post('/new' , (req, res) => {
         receiverId: req.body.receiverId
     })
 
-    friendRequest.save().then(friendRequest => res.json(friendRequest));
+    friendRequest.save().then(friendRequest => res.json(friendRequest))
+    
+
 }); 
 
 router.get('/:friend_id', (req, res) => {
@@ -31,5 +34,18 @@ router.get('/:friend_id', (req, res) => {
         )
     );
 });
+
+
+router.delete("/delete/:id", (req, res) => {
+    FriendRequest.findByIdAndRemove(req.params.id)
+    .then((friendRequest) => {
+        return res.json(friendRequest)
+        // res.json({successDelete: "Success Delete"}) 
+    })
+});
+
+
+
+
 
 module.exports = router;
