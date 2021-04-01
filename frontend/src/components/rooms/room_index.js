@@ -1,17 +1,17 @@
 import React from "react";
-import { fetchUserRooms } from "../../actions/room_actions";
-import RoomListItem from "./roomListItem";
+import RoomListItem from "./room_list_item";
 
 class RoomIndex extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            room: []
+            rooms: []
         }
     }
 
     componentDidMount() {
-        fetchUserRooms(this.props.user._id);
+      debugger;
+        this.props.fetchUserRooms(this.props.user.id);
     }
 
     renderErrors() {
@@ -25,19 +25,24 @@ class RoomIndex extends React.Component {
     }
 
     render() {
-        if (this.state.rooms === undefined){
+      debugger;
+        if (this.props.rooms.length === 0){
             return ( <div>There are no Rooms</div>)
         } else {
+          console.log("room index comp");
+          console.log(this.state.rooms);
             return (
                 <div className="room-index">
                     <h2>Your Rooms</h2>
-                    {this.state.rooms.map(room => (
-                        <RoomListItem key={room._id} name={room.name} />
-                    ))}
+                    <ul>
+                      {this.props.rooms.map(room => (
+                          <li><RoomListItem key={room._id} name={room.name} /></li>
+                      ))}
+                    </ul>
                 </div>
                 );
             }
         }
 }
 
-export default (RoomIndex);
+export default RoomIndex;
