@@ -46,10 +46,10 @@ class Rooms extends React.Component {
   }
 
   render() {
-    // debugger
+    // 
     const { user } = this.props;
     let rooms = this.props.rooms;
-    // debugger
+    // 
     return (
       <div className="rooms">
         {/* <Nav /> */}

@@ -9,7 +9,7 @@ import axios from 'axios';
 // };
 
 export const createRoom = data => {
-  debugger;
+  ;
   return axios.post('/api/rooms/new', data)
 }
 

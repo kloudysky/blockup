@@ -78,7 +78,7 @@ class LoginForm extends React.Component {
             <button type="submit" className="btn-session">
               Login
             </button>
-            <p className="error-msg">{this.renderErrors()}</p>
+            <div className="error-msg">{this.renderErrors()}</div>
           </div>
         </form>
       </div>
