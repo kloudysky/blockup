@@ -1,0 +1,101 @@
+.friends-title{
+    font-size: 28px;
+    margin: 35px;
+    font-weight: bold;
+}
+
+.individual-msg{
+    display: flex;
+    width: 68%;
+    height: 70px;
+    margin: auto;
+    padding-top: 20px;
+    border-bottom: 1px grey solid;
+}
+
+.username{
+    width: 140px;
+}
+
+.lastest-msg{
+    width: 80%;
+}
+
+a.msg-link {
+    text-decoration: none;
+    height: 31px;
+    margin-top: 8px;
+    font-size: 26px;
+    margin-left: 20px;
+}
+
+.right-container{
+    margin-left: auto;
+}
+
+.request-receiver{
+    /* margin-bottom: 30px; */
+    padding-bottom: 20px;
+    border-bottom: grey solid 1px;
+    width: auto;
+    white-space: nowrap;
+    /* margin-left: auto; */
+    /* margin-right: 20px;  */
+    padding: 20px;
+    border-top-left-radius: 3px;
+    border-left:  grey solid 1px;
+    border-bottom: grey solid 1px;
+    border-top: grey solid 1px;
+}
+
+.request-sender{
+    /* margin-bottom: 30px; */
+    width: auto;
+    /* margin-left: auto; */
+    padding: 20px;
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+    /* margin-right: 20px; */
+    border-top: grey solid 1px;
+    border-left:  grey solid 1px;
+    border-bottom: grey solid 1px;
+}
+
+.inner-container{
+    display: flex;
+}
+
+.all-requests{
+    font-weight: bold;
+    padding-left: 0px;
+}
+
+.all-friends{
+    width: 100%;
+}
+
+.unfriend{
+    height: 22px;
+    width: 28px;
+    font-size: 11px;
+    margin-top: 10px;
+    border: none;
+    margin-left: 20px;
+}
+
+.add-friend{
+    margin: 10px;
+    white-space: nowrap;
+}
+
+.put-friend-id{
+    padding-left: 6px;
+    width: 166px;
+    border-radius: 3px;
+    height: 23px;
+    border: grey 1px solid;
+}
+
+.add-btn{
+    font-size: 12px;
+}
