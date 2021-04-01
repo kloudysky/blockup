@@ -19,7 +19,8 @@ class NavBar extends React.Component {
     if (this.props.loggedIn) {
       if (this.props.verified) {
         return (
-          <div>
+          <div className="top-nav-bar">
+            <Link to={"/friends"} className="friend-icon">👥</Link>
             <Link to={"/messages"}>Messages</Link>
             <Link to={"/profile"}>Profile</Link>
             <Link to={"/new_message"}>Write a Tweet</Link>
