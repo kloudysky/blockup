@@ -37,7 +37,7 @@ router.post('/new',
   
       const newMessage = new Message({
         content: req.body.content,
-        user: req.body.user_id,
+        author: req.body.author,
         room: req.body.room
       });
   
