@@ -19,13 +19,13 @@ export const receiveError = error => ({
     error
 })
 
-export const composeRoom = data => dispatch => (
-    createRoom(data)
-        .then(room => {  dispatch(receiveNewRoom(room.data))})
-        .catch(err => console.log(err))
-);
+export const composeRoom = data => dispatch => {
+    return (createRoom(data)
+        .then(room => { dispatch(receiveNewRoom(room.data))})
+        .catch(err => console.log(err)))
+};
 
 export const fetchUserRooms = id => dispatch => (
     getUserRooms(id)
-        .then(rooms => dispatch(receiveRooms(rooms)))
+        .then(rooms => { dispatch(receiveRooms(rooms.data))})
 );

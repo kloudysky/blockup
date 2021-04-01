@@ -10,9 +10,7 @@ const RoomSchema = new Schema (
         img_url: {
             type: String,
         },
-        room_members: [
-            {type: Schema.Types.ObjectId, ref: 'RoomMember'}
-        ],
+        members: [{ id: String }],
         messages: [
             {type: Schema.Types.ObjectId, ref: 'Message'}
         ]

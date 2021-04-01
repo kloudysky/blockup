@@ -1,8 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { fetchUserRooms } from "../../actions/room_actions";
-import Nav from "../nav/navbar_container";
-import RoomListItem from "./roomListItem";
+import RoomIndex from "./room_index_container";
 
 class Rooms extends React.Component {
   constructor(props) {
@@ -13,10 +11,6 @@ class Rooms extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.clearedErrors = false;
-  }
-
-  componentDidMount() {
-    fetchUserRooms(this.props.user.id);
   }
 
   update(field) {
@@ -30,9 +24,10 @@ class Rooms extends React.Component {
     e.preventDefault();
     let room = {
       name: this.state.name,
+      user: this.props.user,
     };
-    this.props.createRoom(room);
     e.currentTarget.value = "";
+    this.props.createRoom(room);
   }
 
   renderErrors() {
@@ -46,34 +41,23 @@ class Rooms extends React.Component {
   }
 
   render() {
-    // 
-    const { user } = this.props;
-    let rooms = this.props.rooms;
-    // 
     return (
       <div className="rooms">
-        {/* <Nav /> */}
         <form onSubmit={this.handleSubmit}>
+          
           <input
             className="room-new-input"
             placeholder="Room name"
             value={this.state.name}
-            onChange={this.update("name")}
-          ></input>
+            onChange={this.update("name")}>
+          </input>
 
           <input type="submit" className="room-submit"></input>
+
         </form>
-        <ul>
-          {rooms.map((room) => {
-            <li>
-              <RoomListItem
-                key={room.id}
-                name={room.name}
-                image={room.image_url}
-              />
-            </li>;
-          })}
-        </ul>
+
+        <div><RoomIndex /></div>
+    
       </div>
     );
   }

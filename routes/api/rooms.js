@@ -7,22 +7,13 @@ const validateRoomNameInput = require("../../validation/room");
 const RoomMember = require("../../models/RoomMember");
 
 router.get('/user/:user_id',
-    passport.authenticate('jwt', {session: false }),
     (req, res) => {
 
-    // const allRooms = RoomMember.find({id: req.params.user_id});
-    // const roomMemberObjects = RoomMember.find({member: req.params.user_id});
-    
-    RoomMember.find({member: req.params.user_id})
-        .select("_id room")
-        .then((userRooms) => res.json(userRooms));
-    
-    
-    // let userRooms = {};
-    // roomMemberObjects.map(roomMemberObject => {
-    //     Room.findById(roomMemberObject.room)
-    //       .then(room => userRooms[room._id] = room)
-    // }).then(() => res.json(userRooms));
+    //    Room.find({"members": {id: req.params.user_id}});
+
+       Room.find({ $or: [{'members': {"$elemMatch":{'id':`${req.params.user_id}`}}}]})
+        .limit(10)
+        .then(rooms => { console.log(rooms); res.json(rooms) })
 })
 
 
@@ -41,21 +32,21 @@ router.post('/new',
         if (!isValid) {
             return res.status(400).json(errors);
         }
+        const { user, name } = req.body
         const newRoom = new Room({
-            name: req.body.name,
+            name: name,
             img_url: req.body.img_url || "",
+            members: [],
             messages: [],
         })
-        console.log(newRoom);
+
+        newRoom.members.push({id: user.id});
+
         newRoom.save()
-            .then((room => {
-                new RoomMember({
-                    room: room._id,
-                    member: req.user
-                }).save();
-                console.log(room);
-                res.json(room);
-            }))
+            .then(room => res.json(room))
+            .catch(err => 
+                { res.status(404).json({ invalidRoomCredentials: 'Looks like this room was not able to save'})}
+            );
     }
 );
 

@@ -5,4 +5,9 @@
 @import "./signup.css";
 @import "./rooms.css";
 @import "./twofa.css";
-@import "./friends_page.css"
+@import "./friends_page.css";
+@import "./chatbox.css";
+@import "./sideroomindex.css";
+@import "./sideroomitem.css";
+@import "/webapp.css";
+@import "./webappbody.css";
