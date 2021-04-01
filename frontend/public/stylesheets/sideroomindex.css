@@ -11,7 +11,12 @@
   /* border-right: 1px solid lightgrey; */
 }
 
-.sidebar-header > .fa-user-circle {
+.sidebar-header-left {
+  display: flex;
+  /* border-right: 1px solid lightgrey; */
+}
+
+.sidebar-header-left > .fa-user-circle {
   font-size: 40px;
 }
 

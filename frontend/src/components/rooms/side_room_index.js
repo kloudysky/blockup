@@ -5,8 +5,8 @@ import SideRoomItem from "./side_room_item";
 export class SideRoomIndex extends Component {
   componentDidMount() {
     this.props.fetchUserRooms(this.props.user.id);
-    if(this.props.rooms.length > 0){
-      this.props.setActiveRoom(this.props.rooms[0]._id)
+    if (this.props.rooms.length > 0) {
+      this.props.setActiveRoom(this.props.rooms[0]._id);
     }
   }
 
@@ -14,7 +14,10 @@ export class SideRoomIndex extends Component {
     return (
       <div className="sidebar">
         <div className="sidebar-header">
-          <i class="fas fa-user-circle"></i>
+          <div className="sidebar-header-left">
+            <i class="fas fa-user-circle"></i>
+            <h3>{this.props.user.username}</h3>
+          </div>
           <div className="sidebar-header-right">
             <i class="fas fa-user-friends"></i>
             <i class="fas fa-comments"></i>
@@ -30,19 +33,19 @@ export class SideRoomIndex extends Component {
 
         <div className="sidebar-chats">
           {console.log(this.props.rooms)}
-            {this.props.rooms.length > 0 ? (
-              this.props.rooms.map((room) => (
-                  <SideRoomItem 
-                    key={room._id} 
-                    id={room._id} 
-                    name={room.name} 
-                    setActiveRoom={this.props.setActiveRoom} 
-                    activeRoom={this.props.activeRoom}
-                  />
-              ))
-            ) : (
-              <p>No rooms</p>
-            )}
+          {this.props.rooms.length > 0 ? (
+            this.props.rooms.map((room) => (
+              <SideRoomItem
+                key={room._id}
+                id={room._id}
+                name={room.name}
+                setActiveRoom={this.props.setActiveRoom}
+                activeRoom={this.props.activeRoom}
+              />
+            ))
+          ) : (
+            <p>No rooms</p>
+          )}
           {/* <SideRoomItem />
           <SideRoomItem />
           <SideRoomItem /> */}
