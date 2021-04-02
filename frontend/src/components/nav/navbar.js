@@ -24,6 +24,7 @@ class NavBar extends React.Component {
       if (this.props.verified) {
         return (
           <div className="top-nav-bar">
+            <Link to={"/profile"}>Profile</Link>
             <Link to={"/friends"} className="friend-icon">
               👥
             </Link>

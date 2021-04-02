@@ -1,0 +1,19 @@
+.profile {
+    background:  #dadbd3;
+    height: 100vh;
+}
+.profilebody {
+    position: relative;
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
+    
+    align-items: center;
+    flex-direction: column;
+    background-color: #ededed;
+    margin-top: 23px;
+    padding-top: 20px;
+    height: 50vh;
+    width: max(30vw, 300px);
+    box-shadow: -1px 4px 20px -6px rgba(0, 0, 0, 0.75);
+}
