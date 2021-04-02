@@ -41,10 +41,11 @@ router.post('/new',
         author: req.body.author,
         room: req.body.room
       });
-  
-      let message = newMessage.save();
-      message.then(message => res.json(message))
-      message.then(function (result) {
+      
+      newMessage.populate('author')
+      .save()
+      .then(message => { console.log("new Message"); console.log(message); res.json(message)})
+      .then(function (result) {
         return Room.findOneAndUpdate(
         {_id: req.body.room},
         {$push: {messages: result._id}}

@@ -11,7 +11,7 @@ export class ChatBox extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
     console.log(this.props.activeRoom);
     if (this.props.activeRoom != -1){
       this.props.fetchRoomMessages(this.props.activeRoom._id)
@@ -20,15 +20,16 @@ export class ChatBox extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.props.activeRoom);
+    console.log("currentUser: ...");
     console.log(this.props.currentUser);
     this.props
       .createMessage({
         content: this.state.content,
-        author: this.props.currentUser._id,
+        author: this.props.currentUser.id,
         room: this.props.activeRoom._id,
       })
       .then(this.props.fetchRoomMessages(this.props.activeRoom._id));
+      e.target.value= "";
   }
 
   handleChange() {
@@ -63,6 +64,7 @@ export class ChatBox extends React.Component {
               type="text"
               placeholder="Message"
               onChange={this.handleChange()}
+              value={this.state.content}
             />
             <button type="submit">Send</button>
           </form>
