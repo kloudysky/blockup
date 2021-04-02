@@ -17,15 +17,16 @@ import { RECEIVE_FRIEND_REQUEST, RECEIVE_FRIEND_REQUESTS,DELETE_FRIEND_REQUEST} 
             return b
     
         case RECEIVE_FRIEND_REQUEST:
-            // let {senderId, receiverId , _id, status} = action.friendRequest
             debugger
 
-            nextState[action.friendRequest._id] = action.friendRequest
-            debugger
+            let {senderId, receiverId , _id, status} = action.friendRequest
+            
+            nextState[action.friendRequest._id] = {senderId, receiverId , _id, status} 
+            
             return nextState
 
         case DELETE_FRIEND_REQUEST:
-            debugger
+            
             delete nextState[action.friendRequest._id]
             return nextState
 
