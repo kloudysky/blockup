@@ -22,7 +22,6 @@ const SessionAPIReducer = (state = initialState, action) => {
         ...state,
         isAuthenticated: isAuthenticated,
         isVerified: action.currentUser.verified,
-        //isVerified related to 2FA
         user: action.currentUser,
       };
   
