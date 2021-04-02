@@ -10,6 +10,7 @@ const User = require('../../models/User');
 router.post('/new' , (req, res) => {
     const {errors, isValid} = validateFriendRequestInput(req.body);
 
+
     if (!isValid) {
         return res.status(400).json(errors);
     }
@@ -19,9 +20,12 @@ router.post('/new' , (req, res) => {
         receiverId: req.body.receiverId
     })
 
-    friendRequest.save().then(friendRequest => res.json(friendRequest))
-    
-
+    // friendRequest.save().then(friendRequest => res.json(friendRequest))
+    friendRequest.save().then(friendRequest =>  {
+        FriendRequest.findById(friendRequest._id)
+        .populate('senderId','username').populate('receiverId','username')
+        .then(friendRequest => res.json(friendRequest ))
+    } ) 
 }); 
 
 router.get('/:friend_id', (req, res) => {
