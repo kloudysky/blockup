@@ -10,7 +10,7 @@
 //     render={(props) =>
 //       loggedIn ? (
 //         verified ? (
-//           <Redirect to="/mesages" />
+//           <Redirect to="/web" />
 //         ) : (
 //           <Redirect to="/twoFASetup" />
 //         )
@@ -74,10 +74,30 @@ const Protected = ({ component: Component, loggedIn, ...rest }) => (
   />
 );
 
+const TwoFA = ({ component: Component, loggedIn, verified, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      loggedIn ? (
+        verified ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/twoFASetup" />
+        )
+      ) : (
+        <Redirect to="/login" />
+      )
+    }
+  />
+);
+
 const mapStateToProps = (state) => ({
   loggedIn: state.session.isAuthenticated,
+  verified: state.session.isVerified,
 });
 
 export const AuthRoute = withRouter(connect(mapStateToProps)(Auth));
 
 export const ProtectedRoute = withRouter(connect(mapStateToProps)(Protected));
+
+export const TwoFAProtectedRoute = withRouter(connect(mapStateToProps)(TwoFA));

@@ -18,7 +18,6 @@ const SessionAPIReducer = (state = initialState, action) => {
         ...state,
         isAuthenticated: !!action.currentUser,
         isVerified: action.currentUser.verified,
-        //isVerified related to 2FA
         user: action.currentUser,
       };
     case RECEIVE_USER_LOGOUT:
