@@ -15,7 +15,7 @@ import { setAuthToken } from "./util/session_api_util";
 
 // We have not created this action yet, but will do so in the next step
 import { logout } from "./actions/session_actions";
-import { fetchFriendships, fetchFriendRequests } from './actions/friendship_actions'
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -52,8 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Render our root component and pass in the store as a prop
   const root = document.getElementById("root");
   
-  window.fetchFriendships = fetchFriendships
-  window.fetchFriendRequests = fetchFriendRequests
-  window.dispatch = store.dispatch
+  
+
   ReactDOM.render(<Root store={store} />, root);
 });
