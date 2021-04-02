@@ -6,9 +6,12 @@
 @import url("https://use.fontawesome.com/releases/v5.13.0/css/all.css");
 
 .main-page {
-  display: block;
+  display: flex;
   font-family: "Ubuntu", sans-serif;
   font-family: "Source Sans Pro", sans-serif;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
 }
 
 i {
@@ -102,3 +105,14 @@ p {
   flex-direction: column;
   flex-wrap: wrap;
 } */
+
+.main-text {
+  margin: 0;
+  padding: 0;
+  font-size: 55px;
+}
+
+.main-logo {
+  font-size: 400px;
+  color: #3b3a30;
+}
