@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
+const Room = require('./../../models/Room');
 
 const Message = require('./../../models/Message');
 const validateMessageInput = require('./../../validation/message');
@@ -41,7 +42,26 @@ router.post('/new',
         room: req.body.room
       });
   
-      newMessage.save().then(message => res.json(message));
+      newMessage.save()
+        .then(function (result) {
+          return Room.findOneAndUpdate(
+          {_id: req.body.room},
+          {$push: {messages: result._id}}
+          )
+        }).then(message => res.json(message));
+
+//       c = new Comment({ comment: 'x' })
+//       c.save().then(function (result) {
+//     return Post.findOneAndUpdate(
+//     { _id: req.params.id },
+//     { $push: { comments: result._id } }
+//   );
+// }).then(function (result) {
+//   console.log('updated post');
+// });
+
+
+
     }
   );
 

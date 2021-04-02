@@ -1,20 +1,32 @@
-import React from "react";
+import React, { Component } from "react";
 
-function Chatbody() {
-  return (
-    <div className="chat-body">
-      <p className="chat-message">
-        <span className="chat-name">Kloud</span>
-        This is a message
-        <span className="chat-timestamp">3AM!</span>
-      </p>
-      <p className="chat-message chat-reciever">
-        <span className="chat-name">Kloud</span>
-        This is a message
-        <span className="chat-timestamp">3AM!</span>
-      </p>
-    </div>
-  );
+export class ChatBody extends Component {
+  messageCheck() {
+    const room = this.props.room;
+    if (room.id > 0 && room.messages.length > 0) {
+      return room.messages.map((message) => (
+        <p
+          className={`chat-message ${
+            this.props.user._id === message.author._id ? "chat-reciever" : ""
+          }`}
+        >
+          <span className="chat-name">{message.author.username}</span>
+          {message.content}
+          <span className="chat-timestamp">3AM!</span>
+        </p>
+      ));
+    } else {
+      return (
+        <div>
+          <p>No Messages</p>
+        </div>
+      );
+    }
+  }
+
+  render() {
+    return <div className="chat-body">{this.messageCheck()}</div>;
+  }
 }
 
-export default Chatbody;
+export default ChatBody;
