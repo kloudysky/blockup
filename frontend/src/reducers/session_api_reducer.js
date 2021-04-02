@@ -14,13 +14,18 @@ const SessionAPIReducer = (state = initialState, action) => {
   switch (action.type) {
     case RECEIVE_CURRENT_USER:
       console.log("SESSION API REDUCER");
+      let isAuthenticated = false;
+      if (Object.values(action.currentUser).length > 0) {
+        isAuthenticated = true;
+      }
       return {
         ...state,
-        isAuthenticated: !!action.currentUser,
+        isAuthenticated: isAuthenticated,
         isVerified: action.currentUser.verified,
         //isVerified related to 2FA
         user: action.currentUser,
       };
+  
     case RECEIVE_USER_LOGOUT:
       return {
         isAuthenticated: false,
