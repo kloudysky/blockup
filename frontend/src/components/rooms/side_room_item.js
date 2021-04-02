@@ -1,23 +1,22 @@
 import React from "react";
 
 export class SideRoomItem extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state= {
-      activeRoom: null
-    }
+    this.state = {
+      activeRoom: null,
+    };
 
     this.getActiveRoom = this.getActiveRoom.bind(this);
   }
   getActiveRoom() {
-    debugger;
     return this.props.setActiveRoom(this.props.id);
   }
 
   render() {
     let roomName;
-    if (this.props.activeRoom){
-     roomName = this.props.activeRoom.name;
+    if (this.props.activeRoom) {
+      roomName = this.props.activeRoom.name;
     } else {
       roomName = "No Rooms no active room";
     }
