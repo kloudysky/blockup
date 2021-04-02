@@ -61,20 +61,6 @@ class Friendship extends React.Component {
     }
   }
 
-  // createRoom(friendRequest){
-  //   return ()=>{
- 
-  //     const user = {
-  //       id: friendRequest.receiverId._id,
-  //     };
-  //     const room = {
-  //       name: friendRequest.senderId.username + " & " +  friendRequest.receiverId.username,
-  //       user: user,
-  //       members: [{id: friendRequest.senderId._id}] 
-  //     };
-  //     this.props.createRoom(room);
-  //   };
-  // }
 
   cancelRequest(friendRequest_id){
     return ()=>{
@@ -98,7 +84,7 @@ class Friendship extends React.Component {
                   <div className="individual-msg" key={idx}>
                       <p className="username">😃 {friendship.friend1._id === this.props.user.id ? friendship.friend2.username : friendship.friend1.username}</p>
                       <p className="lastest-msg">This is last message holder for the lastest conversation between two people, need to pull from message</p>
-                      <Link to={`/room/${1}`} className="msg-link">✉️ </Link>
+                      <Link to={`/`} className="msg-link">✉️ </Link>
                       <button className="unfriend" onClick={this.handleUnfriend(friendship._id)}>❌</button>
                   </div>
                 ))}
