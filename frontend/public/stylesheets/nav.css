@@ -77,10 +77,14 @@
   color: white;
 }
 
-.friend-icon{
+.friend-icon {
   font-size: 25px;
 }
 
-.top-nav-bar{
+.top-nav-bar {
   padding-top: 10px;
+}
+
+.nav-icon {
+  color: white;
 }
