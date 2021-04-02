@@ -18,10 +18,10 @@ const friendshipReducer = (state = {} , action) => {
             return b
 
         case RECEIVE_FRIENDSHIP:
-            debugger
+            
             let {friend1, friend2 , _id} = action.friendship
             nextState[action.friendship._id] = {friend1, friend2 , _id}
-            debugger
+            
             return nextState
 
         case DELETE_FRIENDSHIP:

@@ -18,7 +18,13 @@ router.post('/new' , (req, res) => {
         friend2: req.body.friend2
     })
 
-    friendship.save().then(friendship => res.json(friendship));
+    // friendship.save().then(friendship => res.json(friendship));
+    friendship.save().then(friendship =>  {
+        Friendship.findById(friendship._id)
+        .populate('friend1','username').populate('friend2','username')
+        .then(friendship => res.json(friendship ))
+    } ) 
+
 
 });
 

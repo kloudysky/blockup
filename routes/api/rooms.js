@@ -33,6 +33,7 @@ router.post('/new',
             return res.status(400).json(errors);
         }
         const { user, name } = req.body
+        const other_members = req.body.members || {};
         const newRoom = new Room({
             name: name,
             img_url: req.body.img_url || "",
@@ -41,6 +42,7 @@ router.post('/new',
         })
 
         newRoom.members.push({id: user.id});
+        newRoom.members.push(other_members)
 
         newRoom.save()
             .then(room => res.json(room))

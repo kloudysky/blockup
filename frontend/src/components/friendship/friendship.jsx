@@ -14,16 +14,16 @@ class Friendship extends React.Component {
 
     this.sendFriendsRequest = this.sendFriendsRequest.bind(this);
     this.acceptRequest = this.acceptRequest.bind(this);
-    this.updateInput =  this.updateInput.bind(this)
+    this.updateInput =  this.updateInput.bind(this);
+    // this.createRoom = this.createRoom.bind(this);
+    // this.acceptAndCreate = this.acceptAndCreate(this);
    
   }
 
   componentDidMount() {
     
     this.props.fetchFriendships(this.props.user.id)
-    this.props.fetchFriendRequests(this.props.user.id)
-   
-    
+    this.props.fetchFriendRequests(this.props.user.id)  
   }
 
   updateInput(e) {
@@ -35,30 +35,52 @@ class Friendship extends React.Component {
 
   sendFriendsRequest(e){
     e.preventDefault()
-    this.props.makeFriendRequest({senderId: this.props.user.id, receiverId: this.state.receiverId})
-    .then(()=>this.props.fetchFriendRequests(this.props.user.id))
-    
+    this.props.makeFriendRequest({senderId: this.props.user.id, receiverId: this.state.receiverId}) 
   }
 
   acceptRequest(friendRequest){
-    return (e)=>{
+    return ()=>{
       this.props.deleteFriendRequest(friendRequest._id)
       .then(()=>{
-        debugger
         this.props.createFriendship(
         {friend1: friendRequest.senderId._id , 
-        friend2: friendRequest.receiverId._id})}).then(()=>this.props.fetchFriendships(this.props.user.id))
-    }
+        friend2: friendRequest.receiverId._id})}).then((res)=>{
 
+     const user = {
+        id: friendRequest.receiverId._id,
+        username: friendRequest.receiverId.username
+      };
+      const room = {
+        name: friendRequest.senderId.username + " & " +  friendRequest.receiverId.username,
+        user: user,
+        members: {id: friendRequest.senderId._id} 
+      };
+      this.props.createRoom(room);
+
+        })
+    }
   }
+
+  // createRoom(friendRequest){
+  //   return ()=>{
+ 
+  //     const user = {
+  //       id: friendRequest.receiverId._id,
+  //     };
+  //     const room = {
+  //       name: friendRequest.senderId.username + " & " +  friendRequest.receiverId.username,
+  //       user: user,
+  //       members: [{id: friendRequest.senderId._id}] 
+  //     };
+  //     this.props.createRoom(room);
+  //   };
+  // }
 
   cancelRequest(friendRequest_id){
     return ()=>{
       this.props.deleteFriendRequest(friendRequest_id)
     }
   }
-
-
 
   handleUnfriend(friendship_id){
     return()=>{
@@ -96,15 +118,16 @@ class Friendship extends React.Component {
       });
 
       let friendRequests;
+
   if (friend_request.length >0){     
     friendRequests = (
         <div className ="request-receiver">
           <p className="all-requests">Friend Requests</p>
-          {friend_request.map((e,idx)=>(
+          {friend_request.map((friendReq,idx)=>(
             <div key={idx}>
-              <p>📥 {e.senderId.username}</p>
-                <button onClick={this.acceptRequest(e)}>Accept</button>
-                <button onClick={this.cancelRequest(e._id)}>Delete</button>
+              <p>📥 {friendReq.senderId.username}</p>
+                <button onClick={this.acceptRequest(friendReq)}>Accept</button>
+                <button onClick={this.cancelRequest(friendReq._id)}>Delete</button>
             </div>
           ))}
         </div>
