@@ -18,11 +18,7 @@ export class SideRoomIndex extends Component {
             <i class="fas fa-user-circle"></i>
             <h3>{this.props.user.username}</h3>
           </div>
-          <div className="sidebar-header-right">
-            <i class="fas fa-user-friends"></i>
-            <i class="fas fa-comments"></i>
-            <i class="fas fa-caret-down"></i>
-          </div>
+          <div className="sidebar-header-right"></div>
         </div>
         <div className="sidebar-search">
           <div className="search-container">

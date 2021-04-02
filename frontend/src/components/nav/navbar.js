@@ -25,9 +25,11 @@ class NavBar extends React.Component {
         return (
           <div className="top-nav-bar">
             <Link to={"/friends"} className="friend-icon">
-              👥
+              <i class="fas fa-user-friends nav-icon"></i>
             </Link>
-            <Link to={"/web"}>Messages</Link>
+            <Link to={"/web"} className="friend-icon">
+              <i class="fas fa-comments nav-icon"></i>
+            </Link>
             <button onClick={this.logoutUser}>Logout</button>
           </div>
         );
