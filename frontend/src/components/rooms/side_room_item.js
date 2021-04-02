@@ -10,7 +10,6 @@ export class SideRoomItem extends React.Component {
     this.getActiveRoom = this.getActiveRoom.bind(this);
   }
   getActiveRoom() {
-    debugger;
     return this.props.setActiveRoom(this.props.id);
   }
 

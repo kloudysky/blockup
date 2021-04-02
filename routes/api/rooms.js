@@ -13,13 +13,22 @@ router.get('/user/:user_id',
 
        Room.find({ $or: [{'members': {"$elemMatch":{'id':`${req.params.user_id}`}}}]})
         .limit(10)
-        .then(rooms => { console.log(rooms); res.json(rooms) })
+        .then(rooms => { res.json(rooms) })
 })
 
 
 router.get('/:id', (req, res) => {
-    Room.findById(req.params.id)
-    .then(room => res.json(room))
+    handelErr = function (err){
+        res.status(404).json({ noRoomFound2: 'Looks like this room does not exist'})
+    }
+
+    let showRoom = Room.findById(req.params.id);    
+    showRoom.populate({
+        path: 'messages',
+        populate: { path: 'author username' }
+    })
+    .exec()
+    .then( room => { console.log(room); res.json(room) })
     .catch(err => 
         res.status(404).json({ noRoomFound: 'Looks like this room does not exist'})
         )

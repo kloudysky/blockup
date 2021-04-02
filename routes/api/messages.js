@@ -19,7 +19,7 @@ router.get('/:id', (req, res) => {
 
 router.get('/room/:room_id', (req, res) => {
     Message.find({room: req.params.room_id})
-        .populate('author', 'username')
+        .populate('author')
         .then(messages => res.json(messages))
         .catch(err =>
             res.status(404).json({ nomessagesfound: 'No messages found from that room' }
@@ -28,7 +28,7 @@ router.get('/room/:room_id', (req, res) => {
 });
 
 router.post('/new',
-    passport.authenticate('jwt', { session: false }),
+    // passport.authenticate('jwt', { session: false }),
     (req, res) => {
       const { errors, isValid } = validateMessageInput(req.body);
   
@@ -42,26 +42,14 @@ router.post('/new',
         room: req.body.room
       });
   
-      newMessage.save()
-        .then(function (result) {
-          return Room.findOneAndUpdate(
-          {_id: req.body.room},
-          {$push: {messages: result._id}}
-          )
-        }).then(message => res.json(message));
-
-//       c = new Comment({ comment: 'x' })
-//       c.save().then(function (result) {
-//     return Post.findOneAndUpdate(
-//     { _id: req.params.id },
-//     { $push: { comments: result._id } }
-//   );
-// }).then(function (result) {
-//   console.log('updated post');
-// });
-
-
-
+      let message = newMessage.save();
+      message.then(message => res.json(message))
+      message.then(function (result) {
+        return Room.findOneAndUpdate(
+        {_id: req.body.room},
+        {$push: {messages: result._id}}
+        )
+      })
     }
   );
 

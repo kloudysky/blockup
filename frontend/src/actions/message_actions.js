@@ -27,13 +27,13 @@ export const fetchMessage = messageId => dispatch => {
 export const fetchRoomMessages = roomId => dispatch => {
     return (
         MessageApiUtil.fetchRoomMessages(roomId)
-            .then(messages => dispatch(receiveRoomMessages(messages)))
+            .then(messages => dispatch(receiveRoomMessages(messages.data)))
     )
 };
 
 export const createMessage = message => dispatch => {
     return (
         MessageApiUtil.createMessage(message)
-            .then(message => dispatch(receiveMessage(message)))
+            .then(message => dispatch(receiveMessage(message.data)))
     )
 };

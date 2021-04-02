@@ -11,19 +11,24 @@ export class ChatBox extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    this.props.fetchRoomMessages(this.props.activeRoom._id);
+  componentDidUpdate() {
+    console.log(this.props.activeRoom);
+    if (this.props.activeRoom != -1){
+      this.props.fetchRoomMessages(this.props.activeRoom._id)
+    }
   }
 
   handleSubmit(e) {
     e.preventDefault();
+    console.log(this.props.activeRoom);
+    console.log(this.props.currentUser);
     this.props
       .createMessage({
         content: this.state.content,
         author: this.props.currentUser._id,
-        room: this.props.room._id,
+        room: this.props.activeRoom._id,
       })
-      .then(this.props.fetchRoomMessages(this.props.room._id));
+      .then(this.props.fetchRoomMessages(this.props.activeRoom._id));
   }
 
   handleChange() {
@@ -45,7 +50,7 @@ export class ChatBox extends React.Component {
             <i class="fas fa-phone"></i>
           </div>
         </div>
-        <Chatbody room={room} />
+        <Chatbody user={this.props.currentUser} room={room} />
         {/* <p className="chat-message chat-reciever">
         <span className="chat-name">Kloud</span>
         This is a message

@@ -7,7 +7,6 @@ const RoomsReducer = (state = {}, action) => {
       return Object.assign({}, state, { [action.room._id]: action.room });
     case RECEIVE_ROOMS:
       let roomsObj = {};
-      debugger
       action.rooms.forEach((room) => {
 
         roomsObj[room._id] = room;
