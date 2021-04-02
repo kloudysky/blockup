@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const express = require("express");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const path = require("path");
 
 const app = express();
 const db = require("./config/keys").mongoURI;
@@ -14,9 +15,16 @@ const friendRequests = require("./routes/api/friendRequests");
 
 const PORT = process.env.PORT || 5000;
 
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
-const Message = require('./models/Message');
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("frontend/build"));
+  app.get("/", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+  });
+}
+
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
+const Message = require("./models/Message");
 
 mongoose
   .connect(db, { useNewUrlParser: true })
@@ -36,22 +44,23 @@ app.use("/api/messages", messages);
 app.use("/api/friendships", friendships);
 app.use("/api/friendRequests", friendRequests);
 
-io.on('connection', (socket) => {
-
+io.on("connection", (socket) => {
   // Get the last 10 messages from the database.
-  Message.find().sort({createdAt: -1}).limit(10).exec((err, messages) => {
-    if (err) return console.error(err);
+  Message.find()
+    .sort({ createdAt: -1 })
+    .limit(10)
+    .exec((err, messages) => {
+      if (err) return console.error(err);
 
-    // Send the last messages to the user.
-    socket.emit('init', messages);
-  });
+      // Send the last messages to the user.
+      socket.emit("init", messages);
+    });
 
   // Listen to connected users for a new message.
-  socket.on('message', (msg) => {
+  socket.on("message", (msg) => {
     // Create a message with the content and the name of the user.
     const message = new Message({
       content: msg.content,
-      
     });
 
     // Save the message to the database.
@@ -61,10 +70,10 @@ io.on('connection', (socket) => {
 
     // Notify all other users about a new message.
     //////will this give to all users or just users associated with message?///
-    socket.broadcast.emit('push', msg);
+    socket.broadcast.emit("push", msg);
   });
 });
 
 http.listen(PORT, () => {
-  console.log('listening on *:' + `${PORT}`);
+  console.log("listening on *:" + `${PORT}`);
 });
