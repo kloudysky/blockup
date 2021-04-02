@@ -13,7 +13,7 @@ class Friendship extends React.Component {
     };
 
     this.sendFriendsRequest = this.sendFriendsRequest.bind(this);
-    // this.acceptRequest = this.acceptRequest.bind(this);
+    this.acceptRequest = this.acceptRequest.bind(this);
     this.updateInput =  this.updateInput.bind(this)
    
   }
@@ -35,7 +35,6 @@ class Friendship extends React.Component {
 
   sendFriendsRequest(e){
     e.preventDefault()
-    debugger
     this.props.makeFriendRequest({senderId: this.props.user.id, receiverId: this.state.receiverId})
     .then(()=>this.props.fetchFriendRequests(this.props.user.id))
     
@@ -43,7 +42,6 @@ class Friendship extends React.Component {
 
   acceptRequest(friendRequest){
     return (e)=>{
-      e.preventDefault()
       this.props.deleteFriendRequest(friendRequest._id)
       .then(()=>{
         debugger
@@ -56,7 +54,6 @@ class Friendship extends React.Component {
 
   cancelRequest(friendRequest_id){
     return ()=>{
-      debugger
       this.props.deleteFriendRequest(friendRequest_id)
     }
   }
