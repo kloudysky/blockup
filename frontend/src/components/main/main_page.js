@@ -4,7 +4,9 @@ class MainPage extends React.Component {
   render() {
     return (
       <div className="main-page">
-        <h1>Blockup</h1>
+        <h3 className="logo-text main-text">up</h3>
+        <i class="fas fa-cubes main-logo"></i>
+        <h3 className="logo-text main-text">block</h3>
         <footer className="footer">Copyright &copy; 2021 Blockup</footer>
       </div>
     );

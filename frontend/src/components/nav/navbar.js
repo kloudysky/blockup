@@ -9,8 +9,8 @@ class NavBar extends React.Component {
     this.getLinks = this.getLinks.bind(this);
   }
 
-  componentDidMount(){
-    this.props.receiveCurrentUser(this.props.currentUser)
+  componentDidMount() {
+    this.props.receiveCurrentUser(this.props.currentUser);
   }
 
   logoutUser(e) {
@@ -24,10 +24,12 @@ class NavBar extends React.Component {
       if (this.props.verified) {
         return (
           <div className="top-nav-bar">
-            <Link to={"/friends"} className="friend-icon">👥</Link>
-            <Link to={"/messages"}>Messages</Link>
-            <Link to={"/profile"}>Profile</Link>
-            <Link to={"/new_message"}>Write a Tweet</Link>
+            <Link to={"/friends"} className="friend-icon">
+              <i class="fas fa-user-friends nav-icon"></i>
+            </Link>
+            <Link to={"/web"} className="friend-icon">
+              <i class="fas fa-comments nav-icon"></i>
+            </Link>
             <button onClick={this.logoutUser}>Logout</button>
           </div>
         );

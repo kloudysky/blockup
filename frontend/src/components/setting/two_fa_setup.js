@@ -25,7 +25,6 @@ class TwoFASetup extends React.Component {
 
     this.props.verifyTwoFA(data);
     this.setState({ token: "" });
-    //this.props.history.push("/moneyform");
   }
 
   update() {

@@ -58,7 +58,10 @@ class LoginForm extends React.Component {
 
   render() {
     return (
-      <div className="signup-form-container">
+      <div className="login-form-container">
+        <h3 className="logo-text">up</h3>
+        <i class="fas fa-cubes"></i>
+        <h3 className="logo-text">block</h3>
         <form onSubmit={this.handleSubmit}>
           <div className="signup-form">
             <input

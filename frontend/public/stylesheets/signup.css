@@ -6,6 +6,15 @@
   height: 600px;
 }
 
+.login-form-container {
+  /* flex: 1; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 600px;
+  flex-direction: column;
+}
+
 .signup-form {
   display: flex;
   flex-direction: column;
@@ -26,7 +35,7 @@
   width: 300px;
   height: 32px;
   padding: 7px;
-  font-size: 16px;
+  font-size: 22px;
   border: solid white thin;
   margin: 8px;
   background: none;
@@ -73,6 +82,7 @@
   font-family: "Ubuntu", sans-serif;
   color: rgb(221, 111, 77);
   font-weight: 100;
+  text-align: center;
 }
 
 .btn-session {
@@ -86,10 +96,20 @@
   outline: none;
   transition: 0.5s ease-in-out;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 500;
 }
 
 .btn-session:hover {
   color: white;
   background-color: #42423c;
+}
+
+.login-form-container > i {
+  font-size: 170px;
+  color: #3b3a30;
+}
+
+.logo-text {
+  margin: 0;
+  padding: 0;
 }
