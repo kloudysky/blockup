@@ -14,6 +14,7 @@ import SignupFormContainer from "./session/signup_form_container";
 import RoomsContainer from "./rooms/rooms_container";
 import FriendshipContainer from "./friendship/friendship_container";
 import WebApp from "./web_app";
+import profile_container from "./profile/profile_container";
 
 const App = () => (
   <div className="app">
@@ -34,6 +35,7 @@ const App = () => (
       />
       <TwoFAProtectedRoute exact path="/rooms" component={RoomsContainer} />
       <TwoFAProtectedRoute exact path="/web" component={WebApp} />
+      <TwoFAProtectedRoute exact path="/profile" component={profile_container} />
     </Switch>
   </div>
 );
