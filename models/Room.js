@@ -11,9 +11,7 @@ const RoomSchema = new Schema (
             type: String,
         },
         members: [{ id: String }],
-        messages: [
-            {type: Schema.Types.ObjectId, ref: 'Message'}
-        ]
+        messages: [{ type: Schema.Types.ObjectId, ref: 'Message'}]
     },
     {
         timestamps: true,

@@ -62,7 +62,7 @@ class SignupForm extends React.Component {
             You get the peace of mind
             <br /> knowing your messages are safe,
             <br />
-            and bots, are Blocked Up
+            while bots, are Blocked Up
           </p>
         </div>
         <form onSubmit={this.handleSubmit}>
@@ -98,7 +98,7 @@ class SignupForm extends React.Component {
             <button type="submit" className="btn-session">
               Register
             </button>
-            <p className="error-msg">{this.renderErrors()}</p>
+            <div className="error-msg">{this.renderErrors()}</div>
           </div>
         </form>
       </div>

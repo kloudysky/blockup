@@ -5,9 +5,9 @@ export const fetchMessage = messageId => {
 };
 
 export const fetchRoomMessages = roomId => {
-  return axios.get(`/api/messages/rooms/${roomId}`)
+  return axios.get(`/api/messages/room/${roomId}`)
 };
 
 export const createMessage = data => {
-  return axios.post('/api/messages/', data)
+  return axios.post('/api/messages/new', data)
 }

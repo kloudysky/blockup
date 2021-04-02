@@ -12,6 +12,8 @@ class MessageBox extends React.Component {
 
     componentDidMount(){
         // this.props.fetchRoomMessages(this.props.match.params.id)
+        console.log("message box");
+        console.log(this.props.room._id);
         this.props.fetchRoomMessages(this.props.room._id)
     }
 

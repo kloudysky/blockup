@@ -12,18 +12,24 @@ export class ChatBox extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchRoomMessages(this.props.activeRoom._id);
+    console.log(this.props.activeRoom);
+    if (this.props.activeRoom != -1){
+      this.props.fetchRoomMessages(this.props.activeRoom._id)
+    }
   }
 
   handleSubmit(e) {
     e.preventDefault();
+    console.log("currentUser: ...");
+    console.log(this.props.currentUser);
     this.props
       .createMessage({
         content: this.state.content,
-        author: this.props.currentUser._id,
-        room: this.props.room._id,
+        author: this.props.currentUser.id,
+        room: this.props.activeRoom._id,
       })
-      .then(this.props.fetchRoomMessages(this.props.room._id));
+      .then(this.props.fetchRoomMessages(this.props.activeRoom._id));
+      e.target.value= "";
   }
 
   handleChange() {
@@ -45,7 +51,7 @@ export class ChatBox extends React.Component {
             <i class="fas fa-phone"></i>
           </div>
         </div>
-        <Chatbody room={room} />
+        <Chatbody user={this.props.currentUser} room={room} />
         {/* <p className="chat-message chat-reciever">
         <span className="chat-name">Kloud</span>
         This is a message
@@ -58,6 +64,7 @@ export class ChatBox extends React.Component {
               type="text"
               placeholder="Message"
               onChange={this.handleChange()}
+              value={this.state.content}
             />
             <button type="submit">Send</button>
           </form>

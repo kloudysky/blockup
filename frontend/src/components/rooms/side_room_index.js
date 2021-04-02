@@ -28,7 +28,6 @@ export class SideRoomIndex extends Component {
         </div>
 
         <div className="sidebar-chats">
-          {console.log(this.props.rooms)}
           {this.props.rooms.length > 0 ? (
             this.props.rooms.map((room) => (
               <SideRoomItem
