@@ -18,6 +18,7 @@ export class SideRoomItem extends React.Component {
     this.socket.emit("join room", this.props.id);
     this.socket.on("incoming message", (msg) => {
       console.log("Incoming Message");
+      console.log(msg);
     });
   }
   getActiveRoom() {
@@ -36,7 +37,6 @@ export class SideRoomItem extends React.Component {
         <i class="fas fa-user-circle"></i>
         <div className="sidebar-chat-info">
           <h2>{this.props.name}</h2>
-          <p>This is the last message in room</p>
         </div>
       </div>
     );

@@ -21,16 +21,10 @@ export class ChatBox extends React.Component {
       console.log("room update");
       // this.props.fetchRoomMessages(this.props.activeRoom._id);
 
-      this.socket.emit("join room", this.props.activeRoom._id);
-
       this.socket.on("incoming message", (msg) => {
         console.log("Incoming Message");
       });
     }
-    // this.socket.on("room message", (msg) => {
-    //   console.log("this is a room msg!!!!");
-    //   console.log(msg);
-    // });
   }
 
   sendSocketIO(msg) {
