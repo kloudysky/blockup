@@ -1,5 +1,6 @@
 import React from "react";
 import Chatbody from "./chat_body";
+import openSocket from "socket.io-client";
 
 export class ChatBox extends React.Component {
   constructor(props) {
@@ -8,35 +9,53 @@ export class ChatBox extends React.Component {
       content: "",
     };
 
+    this.socket = openSocket("http://localhost:5000", {
+      transports: ["websocket"],
+    });
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.sendSocketIO = this.sendSocketIO.bind(this);
   }
 
   componentDidMount() {
-    console.log(this.props.activeRoom);
-    if (this.props.activeRoom != -1){
-      this.props.fetchRoomMessages(this.props.activeRoom._id)
+    if (this.props.activeRoom != -1) {
+      console.log("room update");
+      // this.props.fetchRoomMessages(this.props.activeRoom._id);
+
+      this.socket.emit("join room", this.props.activeRoom._id);
+
+      this.socket.on("incoming message", (msg) => {
+        console.log("Incoming Message");
+      });
     }
+    // this.socket.on("room message", (msg) => {
+    //   console.log("this is a room msg!!!!");
+    //   console.log(msg);
+    // });
+  }
+
+  sendSocketIO(msg) {
+    this.socket.emit("message", msg);
+    //this.socket.to(msg.room).emit("some event");
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log("currentUser: ...");
-    console.log(this.props.currentUser);
+    const msg = {
+      content: this.state.content,
+      author: this.props.currentUser.id,
+      room: this.props.activeRoom._id,
+    };
     this.props
-      .createMessage({
-        content: this.state.content,
-        author: this.props.currentUser.id,
-        room: this.props.activeRoom._id,
-      })
+      .createMessage(msg)
       .then(this.props.fetchRoomMessages(this.props.activeRoom._id));
-      e.target.value= "";
+    this.setState({ content: "" });
+    this.sendSocketIO(msg);
   }
 
   handleChange() {
     return (e) => this.setState({ ["content"]: e.target.value });
   }
-  setInput() {}
-  sendMessage() {}
+
   render() {
     const room = this.props.activeRoom;
     return (
@@ -52,11 +71,6 @@ export class ChatBox extends React.Component {
           </div>
         </div>
         <Chatbody user={this.props.currentUser} room={room} />
-        {/* <p className="chat-message chat-reciever">
-        <span className="chat-name">Kloud</span>
-        This is a message
-        <span className="chat-timestamp">3AM!</span>
-      </p> */}
         <div className="chat-footer">
           <i class="fas fa-laugh-wink"></i>
           <form onSubmit={this.handleSubmit}>
