@@ -1,13 +1,24 @@
 import React from "react";
+import openSocket from "socket.io-client";
 
 export class SideRoomItem extends React.Component {
   constructor(props) {
     super(props);
+    this.socket = openSocket("http://localhost:5000", {
+      transports: ["websocket"],
+    });
     this.state = {
       activeRoom: null,
     };
 
     this.getActiveRoom = this.getActiveRoom.bind(this);
+  }
+
+  componentDidMount() {
+    this.socket.emit("join room", this.props.id);
+    this.socket.on("incoming message", (msg) => {
+      console.log("Incoming Message");
+    });
   }
   getActiveRoom() {
     return this.props.setActiveRoom(this.props.id);

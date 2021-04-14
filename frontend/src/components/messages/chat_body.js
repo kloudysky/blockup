@@ -3,12 +3,10 @@ import React, { Component } from "react";
 export class ChatBody extends Component {
   messageCheck() {
     const room = this.props.room;
-    console.log("chat body");
-    console.log(room);
-    console.log(this.props.user);
     if (room && room.messages) {
       return room.messages.map((message) => (
         <p
+          key={message._id}
           className={`chat-message ${
             this.props.user.id === message.author._id ? "chat-reciever" : ""
           }`}

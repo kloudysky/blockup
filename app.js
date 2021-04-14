@@ -45,21 +45,30 @@ app.use("/api/friendships", friendships);
 app.use("/api/friendRequests", friendRequests);
 
 io.on("connection", (socket) => {
-  console.log("User connected");
-  // Get the last 10 messages from the database.
-  Message.find()
-    .sort({ createdAt: -1 })
-    .limit(10)
-    .exec((err, messages) => {
-      if (err) return console.error(err);
+  console.log("User connected-----------");
 
-      // Send the last messages to the user.
-      socket.emit("init", messages);
-    });
+  socket.on("join room", (room) => {
+    console.log("ROOM ID");
+    console.log(room);
+    socket.join(room);
+  });
+  // Get the last 10 messages from the database.
+  // Message.find()
+  //   .sort({ createdAt: -1 })
+  //   .limit(10)
+  //   .exec((err, messages) => {
+  //     if (err) return console.error(err);
+
+  //     // Send the last messages to the user.
+  //     socket.emit("init", messages);
+  //   });
 
   // Listen to connected users for a new message.
   socket.on("message", (msg) => {
-    console.log(msg);
+    console.log("SOCKET MESSAGE");
+    console.log(msg.room);
+    io.to(msg.room).emit("incoming message", msg);
+    // socket.to(msg.room).emit("some event");
     // Create a message with the content and the name of the user.
     // const message = new Message({
     //   content: msg.content,

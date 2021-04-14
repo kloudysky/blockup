@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import UiReducer from "../../reducers/ui_reducer";
 import SideRoomItem from "./side_room_item";
+import openSocket from "socket.io-client";
 
 export class SideRoomIndex extends Component {
   componentDidMount() {
