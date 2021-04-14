@@ -64,11 +64,9 @@ router.post("/new", (req, res) => {
     .save()
     .then((room) => res.json(room))
     .catch((err) => {
-      res
-        .status(404)
-        .json({
-          invalidRoomCredentials: "Looks like this room was not able to save",
-        });
+      res.status(404).json({
+        invalidRoomCredentials: "Looks like this room was not able to save",
+      });
     });
 });
 

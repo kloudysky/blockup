@@ -67,7 +67,8 @@ io.on("connection", (socket) => {
   socket.on("message", (msg) => {
     console.log("SOCKET MESSAGE");
     console.log(msg.room);
-    io.to(msg.room).emit("incoming message", msg);
+    // socket.emit("incoming message", msg);
+    socket.to(msg.room).emit("incoming message", msg);
     // socket.to(msg.room).emit("some event");
     // Create a message with the content and the name of the user.
     // const message = new Message({
