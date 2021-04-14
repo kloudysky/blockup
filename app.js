@@ -45,6 +45,7 @@ app.use("/api/friendships", friendships);
 app.use("/api/friendRequests", friendRequests);
 
 io.on("connection", (socket) => {
+  console.log("User connected");
   // Get the last 10 messages from the database.
   Message.find()
     .sort({ createdAt: -1 })
@@ -59,14 +60,14 @@ io.on("connection", (socket) => {
   // Listen to connected users for a new message.
   socket.on("message", (msg) => {
     // Create a message with the content and the name of the user.
-    const message = new Message({
-      content: msg.content,
-    });
+    // const message = new Message({
+    //   content: msg.content,
+    // });
 
-    // Save the message to the database.
-    message.save((err) => {
-      if (err) return console.error(err);
-    });
+    // // Save the message to the database.
+    // message.save((err) => {
+    //   if (err) return console.error(err);
+    // });
 
     // Notify all other users about a new message.
     //////will this give to all users or just users associated with message?///

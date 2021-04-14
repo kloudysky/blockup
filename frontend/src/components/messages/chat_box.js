@@ -1,5 +1,6 @@
 import React from "react";
 import Chatbody from "./chat_body";
+import openSocket from "socket.io-client";
 
 export class ChatBox extends React.Component {
   constructor(props) {
@@ -8,14 +9,21 @@ export class ChatBox extends React.Component {
       content: "",
     };
 
+    this.socket = openSocket("http://localhost:8000");
+
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.sendSocketIO = this.sendSocketIO.bind(this);
   }
 
   componentDidMount() {
     console.log(this.props.activeRoom);
-    if (this.props.activeRoom != -1){
-      this.props.fetchRoomMessages(this.props.activeRoom._id)
+    if (this.props.activeRoom != -1) {
+      this.props.fetchRoomMessages(this.props.activeRoom._id);
     }
+  }
+
+  sendSocketIO(msg) {
+    this.socket.emit("message", msg);
   }
 
   handleSubmit(e) {
@@ -29,7 +37,7 @@ export class ChatBox extends React.Component {
         room: this.props.activeRoom._id,
       })
       .then(this.props.fetchRoomMessages(this.props.activeRoom._id));
-      e.target.value= "";
+    e.target.value = "";
   }
 
   handleChange() {
