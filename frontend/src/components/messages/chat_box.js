@@ -38,6 +38,9 @@ export class ChatBox extends React.Component {
       })
       .then(this.props.fetchRoomMessages(this.props.activeRoom._id));
     e.target.value = "";
+    this.state = {
+      content: "",
+    };
   }
 
   handleChange() {

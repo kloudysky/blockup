@@ -59,6 +59,7 @@ io.on("connection", (socket) => {
 
   // Listen to connected users for a new message.
   socket.on("message", (msg) => {
+    console.log(msg);
     // Create a message with the content and the name of the user.
     // const message = new Message({
     //   content: msg.content,
@@ -71,7 +72,7 @@ io.on("connection", (socket) => {
 
     // Notify all other users about a new message.
     //////will this give to all users or just users associated with message?///
-    socket.broadcast.emit("push", msg);
+    //socket.broadcast.emit("push", msg);
   });
 });
 
