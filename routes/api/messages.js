@@ -19,7 +19,7 @@ router.get('/:id', (req, res) => {
 
 router.get('/room/:room_id', (req, res) => {
     Message.find({room: req.params.room_id})
-        .populate('author')
+        .populate('author', 'username')
         .then(messages => res.json(messages))
         .catch(err =>
             res.status(404).json({ nomessagesfound: 'No messages found from that room' }
@@ -41,16 +41,14 @@ router.post('/new',
         author: req.body.author,
         room: req.body.room
       });
-      
-      newMessage.populate('author')
-      .save()
-      .then(message => { console.log("new Message"); console.log(message); res.json(message)})
-      .then(function (result) {
-        return Room.findOneAndUpdate(
-        {_id: req.body.room},
-        {$push: {messages: result._id}}
-        )
-      })
+  
+      newMessage.save()
+        .then(function (result) {
+          return Room.findOneAndUpdate(
+          {_id: req.body.room},
+          {$push: {messages: result._id}}
+          )
+        }).then(message => res.json(message));
     }
   );
 
