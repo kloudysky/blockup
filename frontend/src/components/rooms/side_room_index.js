@@ -2,13 +2,22 @@ import React, { Component } from "react";
 import UiReducer from "../../reducers/ui_reducer";
 import SideRoomItem from "./side_room_item";
 import openSocket from "socket.io-client";
+import {BsPlusCircleFill} from "react-icons/bs"
 
 export class SideRoomIndex extends Component {
+  constructor(props){
+    super(props);
+    this.createRoom = this.createRoom.bind(this);
+  }
   componentDidMount() {
     this.props.fetchUserRooms(this.props.user.id);
     if (this.props.rooms.length > 0) {
       this.props.setActiveRoom(this.props.rooms[0]._id);
     }
+  }
+
+  createRoom(){
+
   }
 
   render() {
@@ -19,7 +28,7 @@ export class SideRoomIndex extends Component {
             <i class="fas fa-user-circle"></i>
             <h3>{this.props.user.username}</h3>
           </div>
-          <div className="sidebar-header-right"></div>
+          <div className="sidebar-header-right"  > <BsPlusCircleFill size="30px"/> </div>
         </div>
         <div className="sidebar-search">
           <div className="search-container">

@@ -23,8 +23,16 @@
 .sidebar-header-right {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  min-width: 10vw;
+  justify-content: flex-end;
+  /* min-width: 10vw; */
+  width: 50px;
+  height: 50px;
+}
+
+.sidebar-header-right:hover{
+  cursor: pointer;
+  border-radius: 30px;
+  background-color: darkgrey;
 }
 
 .sidebar-header-right > .MuiSvgIcon-root {
