@@ -3,8 +3,11 @@ import React, { Component } from "react";
 export class ChatBody extends Component {
   messageCheck() {
     const room = this.props.room;
+    //newMessages is the array of new messages sent in from created messages
+    let newMessages = this.props.newMessages || []
+  
     if (room && room.messages) {
-      return room.messages.map((message) => (
+      return room.messages.concat(newMessages).map((message) => (
         <p
           key={message._id}
           className={`chat-message ${
