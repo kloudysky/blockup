@@ -7,6 +7,7 @@ export class ChatBox extends React.Component {
     super(props);
     this.state = {
       content: "",
+      newMessages: [],
     };
 
     this.socket = openSocket("http://localhost:5000", {
@@ -42,6 +43,17 @@ export class ChatBox extends React.Component {
     this.props
       .createMessage(msg)
       .then(this.props.fetchRoomMessages(this.props.activeRoom._id));
+
+    // changes the state array to have new messages pushed into the array to be transferred to chat body
+    
+    let newMessage = {}
+    newMessage['content'] = this.state.content;
+    newMessage['author'] = {}
+    newMessage.author['username']= this.props.currentUser.username;
+    newMessage.author['_id']= this.props.currentUser.id;
+    let newArray = this.state.newMessages.concat(newMessage);
+    this.setState({['newMessages']: newArray})
+
     this.setState({ content: "" });
     this.sendSocketIO(msg);
   }
@@ -52,6 +64,7 @@ export class ChatBox extends React.Component {
 
   render() {
     const room = this.props.activeRoom;
+
     return (
       <div className="chat">
         <div className="chat-header">
@@ -64,7 +77,7 @@ export class ChatBox extends React.Component {
             <i class="fas fa-phone"></i>
           </div>
         </div>
-        <Chatbody user={this.props.currentUser} room={room} />
+        <Chatbody user={this.props.currentUser} room={room} newMessages={this.state.newMessages} />
         <div className="chat-footer">
           <i class="fas fa-laugh-wink"></i>
           <form onSubmit={this.handleSubmit}>
