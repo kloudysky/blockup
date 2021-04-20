@@ -3,7 +3,7 @@ import { composeRoom, fetchUserRooms } from "../../actions/room_actions";
 import { fetchActiveRoom } from "../../actions/ui_actions";
 import { receiveMessage } from "../../actions/message_actions";
 import SideRoomIndex from "./side_room_index";
-import { fetchFriendships } from "../../util/friendship_api_util";
+import { fetchFriendships } from "../../actions/friendship_actions";
 
 const mapStateToProps = (state) => {
   return {

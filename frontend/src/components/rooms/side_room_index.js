@@ -17,7 +17,7 @@ export class SideRoomIndex extends Component {
   }
   componentDidMount() {
     const id = this.props.user.id;
-    debugger;
+    // debugger;
     this.props.fetchUserRooms(id);
     this.props.fetchFriends(id);
     if (this.props.rooms.length > 0) {
@@ -48,7 +48,7 @@ export class SideRoomIndex extends Component {
   render() {
     let friends = this.props.friends.map(friend => {
       return(
-        <option value={friend._id}>{friend.username}</option>
+        <option key={friend._id} value={friend._id}>{friend.username}</option>
       )
     }) || "";
     return (

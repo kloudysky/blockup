@@ -7,22 +7,22 @@ const friendshipReducer = (state = {} , action) => {
 
     switch(action.type){
         case RECEIVE_FRIENDSHIPS:
-            action.friendships.forEach((e)=>{
-                let {friend1, friend2 , _id} = e
-                nextState[e._id] = {friend1, friend2 , _id}
-            })
-            return nextState;
 
-
-            // let b = {}
-        
             // action.friendships.forEach((e)=>{
             //     let {friend1, friend2 , _id} = e
-            //     b[e._id] = {friend1, friend2 , _id}
+            //     nextState[e._id] = {friend1, friend2 , _id}
             // })
+            // return nextState;
 
-            // // return Object.assign({}, action.friendships)
-            // return b
+            let b = {}
+        
+            action.friendships.forEach((e)=>{
+                let {friend1, friend2 , _id} = e
+                b[e._id] = {friend1, friend2 , _id}
+            })
+
+            // return Object.assign({}, action.friendships)
+            return b
 
         case RECEIVE_FRIENDSHIP:
             
