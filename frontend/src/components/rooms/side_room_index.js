@@ -8,6 +8,7 @@ export class SideRoomIndex extends Component {
   constructor(props){
     super(props);
     this.createRoom = this.createRoom.bind(this);
+    this.openModal = this.openModal.bind(this);
   }
   componentDidMount() {
     this.props.fetchUserRooms(this.props.user.id);
@@ -20,6 +21,11 @@ export class SideRoomIndex extends Component {
 
   }
 
+  openModal(){
+    const ele = document.getElementById("modal");
+    ele.classList.add("active")
+  }
+
   render() {
     return (
       <div className="sidebar">
@@ -28,7 +34,15 @@ export class SideRoomIndex extends Component {
             <i class="fas fa-user-circle"></i>
             <h3>{this.props.user.username}</h3>
           </div>
-          <div className="sidebar-header-right"  > <BsPlusCircleFill size="30px"/> </div>
+
+          <div className="sidebar-header-right">
+             <BsPlusCircleFill size="30px" onClick={this.openModal}/> 
+          </div>
+          <form id="modal" onSubmit= {this.createRoom}>
+            <p>Create a new Room</p>
+            <input placeholder="Room name"></input>
+          </form>
+
         </div>
         <div className="sidebar-search">
           <div className="search-container">
