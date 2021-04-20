@@ -7,6 +7,10 @@ import {BsPlusCircleFill} from "react-icons/bs"
 export class SideRoomIndex extends Component {
   constructor(props){
     super(props);
+    this.state = {
+      name: '',
+      members: []
+    };
     this.createRoom = this.createRoom.bind(this);
     this.openModal = this.openModal.bind(this);
   }
@@ -18,7 +22,7 @@ export class SideRoomIndex extends Component {
   }
 
   createRoom(){
-
+    this.props.createRoom(this.state.room);
   }
 
   openModal(){
@@ -26,7 +30,23 @@ export class SideRoomIndex extends Component {
     ele.style.display = "block"
   }
 
+  update(field) {
+    if (field === "name"){
+    return e => this.setState({
+      name: e.currentTarget.value
+    })}else{
+      const allMembs = this.state.members.push(e.currentTarget.value);
+      return e => this.setState({
+        members: allMembs
+      })
+    }
+  }
+
   render() {
+    id = this.props.user._id;
+    const friends = this.props.fetchFriends(id).map(friend => {
+      <option value={friend.username}>{friend.username}</option>
+    })
     return (
       <div className="sidebar">
         <div className="sidebar-header">
@@ -41,6 +61,9 @@ export class SideRoomIndex extends Component {
           <form id="modal" onSubmit= {this.createRoom}>
             <p>Create a new Room</p>
             <input placeholder="Room name"></input>
+            <select>
+              {friends}
+            </select>
           </form>
 
         </div>

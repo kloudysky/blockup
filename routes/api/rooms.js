@@ -53,7 +53,7 @@ router.post("/new", (req, res) => {
   const newRoom = new Room({
     name: name,
     img_url: req.body.img_url || "",
-    members: [],
+    members: other_members,
     messages: [],
   });
 
