@@ -50,17 +50,17 @@ router.post("/new", (req, res) => {
   }
   const { user, name } = req.body;
   const other_members = req.body.members || {};
-  const newRoom = new Room({
+  let newRoom = new Room({
     name: name,
     img_url: req.body.img_url || "",
     members: other_members,
     messages: [],
   });
 
-  newRoom.members.push({ id: user.id });
-  newRoom.members.push(other_members);
+  newRoom = newRoom.members.push({ _id: user.id });
 
   newRoom
+    .populate('members')
     .save()
     .then((room) => res.json(room))
     .catch((err) => {

@@ -45,7 +45,7 @@ export class SideRoomIndex extends Component {
   render() {
     id = this.props.user._id;
     const friends = this.props.fetchFriends(id).map(friend => {
-      <option value={friend.username}>{friend.username}</option>
+      <option value={friend._id}>{friend.username}</option>
     })
     return (
       <div className="sidebar">
@@ -61,7 +61,7 @@ export class SideRoomIndex extends Component {
           <form id="modal" onSubmit= {this.createRoom}>
             <p>Create a new Room</p>
             <input placeholder="Room name"></input>
-            <select>
+            <select onChange={this.update(members)}>
               {friends}
             </select>
           </form>
