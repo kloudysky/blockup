@@ -23,7 +23,7 @@ export class SideRoomIndex extends Component {
 
   openModal(){
     const ele = document.getElementById("modal");
-    ele.classList.add("active")
+    ele.style.display = "block"
   }
 
   render() {
