@@ -13,16 +13,20 @@ export class SideRoomIndex extends Component {
     };
     this.createRoom = this.createRoom.bind(this);
     this.openModal = this.openModal.bind(this);
+    this.update = this.update.bind(this);
   }
   componentDidMount() {
-    this.props.fetchUserRooms(this.props.user.id);
+    const id = this.props.user.id;
+    debugger;
+    this.props.fetchUserRooms(id);
+    this.props.fetchFriends(id);
     if (this.props.rooms.length > 0) {
       this.props.setActiveRoom(this.props.rooms[0]._id);
     }
   }
 
   createRoom(){
-    this.props.createRoom(this.state.room);
+    this.props.createRoom(this.state);
   }
 
   openModal(){
@@ -35,18 +39,18 @@ export class SideRoomIndex extends Component {
     return e => this.setState({
       name: e.currentTarget.value
     })}else{
-      const allMembs = this.state.members.push(e.currentTarget.value);
       return e => this.setState({
-        members: allMembs
+        members: this.state.members.push(e.currentTarget.value)
       })
     }
   }
 
   render() {
-    id = this.props.user._id;
-    const friends = this.props.fetchFriends(id).map(friend => {
-      <option value={friend._id}>{friend.username}</option>
-    })
+    let friends = this.props.friends.map(friend => {
+      return(
+        <option value={friend._id}>{friend.username}</option>
+      )
+    }) || "";
     return (
       <div className="sidebar">
         <div className="sidebar-header">
@@ -60,10 +64,11 @@ export class SideRoomIndex extends Component {
           </div>
           <form id="modal" onSubmit= {this.createRoom}>
             <p>Create a new Room</p>
-            <input placeholder="Room name"></input>
-            <select onChange={this.update(members)}>
+            <input placeholder="Room name" onChange={this.update('name')}></input>
+            <select onChange={this.update("members")}>
               {friends}
             </select>
+            <input type="submit"></input>
           </form>
 
         </div>

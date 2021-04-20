@@ -11,6 +11,7 @@ const mapStateToProps = (state) => {
     errors: state.errors.session,
     rooms: Object.values(state.rooms),
     activeRoom: state.ui.activeRoom,
+    friends: Object.values(state.friendships)
   };
 };
 
@@ -19,7 +20,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchUserRooms: (id) => dispatch(fetchUserRooms(id)),
     setActiveRoom: (id) => dispatch(fetchActiveRoom(id)),
     fetchMessage: (msg) => dispatch(receiveMessage(msg)),
-    fetchFriends: (currentUserId) => dispatch(fetchFriendships(currentUserId)),
+    fetchFriends: (id) => dispatch(fetchFriendships(id)),
     createRoom: (room) => dispatch(composeRoom(room))
   };
 };
