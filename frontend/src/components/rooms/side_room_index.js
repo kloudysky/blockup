@@ -27,7 +27,6 @@ export class SideRoomIndex extends Component {
   }
 
   createRoom(){
-    debugger;
     this.props.createRoom(this.state);
   }
 
