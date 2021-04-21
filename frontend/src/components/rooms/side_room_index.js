@@ -50,6 +50,12 @@ export class SideRoomIndex extends Component {
       return(
         <option key={friend._id} value={friend._id}>{friend.username}</option>
       )
+      const modal = document.getElementById("modal");
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
     }) || "";
     return (
       <div className="sidebar">
