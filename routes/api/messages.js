@@ -43,19 +43,18 @@ router.post(
       room: req.body.room,
     });
 
-    newMessage
-      .save()
-      .then(function (result) {
-        return Room.findOneAndUpdate(
-          { _id: req.body.room },
-          { $push: { messages: result._id } }
-        );
-      })
-      .then((message) => {
-        req.app.get("io").to(message.room).emit("incoming message", message);
-        console.log(message);
-        res.json(message);
-      });
+    newMessage.save().then(function (result) {
+      console.log(result.room);
+      req.app.get("io").to(result.room).emit("incoming message", result);
+      Room.findOneAndUpdate(
+        { _id: req.body.room },
+        { $push: { messages: result._id } }
+      );
+      res.json(result);
+    });
+    // .then((message) => {
+    //   res.json(message);
+    // });
   }
 );
 

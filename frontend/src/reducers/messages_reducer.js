@@ -9,7 +9,7 @@ const MessagesReducer = (state = [], action) => {
 
   switch (action.type) {
     case RECEIVE_MESSAGE:
-      // return [...state, action.message];
+      return [...state, action.message];
       console.log("Message Action________");
       console.log(action.message);
       return state;
