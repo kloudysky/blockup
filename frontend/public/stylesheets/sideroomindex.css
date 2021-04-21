@@ -32,6 +32,9 @@
 #modal{
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   z-index: 1; /* Sit on top */
   left: 0;
   top: 0;
@@ -40,6 +43,39 @@
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+#modal > p{
+  margin-bottom: 17px;
+  font-size: 32px;
+  padding: 6px;
+  border-bottom: thin solid black;
+  color: white;
+}
+
+#modal > input{
+  margin: 6px;
+  border-radius: 3px;
+  padding: 7px;
+  font-size: 16px;
+  border: none;
+}
+
+#modal > input:focus{
+  border: thin solid blue;
+}
+
+#modal > select{
+  margin: 6px;
+  padding: 6px;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.submit-room{
+  margin: 6px;
+  border-radius: 10px;
+  padding: 7px;
 }
 
 .sidebar-header-right:hover{

@@ -8,6 +8,7 @@ export class SideRoomIndex extends Component {
   constructor(props){
     super(props);
     this.state = {
+      user: this.props.user,
       name: '',
       members: []
     };
@@ -26,12 +27,13 @@ export class SideRoomIndex extends Component {
   }
 
   createRoom(){
+    debugger;
     this.props.createRoom(this.state);
   }
 
   openModal(){
     const ele = document.getElementById("modal");
-    ele.style.display = "block"
+    ele.style.display = "flex"
   }
 
   update(field) {
@@ -40,28 +42,32 @@ export class SideRoomIndex extends Component {
       name: e.currentTarget.value
     })}else{
       return e => this.setState({
-        members: this.state.members.push(e.currentTarget.value)
+        members: [e.currentTarget.value]
       })
     }
   }
 
   render() {
-    let friends = this.props.friends.map(friend => {
+    let friends = "";
+    if (this.props.friends){
+      friends = this.props.friends.map(friend => {
       return(
-        <option key={friend._id} value={friend._id}>{friend.username}</option>
+        <option key={friend.id} value={friend.id}>{friend.username}</option>
       )
+      })
+    }
       const modal = document.getElementById("modal");
       window.onclick = function(event) {
         if (event.target == modal) {
           modal.style.display = "none";
         }
       }
-    }) || "";
+
     return (
       <div className="sidebar">
         <div className="sidebar-header">
           <div className="sidebar-header-left">
-            <i class="fas fa-user-circle"></i>
+            <i className="fas fa-user-circle"></i>
             <h3>{this.props.user.username}</h3>
           </div>
 
@@ -72,15 +78,17 @@ export class SideRoomIndex extends Component {
             <p>Create a new Room</p>
             <input placeholder="Room name" onChange={this.update('name')}></input>
             <select onChange={this.update("members")}>
+              <option value={null}>Choose a friend</option>
+              <option value={null}>--------</option>
               {friends}
             </select>
-            <input type="submit"></input>
+            <input className="submit-room" type="submit" value="Create Room"></input>
           </form>
 
         </div>
         <div className="sidebar-search">
           <div className="search-container">
-            <i class="fas fa-search"></i>
+            <i className="fas fa-search"></i>
             <input type="text" placeholder="Search" />
           </div>
         </div>

@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
     errors: state.errors.session,
     rooms: Object.values(state.rooms),
     activeRoom: state.ui.activeRoom,
-    friends: Object.values(state.friendships)
+    friends: state.session.user.friends
   };
 };
 
