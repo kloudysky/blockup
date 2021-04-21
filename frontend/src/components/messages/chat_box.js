@@ -33,9 +33,8 @@ export class ChatBox extends React.Component {
       room: this.props.activeRoom._id,
       // socket: this.socket,
     };
-    this.props
-      .createMessage(msg)
-      .then(this.props.fetchRoomMessages(this.props.activeRoom._id));
+    this.props.createMessage(msg);
+    // .then(this.props.fetchRoomMessages(this.props.activeRoom._id));
 
     // changes the state array to have new messages pushed into the array to be transferred to chat body
 

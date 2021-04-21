@@ -50,7 +50,9 @@ router.post(
         { _id: req.body.room },
         { $push: { messages: result._id } }
       );
-      res.json(result);
+      Message.find({ _id: result._id })
+        .populate("author", "username")
+        .then((message) => res.json(message[0]));
     });
     // .then((message) => {
     //   res.json(message);
