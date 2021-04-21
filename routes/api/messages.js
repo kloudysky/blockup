@@ -51,7 +51,11 @@ router.post(
           { $push: { messages: result._id } }
         );
       })
-      .then((message) => res.json(message));
+      .then((message) => {
+        req.app.get("io").to(message.room).emit("incoming message", message);
+        console.log(message);
+        res.json(message);
+      });
   }
 );
 

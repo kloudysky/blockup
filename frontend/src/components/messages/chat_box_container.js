@@ -9,6 +9,7 @@ const mSTP = (state, ownProps) => {
   return {
     currentUser: state.session.user,
     activeRoom: state.ui.activeRoom,
+    messages: state.messages,
   };
 };
 
@@ -16,6 +17,7 @@ const mDTP = (dispatch, ownProps) => {
   return {
     fetchRoomMessages: (roomId) => dispatch(fetchRoomMessages(roomId)),
     createMessage: (message) => dispatch(createMessage(message)),
+    getMessages: (roomId) => dispatch(fetchRoomMessages),
   };
 };
 
