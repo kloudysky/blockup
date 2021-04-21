@@ -6,7 +6,6 @@ import MessagesReducer from "./messages_reducer";
 import friendshipReducer from "./friendships_reducer";
 import friendRequestReducer from "./friendRequests_reducer";
 import UiReducer from "./ui_reducer";
-import modal from './modal_reducer'
 
 const RootReducer = combineReducers({
   errors,
@@ -16,7 +15,6 @@ const RootReducer = combineReducers({
   friendships: friendshipReducer,
   friendRequests: friendRequestReducer,
   ui: UiReducer,
-  modal,
 });
 
 export default RootReducer;
