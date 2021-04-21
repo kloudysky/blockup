@@ -50,7 +50,8 @@ export const deleteRequest = friendRequest => {
 
 export const fetchFriendships = friend_id => dispatch => {
     return (
-        FriendshipApiUtil.fetchFriendships(friend_id).then(friendships => {
+        FriendshipApiUtil.fetchFriendships(friend_id)
+        .then(friendships => {
             dispatch(receiveFriendships(friendships.data))
         })
     )
