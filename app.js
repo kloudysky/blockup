@@ -23,8 +23,11 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const http = require("http").Server(app);
-const io = require("socket.io")(http);
-app.locals.io = io;
+const io = require("socket.io")(http, {
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
 const Message = require("./models/Message");
 
 mongoose
@@ -45,14 +48,14 @@ app.use("/api/friendships", friendships);
 app.use("/api/friendRequests", friendRequests);
 
 io.on("connection", (socket) => {
-  app.set("socket", socket);
   app.locals.socket = socket;
+
   socket.on("join room", (room) => {
     socket.join(room);
   });
 
-  socket.on("message", (msg) => {
-    // socket.to(msg.room).emit("incoming message", msg);
+  socket.on("leave room", (room) => {
+    socket.leave(room);
   });
 });
 
