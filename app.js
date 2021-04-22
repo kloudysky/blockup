@@ -50,7 +50,21 @@ app.use("/api/friendRequests", friendRequests);
 io.on("connection", (socket) => {
   app.locals.socket = socket;
 
+  socket.on('join video chat', (roomId, userId) => {
+  
+    console.log("video_room: ", roomId, "user: ", userId,"**************")
+    socket.join(roomId)
+    socket.to(roomId).emit('user-connected', userId)
+
+    socket.on("disconnect", () => {
+      console.log(" server disconnect**************************")
+      socket.broadcast.to(roomId).emit('user-disconnected', userId)
+    })
+  })
+
   socket.on("join room", (room) => {
+    console.log("ROOM ID", "------");
+    console.log(room);
     socket.join(room);
   });
 

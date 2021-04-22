@@ -30,7 +30,7 @@ const App = () => (
         component={TwoFASetupContainer}
       />
       <TwoFAProtectedRoute exact path="/friends" component={FriendshipContainer}/>
-      <TwoFAProtectedRoute exact path="/video" component={VideoContainer}/>
+      <TwoFAProtectedRoute exact path="/video/:roomId" component={VideoContainer}/>
       <TwoFAProtectedRoute exact path="/rooms" component={RoomsContainer} />
       <TwoFAProtectedRoute exact path="/web" component={WebApp} />
       <TwoFAProtectedRoute exact path="/profile" component={profile_container} />

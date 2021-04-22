@@ -1,6 +1,7 @@
 import React from "react";
 import Chatbody from "./chat_body";
 import openSocket from "socket.io-client";
+import {Link} from 'react-router-dom';
 
 export class ChatBox extends React.Component {
   constructor(props) {
@@ -15,6 +16,7 @@ export class ChatBox extends React.Component {
     });
     this.handleSubmit = this.handleSubmit.bind(this);
     this.sendSocketIO = this.sendSocketIO.bind(this);
+ 
   }
 
   componentDidMount() {
@@ -24,6 +26,7 @@ export class ChatBox extends React.Component {
   sendSocketIO(msg) {
     this.socket.emit("message", msg);
   }
+
 
   handleSubmit(e) {
     e.preventDefault();
@@ -66,7 +69,7 @@ export class ChatBox extends React.Component {
             <h3>{room.id === -1 ? "" : room.name}</h3>
           </div>
           <div className="chat-header-right">
-            <i class="fas fa-video"></i>
+          <Link to={ this.props.activeRoom._id === undefined ?  "" : `/video/${this.props.activeRoom._id}`} className="msg-link"><i class="fas fa-video"></i></Link>
             <i class="fas fa-phone"></i>
           </div>
         </div>
