@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import UiReducer from "../../reducers/ui_reducer";
 import SideRoomItem from "./side_room_item";
 import openSocket from "socket.io-client";
-import {BsPlusCircleFill} from "react-icons/bs"
+import { BsPlusCircleFill } from "react-icons/bs";
 
 export class SideRoomIndex extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       user: this.props.user,
-      name: '',
-      members: []
+      name: "",
+      members: [],
     };
     this.createRoom = this.createRoom.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -26,41 +26,47 @@ export class SideRoomIndex extends Component {
     }
   }
 
+
   createRoom(){
     this.props.createRoom(this.state);
   }
 
-  openModal(){
+  openModal() {
     const ele = document.getElementById("modal");
-    ele.style.display = "flex"
+    ele.style.display = "flex";
   }
 
   update(field) {
-    if (field === "name"){
-    return e => this.setState({
-      name: e.currentTarget.value
-    })}else{
-      return e => this.setState({
-        members: [e.currentTarget.value]
-      })
+    if (field === "name") {
+      return (e) =>
+        this.setState({
+          name: e.currentTarget.value,
+        });
+    } else {
+      return (e) =>
+        this.setState({
+          members: [e.currentTarget.value],
+        });
     }
   }
 
   render() {
     let friends = "";
-    if (this.props.friends){
-      friends = this.props.friends.map(friend => {
-      return(
-        <option key={friend.id} value={friend.id}>{friend.username}</option>
-      )
-      })
+    if (this.props.friends) {
+      friends = this.props.friends.map((friend) => {
+        return (
+          <option key={friend.id} value={friend.id}>
+            {friend.username}
+          </option>
+        );
+      });
     }
-      const modal = document.getElementById("modal");
-      window.onclick = function(event) {
-        if (event.target == modal) {
-          modal.style.display = "none";
-        }
+    const modal = document.getElementById("modal");
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
       }
+    };
 
     return (
       <div className="sidebar">
@@ -71,19 +77,25 @@ export class SideRoomIndex extends Component {
           </div>
 
           <div className="sidebar-header-right">
-             <BsPlusCircleFill size="30px" onClick={this.openModal}/> 
+            <BsPlusCircleFill size="30px" onClick={this.openModal} />
           </div>
-          <form id="modal" onSubmit= {this.createRoom}>
+          <form id="modal" onSubmit={this.createRoom}>
             <p>Create a new Room</p>
-            <input placeholder="Room name" onChange={this.update('name')}></input>
+            <input
+              placeholder="Room name"
+              onChange={this.update("name")}
+            ></input>
             <select onChange={this.update("members")}>
               <option value={null}>Choose a friend</option>
               <option value={null}>--------</option>
               {friends}
             </select>
-            <input className="submit-room" type="submit" value="Create Room"></input>
+            <input
+              className="submit-room"
+              type="submit"
+              value="Create Room"
+            ></input>
           </form>
-
         </div>
         <div className="sidebar-search">
           <div className="search-container">
@@ -99,16 +111,17 @@ export class SideRoomIndex extends Component {
                 key={room._id}
                 id={room._id}
                 name={room.name}
+                user={this.props.user}
                 setActiveRoom={this.props.setActiveRoom}
                 activeRoom={this.props.activeRoom}
+                getRoomMessages={this.props.fetchRoomMessages}
+                getMessage={this.props.fetchMessage}
+                receiveRoomMessage={this.props.receiveRoomMessage}
               />
             ))
           ) : (
             <p>No rooms</p>
           )}
-          {/* <SideRoomItem />
-          <SideRoomItem />
-          <SideRoomItem /> */}
         </div>
       </div>
     );

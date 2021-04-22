@@ -19,9 +19,19 @@ export class SideRoomItem extends React.Component {
     this.socket.on("incoming message", (msg) => {
       console.log("Incoming Message");
       console.log(msg);
+      console.log(this.props.user);
+      console.log(msg);
+      if (this.props.user.id !== msg.author._id) {
+        this.props.receiveRoomMessage(msg);
+      }
+    });
+    this.socket.on("test", (msg) => {
+      console.log(msg);
     });
   }
+
   getActiveRoom() {
+    this.props.getRoomMessages(this.props.id);
     return this.props.setActiveRoom(this.props.id);
   }
 
