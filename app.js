@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === "production") {
 
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
-app.set("io", io);
+app.locals.io = io;
 const Message = require("./models/Message");
 
 mongoose
@@ -45,6 +45,8 @@ app.use("/api/friendships", friendships);
 app.use("/api/friendRequests", friendRequests);
 
 io.on("connection", (socket) => {
+  app.set("socket", socket);
+  app.locals.socket = socket;
   socket.on("join room", (room) => {
     socket.join(room);
   });

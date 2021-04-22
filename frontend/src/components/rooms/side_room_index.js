@@ -110,6 +110,7 @@ export class SideRoomIndex extends Component {
                 key={room._id}
                 id={room._id}
                 name={room.name}
+                user={this.props.user}
                 setActiveRoom={this.props.setActiveRoom}
                 activeRoom={this.props.activeRoom}
                 getRoomMessages={this.props.fetchRoomMessages}
