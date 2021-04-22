@@ -26,7 +26,8 @@ export class SideRoomIndex extends Component {
     }
   }
 
-  createRoom() {
+
+  createRoom(){
     this.props.createRoom(this.state);
   }
 
