@@ -15,13 +15,21 @@ export class SideRoomItem extends React.Component {
   }
 
   componentDidMount() {
-    this.socket.emit("join room", this.props.id);
     this.socket.on("incoming message", (msg) => {
-      console.log("Incoming Message");
+      console.log("Incoming Message From Server");
+      if (this.props.user.id !== msg.author._id) {
+        this.props.receiveRoomMessage(msg);
+      }
+    });
+    this.socket.on("test", (msg) => {
       console.log(msg);
     });
   }
+
   getActiveRoom() {
+    this.socket.emit("leave room", this.props.activeRoom);
+    this.props.getRoomMessages(this.props.id);
+    this.socket.emit("join room", this.props.id);
     return this.props.setActiveRoom(this.props.id);
   }
 

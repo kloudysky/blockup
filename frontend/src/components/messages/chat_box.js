@@ -20,19 +20,11 @@ export class ChatBox extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.activeRoom != -1) {
-      console.log("room update");
-      // this.props.fetchRoomMessages(this.props.activeRoom._id);
-
-      this.socket.on("incoming message", (msg) => {
-        console.log("Incoming Message");
-      });
-    }
+    this.socket.emit("join room", this.props.activeRoom._id);
   }
 
   sendSocketIO(msg) {
     this.socket.emit("message", msg);
-    //this.socket.to(msg.room).emit("some event");
   }
 
 
@@ -42,20 +34,20 @@ export class ChatBox extends React.Component {
       content: this.state.content,
       author: this.props.currentUser.id,
       room: this.props.activeRoom._id,
+      // socket: this.socket,
     };
-    this.props
-      .createMessage(msg)
-      .then(this.props.fetchRoomMessages(this.props.activeRoom._id));
+    this.props.createMessage(msg);
+    // .then(this.props.fetchRoomMessages(this.props.activeRoom._id));
 
     // changes the state array to have new messages pushed into the array to be transferred to chat body
-    
-    let newMessage = {}
-    newMessage['content'] = this.state.content;
-    newMessage['author'] = {}
-    newMessage.author['username']= this.props.currentUser.username;
-    newMessage.author['_id']= this.props.currentUser.id;
-    let newArray = this.state.newMessages.concat(newMessage);
-    this.setState({['newMessages']: newArray})
+
+    // let newMessage = {};
+    // newMessage["content"] = this.state.content;
+    // newMessage["author"] = {};
+    // newMessage.author["username"] = this.props.currentUser.username;
+    // newMessage.author["_id"] = this.props.currentUser.id;
+    // let newArray = this.state.newMessages.concat(newMessage);
+    // this.setState({ ["newMessages"]: newArray });
 
     this.setState({ content: "" });
     this.sendSocketIO(msg);
@@ -67,6 +59,7 @@ export class ChatBox extends React.Component {
 
   render() {
     const room = this.props.activeRoom;
+    const messages = this.props.messages;
 
     return (
       <div className="chat">
@@ -80,7 +73,12 @@ export class ChatBox extends React.Component {
             <i class="fas fa-phone"></i>
           </div>
         </div>
-        <Chatbody user={this.props.currentUser} room={room} newMessages={this.state.newMessages} />
+        <Chatbody
+          user={this.props.currentUser}
+          room={room}
+          messages={messages}
+          newMessages={this.state.newMessages}
+        />
         <div className="chat-footer">
           <i class="fas fa-laugh-wink"></i>
           <form onSubmit={this.handleSubmit}>

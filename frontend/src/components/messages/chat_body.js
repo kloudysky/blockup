@@ -1,13 +1,26 @@
 import React, { Component } from "react";
 
 export class ChatBody extends Component {
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+  }
+
   messageCheck() {
     const room = this.props.room;
+    const messages = this.props.messages;
     //newMessages is the array of new messages sent in from created messages
-    let newMessages = this.props.newMessages || []
-  
+    let newMessages = this.props.newMessages || [];
+
     if (room && room.messages) {
-      return room.messages.concat(newMessages).map((message) => (
+      return messages.map((message) => (
         <p
           key={message._id}
           className={`chat-message ${
@@ -29,7 +42,17 @@ export class ChatBody extends Component {
   }
 
   render() {
-    return <div className="chat-body">{this.messageCheck()}</div>;
+    return (
+      <div className="chat-body">
+        {this.messageCheck()}
+        <div
+          style={{ float: "left", clear: "both" }}
+          ref={(el) => {
+            this.messagesEnd = el;
+          }}
+        ></div>
+      </div>
+    );
   }
 }
 

@@ -43,31 +43,30 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/new", (req, res) => {
-  const { errors, isValid } = validateRoomNameInput(req.body);
-
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
+  // const { errors, isValid } = validateRoomNameInput(req.body);
+  // debugger;
+  // if (!isValid) {
+  //   return res.status(400).json(errors);
+  // }
   const { user, name } = req.body;
-  const other_members = req.body.members || {};
+  let otherMembers = req.body.members || [];
+  otherMembers.push({_id: user.id});
   const newRoom = new Room({
     name: name,
     img_url: req.body.img_url || "",
-    members: [],
+    members: otherMembers,
     messages: [],
   });
 
-  newRoom.members.push({ id: user.id });
-  newRoom.members.push(other_members);
-
   newRoom
-    .save()
-    .then((room) => res.json(room))
-    .catch((err) => {
-      res.status(404).json({
-        invalidRoomCredentials: "Looks like this room was not able to save",
-      });
+  .save()
+  .then((room) => { room.populate('members'); console.log("after pop", room); res.json(room)})
+  .catch((err) => {
+    console.log(err);
+    res.status(404).json({
+      invalidRoomCredentials: "Looks like this room was not able to save",
     });
+  });
 });
 
 module.exports = router;

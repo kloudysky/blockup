@@ -23,7 +23,11 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const http = require("http").Server(app);
-const io = require("socket.io")(http);
+const io = require("socket.io")(http, {
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
 const Message = require("./models/Message");
 
 mongoose
@@ -33,7 +37,6 @@ mongoose
 
 app.use(passport.initialize());
 require("./config/passport")(passport);
-//require("./config/twofapassport")(passport);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -45,7 +48,7 @@ app.use("/api/friendships", friendships);
 app.use("/api/friendRequests", friendRequests);
 
 io.on("connection", (socket) => {
-  console.log("User connected-----------");
+  app.locals.socket = socket;
 
   socket.on('join video chat', (roomId, userId) => {
   
@@ -64,37 +67,9 @@ io.on("connection", (socket) => {
     console.log(room);
     socket.join(room);
   });
-  // Get the last 10 messages from the database.
-  // Message.find()
-  //   .sort({ createdAt: -1 })
-  //   .limit(10)
-  //   .exec((err, messages) => {
-  //     if (err) return console.error(err);
 
-  //     // Send the last messages to the user.
-  //     socket.emit("init", messages);
-  //   });
-
-  // Listen to connected users for a new message.
-  socket.on("message", (msg) => {
-    console.log("SOCKET MESSAGE");
-    console.log(msg.room);
-    // socket.emit("incoming message", msg);
-    socket.to(msg.room).emit("incoming message", msg);
-    // socket.to(msg.room).emit("some event");
-    // Create a message with the content and the name of the user.
-    // const message = new Message({
-    //   content: msg.content,
-    // });
-
-    // // Save the message to the database.
-    // message.save((err) => {
-    //   if (err) return console.error(err);
-    // });
-
-    // Notify all other users about a new message.
-    //////will this give to all users or just users associated with message?///
-    //socket.broadcast.emit("push", msg);
+  socket.on("leave room", (room) => {
+    socket.leave(room);
   });
 });
 

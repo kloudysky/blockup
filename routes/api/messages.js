@@ -37,21 +37,26 @@ router.post(
       return res.status(400).json(errors);
     }
 
+    const socket = req.app.locals.socket;
+
     const newMessage = new Message({
       content: req.body.content,
       author: req.body.author,
       room: req.body.room,
     });
 
-    newMessage
-      .save()
-      .then(function (result) {
-        return Room.findOneAndUpdate(
-          { _id: req.body.room },
-          { $push: { messages: result._id } }
-        );
-      })
-      .then((message) => res.json(message));
+    newMessage.save().then(function (result) {
+      Room.findOneAndUpdate(
+        { _id: req.body.room },
+        { $push: { messages: result._id } }
+      );
+      Message.find({ _id: result._id })
+        .populate("author", "username")
+        .then((message) => {
+          socket.to(req.body.room).emit("incoming message", message[0]);
+          res.json(message[0]);
+        });
+    });
   }
 );
 
