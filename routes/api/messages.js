@@ -37,7 +37,6 @@ router.post(
       return res.status(400).json(errors);
     }
 
-    const io = req.app.locals.io;
     const socket = req.app.locals.socket;
 
     const newMessage = new Message({
@@ -47,8 +46,6 @@ router.post(
     });
 
     newMessage.save().then(function (result) {
-      console.log(result.room);
-
       Room.findOneAndUpdate(
         { _id: req.body.room },
         { $push: { messages: result._id } }
@@ -56,13 +53,10 @@ router.post(
       Message.find({ _id: result._id })
         .populate("author", "username")
         .then((message) => {
-          socket.emit("incoming message", message[0]);
+          socket.to(req.body.room).emit("incoming message", message[0]);
           res.json(message[0]);
         });
     });
-    // .then((message) => {
-    //   res.json(message);
-    // });
   }
 );
 
