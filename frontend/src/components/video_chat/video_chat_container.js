@@ -5,7 +5,7 @@ const mapStateToProps = (state) => {
   return {
     user: state.session.user,
     errors: state.errors.session,
-    rooms: Object.values(state.rooms)
+    room: state.ui.activeRoom.name
   };
 };
 
