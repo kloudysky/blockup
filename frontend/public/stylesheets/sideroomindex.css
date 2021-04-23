@@ -94,6 +94,16 @@
   padding: 7px;
 }
 
+.all-friends{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  color: white;
+  font-size: 18px;
+}
+
 .sidebar-header-right:hover{
   cursor: pointer;
   border-radius: 30px;

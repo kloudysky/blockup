@@ -2,22 +2,28 @@ import {
   RECEIVE_NEW_ROOM,
   RECEIVE_ROOMS,
   RECEIVE_SINGLE_ROOM,
+  DELETE_ROOM,
 } from "../actions/room_actions";
 
 const RoomsReducer = (state = {}, action) => {
   Object.freeze(state);
+  let nextState = Object.assign({}, state)
   switch (action.type) {
     case RECEIVE_NEW_ROOM:
-      return Object.assign({}, state, { [action.room._id]: action.room });
+      nextState = Object.assign({}, nextState, { [action.room._id]: action.room });
+      return nextState;
     case RECEIVE_ROOMS:
       let roomsObj = {};
       action.rooms.forEach((room) => {
         roomsObj[room._id] = room;
       });
-      const newState = Object.assign({}, state, roomsObj);
+      const newState = Object.assign({}, nextState, roomsObj);
       return newState;
     case RECEIVE_SINGLE_ROOM:
       return action.room;
+    case DELETE_ROOM:
+      delete nextState[action.room._id];
+      return nextState;
     default:
       return state;
   }

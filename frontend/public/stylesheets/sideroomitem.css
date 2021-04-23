@@ -1,5 +1,7 @@
 .sidebar-chat {
   display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 20px;
   cursor: pointer;
   border-bottom: 1px solid #f6f6f6;
@@ -16,4 +18,22 @@
 
 .sidebar-chat-info {
   margin-left: 15px;
+}
+
+.destroy-room{
+  display: flex;
+  height: 20px;
+  width: auto;
+  justify-content: center;
+  align-items: center;
+  padding: 6px;
+  border-radius: 11px;
+  margin-left: 340px;
+  font-size: 14px;
+}
+
+.destroy-room:hover{
+  cursor: pointer;
+  background-color: red;
+  font-weight: bold;
 }

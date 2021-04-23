@@ -20,7 +20,7 @@ export class ChatBox extends React.Component {
   }
 
   componentDidMount() {
-    this.socket.emit("join room", this.props.activeRoom._id);
+    this.socket.emit("join room", this.props.activeRoom._id || "null");
   }
 
   sendSocketIO(msg) {
@@ -66,10 +66,11 @@ export class ChatBox extends React.Component {
         <div className="chat-header">
           <i className="fas fa-user-circle"></i>
           <div className="chat-header-info">
-            <h3>{room.id === -1 ? "" : room.name}</h3>
+            <h3>{!room ? "no rooms" : room.name}</h3>
+            <p>{!room ? "" : room.memebers}</p>
           </div>
           <div className="chat-header-right">
-          <Link to={ this.props.activeRoom._id === undefined ?  "" : `/video/${this.props.activeRoom._id}`} className="msg-link"><i className="fas fa-video"></i></Link>
+          <Link to={ !room ?  "" : `/video/${this.props.activeRoom._id}`} className="msg-link"><i className="fas fa-video"></i></Link>
             <i className="fas fa-phone"></i>
           </div>
         </div>
