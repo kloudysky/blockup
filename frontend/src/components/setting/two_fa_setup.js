@@ -43,7 +43,9 @@ class TwoFASetup extends React.Component {
       return (
         <div className="twofa-container">
           <h1>Please setup Two-Factor Authentication</h1>
-          <p>Use this QR code with your Authenticator</p>
+          <p>Step 1: Download the Google Authenticator App from your app store or download the plugin <a href="https://chrome.google.com/webstore/detail/authenticator/bhghoamapcdpbohphigoooaddinpkbai?hl=en">here</a></p>
+          <p>Step 2: Scan this QR code with through the Google Authenticator App (look for the plus sign to add this website to your list)</p>
+          <p>Step 3: Finally, you will receive a 6-digit token every 30-60 seconds. Use the most recent token below to varify your login</p>
           {qrcode.toDataURL(this.props.otpauth_url, function (err, data) {
             imgdata = data;
             console.log(imgdata);
