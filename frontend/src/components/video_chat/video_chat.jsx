@@ -61,7 +61,6 @@ export class VideoChat extends React.Component {
       
       this.socket.on('user-disconnected', userId => {
           console.log("disconnect**************************", userId)
-          // debugger
         if (this.peers[userId]) this.peers[userId].close()
       })
 
@@ -71,20 +70,22 @@ export class VideoChat extends React.Component {
   }
 
     connectToNewUser(userId, stream) {
-      debugger
-        const call = this.myPeer.call(userId, stream)
-        const video = document.createElement('video')
- 
-        
-        call.on('stream', userVideoStream => {
-          this.addVideoStream(video, userVideoStream)   
-        })
+      
+         setTimeout(()=>{
 
-        call.on('close', () => {
-          debugger
-            video.remove()
-        })
-        this.peers[userId] = call
+                   const call = this.myPeer.call(userId, stream)
+                   const video = document.createElement('video')
+            
+                   
+                   call.on('stream', userVideoStream => {
+                     this.addVideoStream(video, userVideoStream)   
+                   })
+           
+                   call.on('close', () => {
+                       video.remove()
+                   })
+                   this.peers[userId] = call
+         },3000)
         // let s = document.createElement('p')
         // s.innerHTML = 'hah'
         // this.videoGrid.current.appendChild(s)
@@ -94,7 +95,7 @@ export class VideoChat extends React.Component {
     addVideoStream(video, stream) {
       
       video.srcObject = stream
-
+ 
       video.addEventListener('loadedmetadata', () => {
     
         // setTimeout(()=> video.play(), 3000)
