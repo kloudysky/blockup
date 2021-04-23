@@ -3,6 +3,7 @@ import UiReducer from "../../reducers/ui_reducer";
 import SideRoomItem from "./side_room_item";
 import openSocket from "socket.io-client";
 import { BsPlusCircleFill } from "react-icons/bs";
+const { useState } = React;
 
 export class SideRoomIndex extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ export class SideRoomIndex extends Component {
     this.createRoom = this.createRoom.bind(this);
     this.openModal = this.openModal.bind(this);
     this.update = this.update.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
   componentDidMount() {
     const id = this.props.user.id;
@@ -26,7 +28,6 @@ export class SideRoomIndex extends Component {
     }
   }
 
-
   createRoom(){
     this.props.createRoom(this.state);
   }
@@ -34,6 +35,11 @@ export class SideRoomIndex extends Component {
   openModal() {
     const ele = document.getElementById("modal");
     ele.style.display = "flex";
+  }
+
+  closeModal(){
+    const ele = document.getElementById("modal");
+    ele.style.display = "none";
   }
 
   update(field) {
@@ -45,7 +51,7 @@ export class SideRoomIndex extends Component {
     } else {
       return (e) =>
         this.setState({
-          members: [e.currentTarget.value],
+          members: [...this.state.members, e.currentTarget.value],
         });
     }
   }
@@ -61,12 +67,7 @@ export class SideRoomIndex extends Component {
         );
       });
     }
-    const modal = document.getElementById("modal");
-    window.onclick = function (event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    };
+
 
     return (
       <div className="sidebar">
@@ -79,23 +80,30 @@ export class SideRoomIndex extends Component {
           <div className="sidebar-header-right">
             <BsPlusCircleFill size="30px" onClick={this.openModal} />
           </div>
-          <form id="modal" onSubmit={this.createRoom}>
+
+          <form id="modal" onSubmit={this.createRoom} tabIndex="0">
+            <div className="close-modal" onClick={this.closeModal}>X</div>
+
             <p>Create a new Room</p>
             <input
               placeholder="Room name"
-              onChange={this.update("name")}
-            ></input>
-            <select onChange={this.update("members")}>
-              <option value={null}>Choose a friend</option>
-              <option value={null}>--------</option>
+              onChange={this.update("name")}>
+            </input>
+
+            <select onChange={this.update("members")} multiple>
+              <option disabled >Choose friends to share a room with</option>
+              <option disabled >--------</option>
               {friends}
             </select>
+
             <input
               className="submit-room"
               type="submit"
               value="Create Room"
             ></input>
+
           </form>
+
         </div>
         <div className="sidebar-search">
           <div className="search-container">
