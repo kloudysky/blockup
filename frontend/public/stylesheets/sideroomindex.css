@@ -72,6 +72,22 @@
   font-size: 16px;
 }
 
+.close-modal{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  width: 23px;
+  height: 23px;
+  border-radius: 60px;
+  font-size: 20px;
+}
+
+.close-modal:hover{
+  background-color: red;
+  cursor: pointer;
+}
+
 .submit-room{
   margin: 6px;
   border-radius: 10px;
