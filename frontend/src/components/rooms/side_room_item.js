@@ -42,7 +42,7 @@ export class SideRoomItem extends React.Component {
     }
     return (
       <div onClick={() => this.getActiveRoom()} className="sidebar-chat">
-        <i class="fas fa-user-circle"></i>
+        <i className="fas fa-user-circle"></i>
         <div className="sidebar-chat-info">
           <h2>{this.props.name}</h2>
         </div>

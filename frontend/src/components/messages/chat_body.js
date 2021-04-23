@@ -22,7 +22,7 @@ export class ChatBody extends Component {
     if (room && room.messages) {
       return messages.map((message) => (
         <p
-          key={message._id}
+          key={message._id + `${Math.random(10000)}`}
           className={`chat-message ${
             this.props.user.id === message.author._id ? "chat-reciever" : ""
           }`}
