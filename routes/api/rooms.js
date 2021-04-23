@@ -69,4 +69,12 @@ router.post("/new", (req, res) => {
   });
 });
 
+router.delete("/delete/:id", (req, res) => {
+    Room.findByIdAndRemove(req.params.id)
+    .then((room) => {
+        return res.json(room)
+        // res.json({successDelete: "Success Delete"}) 
+    })
+});
+
 module.exports = router;
