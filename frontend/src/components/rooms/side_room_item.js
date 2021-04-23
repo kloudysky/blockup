@@ -46,6 +46,7 @@ export class SideRoomItem extends React.Component {
         <div className="sidebar-chat-info">
           <h2>{this.props.name}</h2>
         </div>
+        <div className="destroy-room" onClick={() => this.props.destroyRoom(this.props.id)}>delete</div>
       </div>
     );
   }

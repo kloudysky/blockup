@@ -30,6 +30,7 @@ export class SideRoomIndex extends Component {
 
   createRoom(){
     this.props.createRoom(this.state);
+    this.closeModal();
   }
 
   openModal() {
@@ -61,9 +62,7 @@ export class SideRoomIndex extends Component {
     if (this.props.friends) {
       friends = this.props.friends.map((friend) => {
         return (
-          <option key={friend.id} value={friend.id}>
-            {friend.username}
-          </option>
+            <label className="friend-label" for={friend.id}><input type="checkbox" key={friend.id} value={friend.id} id={friend.id} />{friend.username}</label>
         );
       });
     }
@@ -83,25 +82,19 @@ export class SideRoomIndex extends Component {
 
           <form id="modal" onSubmit={this.createRoom} tabIndex="0">
             <div className="close-modal" onClick={this.closeModal}>X</div>
-
             <p>Create a new Room</p>
             <input
               placeholder="Room name"
               onChange={this.update("name")}>
             </input>
-
-            <select onChange={this.update("members")} multiple>
-              <option disabled >Choose friends to share a room with</option>
-              <option disabled >--------</option>
+            <div className="all-friends" onChange={this.update("members")}>
               {friends}
-            </select>
-
+            </div>
             <input
               className="submit-room"
               type="submit"
               value="Create Room"
             ></input>
-
           </form>
 
         </div>
@@ -125,6 +118,7 @@ export class SideRoomIndex extends Component {
                 getRoomMessages={this.props.fetchRoomMessages}
                 getMessage={this.props.fetchMessage}
                 receiveRoomMessage={this.props.receiveRoomMessage}
+                destroyRoom={this.props.destroyRoom}
               />
             ))
           ) : (
