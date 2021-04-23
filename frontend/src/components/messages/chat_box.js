@@ -64,13 +64,13 @@ export class ChatBox extends React.Component {
     return (
       <div className="chat">
         <div className="chat-header">
-          <i class="fas fa-user-circle"></i>
+          <i className="fas fa-user-circle"></i>
           <div className="chat-header-info">
             <h3>{room.id === -1 ? "" : room.name}</h3>
           </div>
           <div className="chat-header-right">
-          <Link to={ this.props.activeRoom._id === undefined ?  "" : `/video/${this.props.activeRoom._id}`} className="msg-link"><i class="fas fa-video"></i></Link>
-            <i class="fas fa-phone"></i>
+          <Link to={ this.props.activeRoom._id === undefined ?  "" : `/video/${this.props.activeRoom._id}`} className="msg-link"><i className="fas fa-video"></i></Link>
+            <i className="fas fa-phone"></i>
           </div>
         </div>
         <Chatbody
@@ -80,7 +80,7 @@ export class ChatBox extends React.Component {
           newMessages={this.state.newMessages}
         />
         <div className="chat-footer">
-          <i class="fas fa-laugh-wink"></i>
+          <i className="fas fa-laugh-wink"></i>
           <form onSubmit={this.handleSubmit}>
             <input
               type="text"
@@ -90,7 +90,7 @@ export class ChatBox extends React.Component {
             />
             <button type="submit">Send</button>
           </form>
-          <i class="fas fa-microphone"></i>
+          <i className="fas fa-microphone"></i>
         </div>
       </div>
     );
