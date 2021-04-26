@@ -13,11 +13,34 @@ export class ChatBody extends Component {
     this.messagesEnd.scrollIntoView({ behavior: "smooth" });
   }
 
+  handleTime(dateTime) {
+        let oldDate = new Date(Date.parse(dateTime));
+        let currentDate = new Date();
+
+        // let yearDiff = oldDate.getFullYear() - currentDate.getFullYear();
+        // let monthDiff = oldDate.getMonth() - currentDate.getMonth();
+        let dayDiff = oldDate.getDate() - currentDate.getDate();
+
+        let year = oldDate.getFullYear() % 100;
+        let month = oldDate.getMonth() + 1;
+        let day = oldDate.getDate();
+        let hours = oldDate.getHours() > 12 ? oldDate.getHours() - 12 : oldDate.getHours();
+        let minutes = oldDate.getMinutes();
+
+        if (dayDiff > 1) {
+            return `${month}/${day}/${year} at ${hours}:${minutes}`
+        } else if (dayDiff === 1) {
+            return `Yesterday at ${hours}:${minutes}`
+        } else {
+            return `Today at ${hours}:${minutes}`
+        }
+    }
+
   messageCheck() {
     const room = this.props.room;
     const messages = this.props.messages;
     //newMessages is the array of new messages sent in from created messages
-    let newMessages = this.props.newMessages || [];
+    let newMessages = this.props.newMessages || [];    
 
     if (room && room.messages) {
       return messages.map((message) => (
@@ -29,7 +52,7 @@ export class ChatBody extends Component {
         >
           <span className="chat-name">{message.author.username}</span>
           {message.content}
-          <span className="chat-timestamp">3AM!</span>
+          <span className="chat-timestamp">{this.handleTime(message.createdAt)}</span>
         </p>
       ));
     } else {
