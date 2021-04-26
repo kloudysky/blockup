@@ -13,12 +13,14 @@
     border-bottom: 1px grey solid;
 }
 
-.username{
+.friend-page-username{
     width: 140px;
+    color: black;
 }
 
-.lastest-msg{
+.friend-page-lastest-msg{
     width: 80%;
+    color: black;
 }
 
 a.msg-link {

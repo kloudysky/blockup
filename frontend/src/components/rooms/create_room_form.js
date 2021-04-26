@@ -35,7 +35,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchFriends: (id) => dispatch(fetchFriendships (id)),
+        fetchFriends: (id) => dispatch(fetchFriendships(id)),
         createRoom: (room) => dispatch(composeRoom(room))
     };
 };

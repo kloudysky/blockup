@@ -8,7 +8,7 @@ export class VideoChat extends React.Component {
     super(props);
 
     this.state = {
-        test: false 
+        myStream: ""
     }
     this.socket = openSocket("http://localhost:5000", {
       transports: ["websocket"],
@@ -28,34 +28,48 @@ export class VideoChat extends React.Component {
 
   componentDidMount(){
 
+    // const myVideo = document.createElement('video')
+    // myVideo.muted = true
+
     navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true
       }).then(stream => {
          
+        // this.addVideoStream(myVideo , stream)
+      
         const videoObj = this.videoRef.current;
         videoObj.srcObject = stream;
         videoObj.innerHTML = this.props.user.username
         videoObj.muted = true;
         videoObj.play();
  
-     
         this.myPeer.on('call', call => {
-        
+          
+          this.peers[call.peer] = call
+
           call.answer(stream)
 
           const video = document.createElement('video')
         
           call.on('stream', userVideoStream => {
-         
             this.addVideoStream(video, userVideoStream)
           })
+
+          call.on('close', () => {
+            video.remove()
+          })
+
+
         })
       
         this.socket.on('user-connected', userId => {
             console.log(userId, "**************user connnected")
-         
-            this.connectToNewUser(userId, stream)
+            setTimeout(()=>{
+
+                this.connectToNewUser(userId, stream)
+       
+            },1000)
         })
       })
       
@@ -65,51 +79,62 @@ export class VideoChat extends React.Component {
       })
 
     this.myPeer.on('open', id => {
-        this.socket.emit("join video chat", this.props.match.params.roomId, this.props.user.id);
+        this.socket.emit("join video chat", this.props.match.params.roomId, id);
       })
+
+  
   }
 
     connectToNewUser(userId, stream) {
-      
-         setTimeout(()=>{
+    
+      const call = this.myPeer.call(userId, stream)
+      const video = document.createElement('video')
 
-                   const call = this.myPeer.call(userId, stream)
-                   const video = document.createElement('video')
-            
-                   
-                   call.on('stream', userVideoStream => {
-                     this.addVideoStream(video, userVideoStream)   
-                   })
-           
-                   call.on('close', () => {
-                       video.remove()
-                   })
-                   this.peers[userId] = call
-         },3000)
-        // let s = document.createElement('p')
-        // s.innerHTML = 'hah'
-        // this.videoGrid.current.appendChild(s)
+      call.on('stream', userVideoStream => {
+
+        this.addVideoStream(video, userVideoStream)   
+      })
+
+      call.on('close', () => {
+          video.remove()
+      })
+
+      this.peers[userId] = call
+
+      // let s = document.createElement('p')
+      // s.innerHTML = 'hah'
+      // this.videoGrid.current.appendChild(s)
      
     }
 
-    addVideoStream(video, stream) {
-      
-      video.srcObject = stream
- 
+    addVideoStream(video, stream,) {
+
+      video.srcObject = stream 
       video.addEventListener('loadedmetadata', () => {
-    
+   
         // setTimeout(()=> video.play(), 3000)
         video.play()
       })
 
+      // console.log(call, stream)
       
       this.videoGrid.current.appendChild(video)
     }
 
     leaveMeeting(){
 
+  
+        // window.location.reload();
+       
+        const video = document.querySelector('video');
+  
+        const mediaStream = video.srcObject;
+        const tracks = mediaStream.getTracks();
+        tracks.forEach(track => track.stop())
+        this.socket.disconnect()
+        this.myPeer.destroy(); 
+
         this.props.history.push("/")
-        window.location.reload();
     }
   
   render(){
@@ -120,7 +145,6 @@ export class VideoChat extends React.Component {
             <div id="video-grid" ref={this.videoGrid} >
                 {myVideo}
                 <p className="video-username"> {this.props.user.username}</p>
-             
             </div>
             
             <button onClick={this.leaveMeeting}>Leave Meeting</button>

@@ -9,7 +9,7 @@ class Friendship extends React.Component {
       cannotAddSelf: '',
       cannotBeenEmpty: '',
       cannotFindUser: '',
-
+      pageInfo:{},
     };
 
     this.sendFriendsRequest = this.sendFriendsRequest.bind(this);
@@ -22,8 +22,11 @@ class Friendship extends React.Component {
 
   componentDidMount() {
     
-    this.props.fetchFriendships(this.props.user.id)
-    this.props.fetchFriendRequests(this.props.user.id)  
+    this.props.fetchFriendRequests(this.props.user.id) 
+    this.props.fetchFriendships(this.props.user.id).then((friendship)=>{
+      
+    })
+    
   }
 
   updateInput(e) {
@@ -35,7 +38,11 @@ class Friendship extends React.Component {
 
   sendFriendsRequest(e){
     e.preventDefault()
-    this.props.makeFriendRequest({senderId: this.props.user.id, receiverId: this.state.receiverId}) 
+    this.props.makeFriendRequest({senderId: this.props.user.id, receiverId: this.state.receiverId})
+    this.setState({
+      receiverId: ""
+    })
+    
   }
 
   acceptRequest(friendRequest){
@@ -53,10 +60,10 @@ class Friendship extends React.Component {
       const room = {
         name: friendRequest.senderId.username + " & " +  friendRequest.receiverId.username,
         user: user,
-        members: {id: friendRequest.senderId._id} 
+        members: [{_id: friendRequest.senderId._id} ]
       };
-      this.props.createRoom(room);
 
+      this.props.createRoom(room);
         })
     }
   }
@@ -70,7 +77,9 @@ class Friendship extends React.Component {
 
   handleUnfriend(friendship_id){
     return()=>{
-      this.props.deleteFriendship(friendship_id)
+      this.props.deleteFriendship(friendship_id).then(()=>{
+        // this.props.destroyRoom((friendship_id))
+      })
     }
   }
 
@@ -82,8 +91,8 @@ class Friendship extends React.Component {
         <div className="all-friends">
                 {Object.values(this.props.friendships).map((friendship,idx)=>(
                   <div className="individual-msg" key={idx}>
-                      <p className="username">😃 {friendship.friend1._id === this.props.user.id ? friendship.friend2.username : friendship.friend1.username}</p>
-                      <p className="lastest-msg">This is last message holder for the lastest conversation between two people, need to pull from message</p>
+                      <p className="friend-page-username">😃 {friendship.friend1._id === this.props.user.id ? friendship.friend2.username : friendship.friend1.username}</p>
+                      <p className="friend-page-lastest-msg">This is last message holder for the lastest conversation between two people, need to pull from message</p>
                       <Link to={`/`} className="msg-link">✉️ </Link>
                       <button className="unfriend" onClick={this.handleUnfriend(friendship._id)}>❌</button>
                   </div>
