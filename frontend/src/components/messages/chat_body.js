@@ -16,9 +16,6 @@ export class ChatBody extends Component {
   handleTime(dateTime) {
         let oldDate = new Date(Date.parse(dateTime));
         let currentDate = new Date();
-
-        // let yearDiff = oldDate.getFullYear() - currentDate.getFullYear();
-        // let monthDiff = oldDate.getMonth() - currentDate.getMonth();
         let dayDiff = oldDate.getDate() - currentDate.getDate();
 
         let year = oldDate.getFullYear() % 100;
