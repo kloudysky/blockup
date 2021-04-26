@@ -1,7 +1,8 @@
 import { connect } from "react-redux";
 import { fetchFriendships, fetchFriendRequests, createFriendship, makeFriendRequest, deleteFriendRequest, deleteFriendship} from "../../actions/friendship_actions";
 import Friendship from "./friendship";
-import {composeRoom} from '../../actions/room_actions';
+import {composeRoom, deleteUserRoom, fetchUserRooms} from '../../actions/room_actions';
+import { fetchRoomMessages } from "../../actions/message_actions";
 
 const mapStateToProps = (state) => {
   
@@ -21,6 +22,9 @@ const mapDispatchToProps = (dispatch) => {
     deleteFriendship: (friendship_id) => dispatch(deleteFriendship(friendship_id)),
     deleteFriendRequest: (friendRequest_id) => dispatch(deleteFriendRequest(friendRequest_id)),
     createRoom: (room) => dispatch(composeRoom(room)),
+    fetchUserRooms: (id) => dispatch(fetchUserRooms(id)),
+    fetchRoomMessages: (roomId) => dispatch(fetchRoomMessages(roomId)),
+    destroyRoom: (id) => dispatch(deleteUserRoom(id)),
   };
 };
 

@@ -7,12 +7,12 @@ const validateRoomNameInput = require("../../validation/room");
 const RoomMember = require("../../models/RoomMember");
 
 router.get("/user/:user_id", (req, res) => {
-  //    Room.find({"members": {id: req.params.user_id}});
+     Room.find({"members": {_id: req.params.user_id}})
 
-  Room.find({
-    $or: [{ members: { $elemMatch: { id: `${req.params.user_id}` } } }],
-  })
-    .limit(10)
+  // Room.find({
+  //   $or: [{ members: { $elemMatch: { id: req.params.user_id } } }],
+  // })
+    // .limit(10)
     .then((rooms) => {
       res.json(rooms);
     });
