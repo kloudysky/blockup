@@ -51,9 +51,20 @@ export class SideRoomIndex extends Component {
         });
     } else {
       return (e) =>
-        this.setState({
-          members: [...this.state.members, e.currentTarget.value],
-        });
+        {
+          if(e.currentTarget.checked){
+            this.setState({
+              members: [...this.state.members, e.currentTarget.value],
+          })
+        }else{
+          let index = this.state.members.indexOf(e.currentTarget.value);
+          let mutatedMembers = this.state.members;
+          mutatedMembers.splice(index, 1);
+          this.setState({
+            members: mutatedMembers
+          })
+        }
+      }
     }
   }
 
@@ -62,12 +73,13 @@ export class SideRoomIndex extends Component {
     if (this.props.friends) {
       friends = this.props.friends.map((friend) => {
         return (
-            <label className="friend-label" for={friend.id}><input type="checkbox" key={friend.id} value={friend.id} id={friend.id} />{friend.username}</label>
+            <label className="friend-label" for={friend.id}>
+              <input type="checkbox" key={friend.id} value={friend.id} id={friend.id} name={friend.id} onChange={this.update("members")}/>
+              {friend.username}
+              </label>
         );
       });
     }
-
-
     return (
       <div className="sidebar">
         <div className="sidebar-header">
@@ -87,7 +99,7 @@ export class SideRoomIndex extends Component {
               placeholder="Room name"
               onChange={this.update("name")}>
             </input>
-            <div className="all-friends" onChange={this.update("members")}>
+            <div className="list-all-friends">
               {friends}
             </div>
             <input
