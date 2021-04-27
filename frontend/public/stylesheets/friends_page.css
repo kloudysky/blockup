@@ -102,12 +102,13 @@ a.msg-link {
     font-size: 12px;
 }
 
-#video-grid {
+#videos-container {
     /* display: grid;
     grid-template-columns: repeat(auto-fill, 400px);
     grid-auto-rows: 400px; */
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
   }
   
   video {
@@ -117,7 +118,12 @@ a.msg-link {
 
     width: 400px;
     height: 400px;
-    padding: 40px;
+    padding: 0 40px;
+    border: 1px solid black;
+    background-image: url("../audio.png");
+    background-size: 100px 100px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 
@@ -125,6 +131,13 @@ a.msg-link {
       position: absolute;
       font-size: 28px;
       margin-top: 88px;
-    margin-right: 750px;
+      margin-right: 750px;
      
+  }
+
+  .friend-video-username{
+    position: absolute;
+    margin-top: 88px;
+    margin-left: 200px;
+    font-size: 28px;
   }
