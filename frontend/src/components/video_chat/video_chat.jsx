@@ -20,7 +20,7 @@ export class VideoChat extends React.Component {
     });
 
     this.videoRef = React.createRef()
-    this.videoGrid = React.createRef()
+    this.videoContainer = React.createRef()
     this.peers = {}
 
     this.leaveMeeting = this.leaveMeeting.bind(this)
@@ -112,7 +112,7 @@ export class VideoChat extends React.Component {
 
       // let s = document.createElement('p')
       // s.innerHTML = 'hah'
-      // this.videoGrid.current.appendChild(s)
+      // this.videoContainer.current.appendChild(s)
      
     }
 
@@ -120,25 +120,30 @@ export class VideoChat extends React.Component {
 
       video.srcObject = stream 
       video.addEventListener('loadedmetadata', () => {
-   
-        // setTimeout(()=> video.play(), 3000)
         video.play()
       })
 
-      // console.log(call, stream)
-      
-      if(!this.state.ids.includes(userId)){
+      // let div = document.createElement('div');
+      // div.innerHTML = this.props.friends[userId];
+      // this.videoContainer.current.appendChild(div)
+      // const videos = document.getElementById(userId)
 
-        this.state.ids.push(userId)
+      // if(!this.state.ids.includes(userId)){
+        // this.state.ids.push(userId)
+        this.videoContainer.current.appendChild(video)
         
+        if(!document.getElementById(userId)){
         let s = document.createElement('p');
         s.innerHTML = this.props.friends[userId];
         s.className = "friend-video-username";
         s.setAttribute("id", userId)
-        this.videoGrid.current.appendChild(s);
+    
+        this.videoContainer.current.appendChild(s);
       }
 
-      this.videoGrid.current.appendChild(video)
+      // videos.appendChild(video)
+     
+      
     }
 
     leaveMeeting(){
@@ -160,7 +165,7 @@ export class VideoChat extends React.Component {
       return (
         <div>
             <h1>{this.props.room}</h1>
-            <div id="videos-container" ref={this.videoGrid} >
+            <div id="videos-container" ref={this.videoContainer} >
                 <p className="video-username"> {this.props.user.username}</p>
                 {myVideo}
             </div>
