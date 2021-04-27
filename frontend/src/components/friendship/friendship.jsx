@@ -148,10 +148,11 @@ class Friendship extends React.Component {
       )
     }
    
+    const username = this.props.user.username
 
       return(
         <div>
-          <p className="friends-title">Friends</p>
+          <p className="friends-title">{username[0].toUpperCase() + username.slice(1)}'s Friends</p>
           <div className="inner-container">
             {friends}
             <div className="right-container">

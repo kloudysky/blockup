@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useImperativeHandle } from "react";
 import openSocket from "socket.io-client";
 import Peer from 'peerjs';
 
@@ -6,10 +6,10 @@ import Peer from 'peerjs';
 export class VideoChat extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-        myStream: ""
+      ids: []
     }
+
     this.socket = openSocket("http://localhost:5000", {
       transports: ["websocket"],
     });
@@ -32,8 +32,8 @@ export class VideoChat extends React.Component {
     // myVideo.muted = true
 
     navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true
+        video: this.props.match.params.isVideo === "true"? true : false, 
+        audio: true,
       }).then(stream => {
          
         // this.addVideoStream(myVideo , stream)
@@ -53,11 +53,17 @@ export class VideoChat extends React.Component {
           const video = document.createElement('video')
         
           call.on('stream', userVideoStream => {
-            this.addVideoStream(video, userVideoStream)
+            this.addVideoStream(video, userVideoStream,call.peer)
           })
 
           call.on('close', () => {
             video.remove()
+            
+            if(document.getElementById(call.peer)){
+
+              document.getElementById(call.peer).remove();
+            }
+
           })
 
 
@@ -92,11 +98,14 @@ export class VideoChat extends React.Component {
 
       call.on('stream', userVideoStream => {
 
-        this.addVideoStream(video, userVideoStream)   
+        this.addVideoStream(video, userVideoStream, userId)   
       })
 
       call.on('close', () => {
           video.remove()
+          if(document.getElementById(userId)){
+            document.getElementById(userId).remove();
+          }
       })
 
       this.peers[userId] = call
@@ -107,7 +116,7 @@ export class VideoChat extends React.Component {
      
     }
 
-    addVideoStream(video, stream,) {
+    addVideoStream(video, stream, userId=null) {
 
       video.srcObject = stream 
       video.addEventListener('loadedmetadata', () => {
@@ -118,14 +127,23 @@ export class VideoChat extends React.Component {
 
       // console.log(call, stream)
       
+      if(!this.state.ids.includes(userId)){
+        debugger
+        this.state.ids.push(userId)
+        
+        let s = document.createElement('p');
+        s.innerHTML = this.props.friends[userId];
+        s.className = "friend-video-username";
+        s.setAttribute("id", userId)
+        this.videoGrid.current.appendChild(s);
+      }
+
       this.videoGrid.current.appendChild(video)
     }
 
     leaveMeeting(){
 
-  
         // window.location.reload();
-       
         const video = document.querySelector('video');
   
         const mediaStream = video.srcObject;
@@ -142,9 +160,9 @@ export class VideoChat extends React.Component {
       return (
         <div>
             <h1>{this.props.room}</h1>
-            <div id="video-grid" ref={this.videoGrid} >
-                {myVideo}
+            <div id="videos-container" ref={this.videoGrid} >
                 <p className="video-username"> {this.props.user.username}</p>
+                {myVideo}
             </div>
             
             <button onClick={this.leaveMeeting}>Leave Meeting</button>
