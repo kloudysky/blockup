@@ -109,6 +109,9 @@ a.msg-link {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    max-width: 1160px;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   video {
@@ -124,20 +127,23 @@ a.msg-link {
     background-size: 100px 100px;
     background-repeat: no-repeat;
     background-position: center;
+
 }
 
 
   .video-username{
-      position: absolute;
-      font-size: 28px;
-      margin-top: 88px;
-      margin-right: 750px;
+    position: relative;
+    margin-top: 88px;
+    /* margin-left: 200px; */
+    font-size: 28px;
+    left: 150px;
      
   }
 
   .friend-video-username{
-    position: absolute;
+    position: relative;
     margin-top: 88px;
-    margin-left: 200px;
+    /* margin-left: 200px; */
     font-size: 28px;
+    left: 150px;
   }
