@@ -1,4 +1,4 @@
-import React, { useImperativeHandle } from "react";
+import React from "react";
 import openSocket from "socket.io-client";
 import Peer from 'peerjs';
 
@@ -128,7 +128,7 @@ export class VideoChat extends React.Component {
       // console.log(call, stream)
       
       if(!this.state.ids.includes(userId)){
-        debugger
+
         this.state.ids.push(userId)
         
         let s = document.createElement('p');
