@@ -16,7 +16,9 @@ export class ChatBody extends Component {
   handleTime(dateTime) {
         let oldDate = new Date(Date.parse(dateTime));
         let currentDate = new Date();
-        let dayDiff = oldDate.getDate() - currentDate.getDate();
+        let dayDiff = currentDate.getDate() - oldDate.getDate();
+        let monthDiff = currentDate.getMonth() - oldDate.getMonth();
+        let yearDiff = currentDate.getFullYear() - oldDate.getFullYear();
 
         let year = oldDate.getFullYear() % 100;
         let month = oldDate.getMonth() + 1;
@@ -24,12 +26,12 @@ export class ChatBody extends Component {
         let hours = oldDate.getHours() > 12 ? oldDate.getHours() - 12 : oldDate.getHours();
         let minutes = oldDate.getMinutes();
 
-        if (dayDiff > 1) {
-            return `${month}/${day}/${year} at ${hours}:${minutes}`
-        } else if (dayDiff === 1) {
-            return `Yesterday at ${hours}:${minutes}`
+        if (dayDiff === 0 && monthDiff === 0 && yearDiff === 0) {
+          return `Today at ${hours}:${minutes}`
+        } else if (dayDiff === 1 && monthDiff === 0 && yearDiff === 0) {
+          return `Yesterday at ${hours}:${minutes}`
         } else {
-            return `Today at ${hours}:${minutes}`
+          return `${month}/${day}/${year} at ${hours}:${minutes}`
         }
     }
 
