@@ -1,5 +1,6 @@
 import React from "react";
-import {Link} from "react-router-dom"
+import {Link} from "react-router-dom";
+import openSocket from "socket.io-client";
 
 class Friendship extends React.Component {
   constructor(props) {
@@ -12,6 +13,11 @@ class Friendship extends React.Component {
       pageInfo:{},
     };
 
+    this.socket = openSocket("http://localhost:5000", {
+      transports: ["websocket"],
+    });
+
+
     this.sendFriendsRequest = this.sendFriendsRequest.bind(this);
     this.acceptRequest = this.acceptRequest.bind(this);
     this.updateInput =  this.updateInput.bind(this);
@@ -21,12 +27,22 @@ class Friendship extends React.Component {
   }
 
   componentDidMount() {
+
+    this.socket.on("friend request", ()=>{
+
+
+      console.log("friendReq----- coming")
+    })
     
-    this.props.fetchFriendRequests(this.props.user.id) 
+    
+    this.props.fetchFriendRequests(this.props.user.id).then((friendRequest)=>{
+  
+    })
     this.props.fetchFriendships(this.props.user.id).then((friendship)=>{
       
     })
-    
+
+
   }
 
   updateInput(e) {
@@ -40,9 +56,9 @@ class Friendship extends React.Component {
     e.preventDefault()
     this.props.makeFriendRequest({senderId: this.props.user.id, receiverId: this.state.receiverId})
     this.setState({
-      receiverId: ""
+      receiverId: "",
     })
-    
+    // this.socket.emit("friend request");
   }
 
   acceptRequest(friendRequest){
@@ -75,10 +91,14 @@ class Friendship extends React.Component {
     }
   }
 
-  handleUnfriend(friendship_id){
+  handleUnfriend(ids){
     return()=>{
-      this.props.deleteFriendship(friendship_id).then(()=>{
-        // this.props.destroyRoom((friendship_id))
+      this.props.deleteFriendship(ids[0]).then(()=>{
+        Object.values(this.props.rooms).forEach((ele)=>{
+          if(ele.members.length === 2 && ele.members.every(o => ids.slice(1).includes(o))){
+            this.props.destroyRoom((ele._id))
+          }
+        })
       })
     }
   }
@@ -94,7 +114,7 @@ class Friendship extends React.Component {
                       <p className="friend-page-username">😃 {friendship.friend1._id === this.props.user.id ? friendship.friend2.username : friendship.friend1.username}</p>
                       <p className="friend-page-lastest-msg">This is last message holder for the lastest conversation between two people, need to pull from message</p>
                       <Link to={`/`} className="msg-link">✉️ </Link>
-                      <button className="unfriend" onClick={this.handleUnfriend(friendship._id)}>❌</button>
+                      <button className="unfriend" onClick={this.handleUnfriend([friendship._id,friendship.friend1._id,friendship.friend2._id])}>❌</button>
                   </div>
                 ))}
           </div>
@@ -151,7 +171,7 @@ class Friendship extends React.Component {
     const username = this.props.user.username
 
       return(
-        <div>
+        <div className="friends-container">
           <p className="friends-title">{username[0].toUpperCase() + username.slice(1)}'s Friends</p>
           <div className="inner-container">
             {friends}

@@ -60,6 +60,7 @@ io.on("connection", (socket) => {
       console.log(" server disconnect**************************")
       socket.broadcast.to(roomId).emit('user-disconnected', userId)
     })
+    
   })
 
   socket.on("join room", (room) => {
