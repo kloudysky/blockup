@@ -9,7 +9,8 @@ const mapStateToProps = (state) => {
   return {
     user: state.session.user,
     friendships: state.friendships,
-    friendRequests: state.friendRequests
+    friendRequests: state.friendRequests,
+    rooms: state.rooms
   };
 };
 

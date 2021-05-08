@@ -17,11 +17,13 @@ const RoomsReducer = (state = {}, action) => {
       action.rooms.forEach((room) => {
         roomsObj[room._id] = room;
       });
-      const newState = Object.assign({}, nextState, roomsObj);
-      return newState;
+      // const newState = Object.assign({}, nextState, roomsObj);
+      // return newState;
+      return roomsObj;
     case RECEIVE_SINGLE_ROOM:
       return action.room;
     case DELETE_ROOM:
+      debugger
       delete nextState[action.room._id];
       return nextState;
     default:

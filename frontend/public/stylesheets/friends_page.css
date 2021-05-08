@@ -1,3 +1,23 @@
+body{ 
+    background: #dadbd3;
+    height: 100%;
+}  
+
+  #root{
+    background: #dadbd3;
+    /* height: 100%; */
+    /* height: auto; */
+  }
+
+.friends-container{
+    width: 80%;
+    background-color: #ededed;
+    margin: 100px auto;
+    padding-bottom: 100px;
+    padding-right: 0;
+    box-shadow: -1px 4px 20px -6px rgb(0 0 0 / 75%);
+}
+
 .friends-title{
     font-size: 28px;
     margin: 35px;
@@ -147,3 +167,4 @@ a.msg-link {
     font-size: 28px;
     left: 150px;
   }
+

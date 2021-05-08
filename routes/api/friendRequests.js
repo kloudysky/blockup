@@ -10,7 +10,6 @@ const User = require('../../models/User');
 router.post('/new' , (req, res) => {
     const {errors, isValid} = validateFriendRequestInput(req.body);
 
-
     if (!isValid) {
         return res.status(400).json(errors);
     }
@@ -24,19 +23,23 @@ router.post('/new' , (req, res) => {
     friendRequest.save().then(friendRequest =>  {
         FriendRequest.findById(friendRequest._id)
         .populate('senderId','username').populate('receiverId','username')
-        .then(friendRequest => res.json(friendRequest ))
-    } ) 
+        .then(friendRequest => {
+      
+            res.json(friendRequest)
+        })
+        socket.emit("friend request");
+    }) 
 }); 
 
 router.get('/:friend_id', (req, res) => {
     // Friendship.find({friend1: req.params.friend_id})
     FriendRequest.find({$or: [{senderId: req.params.friend_id}, {receiverId: req.params.friend_id}]})
         .populate('senderId','username').populate('receiverId','username')
-        .then(friendRequests => res.json(friendRequests ))
-        .catch(err =>
-            res.status(404).json({ noFriendRequestfound: 'No friendRequest found from this user' }
-        )
-    );
+        .then(friendRequests => res.json(friendRequests))
+        // .catch(err =>
+        //     res.status(404).json({ noFriendRequestfound: 'No friendRequest found from this user' }
+        // )
+    // );
 });
 
 
