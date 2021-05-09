@@ -29,6 +29,7 @@ const io = require("socket.io")(http, {
   },
 });
 const Message = require("./models/Message");
+const { Socket } = require("dgram");
 
 mongoose
   .connect(db, { useNewUrlParser: true })
@@ -47,8 +48,11 @@ app.use("/api/messages", messages);
 app.use("/api/friendships", friendships);
 app.use("/api/friendRequests", friendRequests);
 
+let socketList = []
 io.on("connection", (socket) => {
   app.locals.socket = socket;
+  socketList.push(socket.id)
+  console.log("*********", socket.id, "********")
 
   socket.on('join video chat', (roomId, userId) => {
   
@@ -61,6 +65,13 @@ io.on("connection", (socket) => {
       socket.broadcast.to(roomId).emit('user-disconnected', userId)
     })
     
+  })
+
+  socket.on("friend request",(id)=>{
+
+    console.log("friend **************")
+    console.log(id, "**************")
+    // soc.emit('friend request received')
   })
 
   socket.on("join room", (room) => {

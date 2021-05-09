@@ -26,8 +26,8 @@ router.post('/new' , (req, res) => {
         .then(friendRequest => {
       
             res.json(friendRequest)
+            // socket.emit("friend request");
         })
-        socket.emit("friend request");
     }) 
 }); 
 
