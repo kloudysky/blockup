@@ -21,11 +21,12 @@ export class SideRoomIndex extends Component {
   componentDidMount() {
     const id = this.props.user.id;
     // debugger;
-    this.props.fetchUserRooms(id);
     this.props.fetchFriends(id);
-    if (this.props.rooms.length > 0) {
-      this.props.setActiveRoom(this.props.rooms[0]._id);
-    }
+    this.props.fetchUserRooms(id).then(()=>{
+      if (this.props.rooms.length > 0) {
+        this.props.setActiveRoom(this.props.rooms[0]._id);
+      }
+    })
   }
 
   createRoom(){

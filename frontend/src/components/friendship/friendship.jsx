@@ -28,7 +28,7 @@ class Friendship extends React.Component {
 
   componentDidMount() {
 
-    this.socket.on("friend request", ()=>{
+    this.socket.on("friend request received", ()=>{
 
 
       console.log("friendReq----- coming")
@@ -46,7 +46,7 @@ class Friendship extends React.Component {
   }
 
   updateInput(e) {
-    // return (e) =>
+
       this.setState({
         receiverId: e.target.value,
       });
@@ -54,11 +54,13 @@ class Friendship extends React.Component {
 
   sendFriendsRequest(e){
     e.preventDefault()
-    this.props.makeFriendRequest({senderId: this.props.user.id, receiverId: this.state.receiverId})
-    this.setState({
-      receiverId: "",
-    })
-    // this.socket.emit("friend request");
+    this.props.makeFriendRequest({senderId: this.props.user.id, receiverId: this.state.receiverId}).then(()=>{
+ 
+      this.socket.emit("friend request", this.state.receiverId);
+      this.setState({
+        receiverId: "",
+      })
+    }) 
   }
 
   acceptRequest(friendRequest){

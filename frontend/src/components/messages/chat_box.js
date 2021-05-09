@@ -20,7 +20,7 @@ export class ChatBox extends React.Component {
   }
 
   componentDidMount() {
-    if(this.props.activeRoom !== null){
+    if(this.props.activeRoom !== null && this.props.activeRoom !== undefined ){
 
       this.socket.emit("join room", this.props.activeRoom._id || "null");
     }
