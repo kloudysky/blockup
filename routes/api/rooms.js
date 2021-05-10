@@ -44,7 +44,7 @@ router.get("/:id", (req, res) => {
 
 router.post("/new", (req, res) => {
   // const { errors, isValid } = validateRoomNameInput(req.body);
-  // debugger;
+  ;
   // if (!isValid) {
   //   return res.status(400).json(errors);
   // }

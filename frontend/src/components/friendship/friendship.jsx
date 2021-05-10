@@ -7,12 +7,14 @@ class Friendship extends React.Component {
     super(props);
     this.state = {
       receiverId: '',
+      
       cannotAddSelf: '',
       cannotBeenEmpty: '',
       cannotFindUser: '',
       pageInfo:{},
     };
 
+    this.senderIds = [];
     this.socket = openSocket("http://localhost:5000", {
       transports: ["websocket"],
     });
@@ -28,18 +30,24 @@ class Friendship extends React.Component {
 
   componentDidMount() {
 
-    this.socket.on("friend request received", ()=>{
-
-
-      console.log("friendReq----- coming")
-    })
-    
-    
     this.props.fetchFriendRequests(this.props.user.id).then((friendRequest)=>{
   
     })
     this.props.fetchFriendships(this.props.user.id).then((friendship)=>{
       
+    })
+    
+
+    this.socket.on("friend request received", (data)=>{
+
+      if(data.receiver_id === this.props.user.id && this.senderIds.indexOf(data.sender_id) === -1){
+    
+        this.senderIds.push(data.sender_id)
+   
+        console.log(data.receiver + ", "+ data.sender + " sent you a friend request.")
+        alert(data.receiver + ", "+ data.sender + " sent you a friend request. ");
+        this.props.fetchFriendRequests(this.props.user.id)
+      }
     })
 
 
@@ -55,8 +63,9 @@ class Friendship extends React.Component {
   sendFriendsRequest(e){
     e.preventDefault()
     this.props.makeFriendRequest({senderId: this.props.user.id, receiverId: this.state.receiverId}).then(()=>{
- 
-      this.socket.emit("friend request", this.state.receiverId);
+
+      this.socket.emit("friend request", {id: this.state.receiverId, sender_id: this.props.user.id,sender_username: this.props.user.username});
+
       this.setState({
         receiverId: "",
       })
