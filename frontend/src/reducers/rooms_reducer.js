@@ -24,7 +24,6 @@ const RoomsReducer = (state = {}, action) => {
     case RECEIVE_SINGLE_ROOM:
       return action.room;
     case DELETE_ROOM:
-      debugger
       delete nextState[action.room._id];
       return nextState;
     case RECEIVE_USER_LOGOUT:

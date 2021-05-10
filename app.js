@@ -29,7 +29,6 @@ const io = require("socket.io")(http, {
   },
 });
 const Message = require("./models/Message");
-const { Socket } = require("dgram");
 
 mongoose
   .connect(db, { useNewUrlParser: true })
@@ -48,11 +47,11 @@ app.use("/api/messages", messages);
 app.use("/api/friendships", friendships);
 app.use("/api/friendRequests", friendRequests);
 
-let socketList = []
+let socketList = {}
 io.on("connection", (socket) => {
+  console.log("testingggggggggggggg", socket.id )
   app.locals.socket = socket;
-  socketList.push(socket.id)
-  console.log("*********", socket.id, "********")
+
 
   socket.on('join video chat', (roomId, userId) => {
   
@@ -61,21 +60,55 @@ io.on("connection", (socket) => {
     socket.to(roomId).emit('user-connected', userId)
 
     socket.on("disconnect", () => {
-      console.log(" server disconnect**************************")
+      console.log("peerjs server disconnect**************************")
       socket.broadcast.to(roomId).emit('user-disconnected', userId)
     })
     
   })
 
-  socket.on("friend request",(id)=>{
+  socket.on("disconnect", () => {
+    console.log(" server disconnect**************************")
+    
+  })
 
+  socket.on("login", (data)=>{
+   
+    socketList[data[0]] = [data[1], socket.id]
+    // socketList.push({ id: data[0], username: data[1], socket: socket.id})
+    console.log("********* login", socketList, "********")
+  })
+
+  socket.on("logout", (data)=>{
+    if( data in socketList){
+      delete socketList[data]
+    }
+    // socketList.push({ id: data[0], username: data[1], socket: socket.id})
+    console.log("********* logout", socket.id, "********")
+    console.log("********* logout", socketList, "********")
+  })
+
+  socket.on("friend request",(data)=>{
+     let id = data.id
+     console.log(socketList)
+
+      if( id in socketList){
+        console.log(socketList[id][1],"-------------")
+        socket.broadcast.emit("friend request received", {receiver_id: id,receiver: socketList[id][0], sender_id: data.sender_id,sender: data.sender_username})
+        // socket.broadcast.to(socketList[id][1]).emit("friend request received", {receiver: socketList[id][0], sender: data.sender_username})
+      }
+
+    // socketList.forEach((soc=>{
+    //   if(soc.id === data.id){
+    //     soc.socket.emit("friend request received", {receiver: soc.username, sender: data.sender_username})
+    //   }
+    // }))
     console.log("friend **************")
     console.log(id, "**************")
-    // soc.emit('friend request received')
+   
   })
 
   socket.on("join room", (room) => {
-    console.log("ROOM ID", "------");
+    console.log("ROOM ID", "------", socket.id);
     console.log(room);
     socket.join(room);
   });
