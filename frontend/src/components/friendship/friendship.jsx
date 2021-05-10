@@ -7,14 +7,13 @@ class Friendship extends React.Component {
     super(props);
     this.state = {
       receiverId: '',
-      
       cannotAddSelf: '',
       cannotBeenEmpty: '',
       cannotFindUser: '',
       pageInfo:{},
     };
 
-    this.senderIds = [];
+    // this.senderIds = [];
     this.socket = openSocket("http://localhost:5000", {
       transports: ["websocket"],
     });
@@ -36,21 +35,6 @@ class Friendship extends React.Component {
     this.props.fetchFriendships(this.props.user.id).then((friendship)=>{
       
     })
-    
-
-    this.socket.on("friend request received", (data)=>{
-
-      if(data.receiver_id === this.props.user.id && this.senderIds.indexOf(data.sender_id) === -1){
-    
-        this.senderIds.push(data.sender_id)
-   
-        console.log(data.receiver + ", "+ data.sender + " sent you a friend request.")
-        alert(data.receiver + ", "+ data.sender + " sent you a friend request. ");
-        this.props.fetchFriendRequests(this.props.user.id)
-      }
-    })
-
-
   }
 
   updateInput(e) {
@@ -188,7 +172,7 @@ class Friendship extends React.Component {
             {friends}
             <div className="right-container">
               <form className="add-friend" onSubmit={this.sendFriendsRequest}>
-                <input className="put-friend-id" onChange={this.updateInput} placeholder="Enter your friend id" type="text"/>
+                <input className="put-friend-id" onChange={this.updateInput} placeholder="Enter your friend id" type="text" value={this.state.receiverId}/>
                 <button className="add-btn">➕</button>
               </form>
               {friendRequests}
