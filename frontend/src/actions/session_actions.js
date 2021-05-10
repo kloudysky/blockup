@@ -59,12 +59,17 @@ export const login = (user) => (dispatch) =>
 
 // We wrote this one earlier
 export const logout = () => (dispatch) => {
-  const decoded = jwt_decode(localStorage.jwtToken);
+
+  if(localStorage.jwtToken){
+
+    const decoded = jwt_decode(localStorage.jwtToken);
+    socket.emit("logout", decoded.id)
+  }
 
   localStorage.removeItem("jwtToken");
   APIUtil.setAuthToken(false);
   
-  socket.emit("logout", decoded.id)
+  
   dispatch(logoutUser());
 };
 
