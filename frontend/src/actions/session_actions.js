@@ -59,7 +59,7 @@ export const login = (user) => (dispatch) =>
 
 // We wrote this one earlier
 export const logout = () => (dispatch) => {
-
+  
   if(localStorage.jwtToken){
 
     const decoded = jwt_decode(localStorage.jwtToken);

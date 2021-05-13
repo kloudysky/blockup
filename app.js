@@ -50,6 +50,7 @@ app.use("/api/friendRequests", friendRequests);
 let socketList = {}
 io.on("connection", (socket) => {
   console.log("testingggggggggggggg", socket.id )
+  console.log(socketList)
   app.locals.socket = socket;
 
 
@@ -79,6 +80,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on("logout", (data)=>{
+    console.log("********* logout", data)
     if( data in socketList){
       delete socketList[data]
     }
@@ -88,12 +90,12 @@ io.on("connection", (socket) => {
   })
 
   socket.on("friend request",(data)=>{
-     let id = data.id
+     let id = data.receiver_id;
      console.log(socketList)
 
       if( id in socketList){
         console.log(socketList[id][1],"-------------")
-        socket.broadcast.emit("friend request received", {receiver_id: id,receiver: socketList[id][0], sender_id: data.sender_id,sender: data.sender_username})
+        socket.broadcast.emit("friend request received", {receiver_id: id, receiver: socketList[id][0], sender_id: data.sender_id, sender: data.sender_username})
         // socket.broadcast.to(socketList[id][1]).emit("friend request received", {receiver: socketList[id][0], sender: data.sender_username})
       }
 
@@ -105,6 +107,14 @@ io.on("connection", (socket) => {
     console.log("friend **************")
     console.log(id, "**************")
    
+  })
+
+  socket.on("accepted friend request", (data)=>{
+    let id = data.sender_id;
+    if( id in socketList){
+      console.log(socketList[id][1],"-------------")
+      socket.broadcast.emit("friend request accepted", {receiver_id: data.receiver_id, sender_id: data.sender_id})
+    }
   })
 
   socket.on("join room", (room) => {

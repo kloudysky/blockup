@@ -165,12 +165,13 @@ export class VideoChat extends React.Component {
       return (
         <div>
             <h1>{this.props.room}</h1>
+            <button className="leave-meeting" onClick={this.leaveMeeting}>Leave Meeting</button>
             <div id="videos-container" ref={this.videoContainer} >
                 <p className="video-username"> {this.props.user.username}</p>
                 {myVideo}
             </div>
             
-            <button onClick={this.leaveMeeting}>Leave Meeting</button>
+           
         </div>
       )
   }

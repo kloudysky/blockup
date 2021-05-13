@@ -16,7 +16,7 @@ import FriendshipContainer from "./friendship/friendship_container";
 import WebApp from "./web_app";
 import profile_container from "./profile/profile_container";
 import VideoContainer from './video_chat/video_chat_container';
-import WebAppContainer from "./web_app_container";
+// import WebAppContainer from "./web_app_container";
 
 const App = () => (
   <div className="app">

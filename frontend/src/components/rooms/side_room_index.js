@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import UiReducer from "../../reducers/ui_reducer";
+// import UiReducer from "../../reducers/ui_reducer";
 import SideRoomItem from "./side_room_item";
-import openSocket from "socket.io-client";
+// import openSocket from "socket.io-client";
 import { BsPlusCircleFill } from "react-icons/bs";
-const { useState } = React;
+// const { useState } = React;
 
 export class SideRoomIndex extends Component {
   constructor(props) {
@@ -23,13 +23,21 @@ export class SideRoomIndex extends Component {
     ;
     this.props.fetchFriends(id);
     this.props.fetchUserRooms(id).then(()=>{
-      if (this.props.rooms.length > 0) {
-        this.props.setActiveRoom(this.props.rooms[0]._id).then(()=>{
-          this.props.fetchRoomMessages(this.props.rooms[0]._id)
-        });
-        
+      if(this.props.activeRoom === -1 || this.props.activeRoom === undefined) {
+        if(this.props.rooms.length > 0){
+          this.props.setActiveRoom(this.props.rooms[0]._id).then(
+            ()=>{this.props.fetchRoomMessages(this.props.rooms[0]._id)}
+          );
+        }
+  
       }
-    })
+
+      if(this.props.activeRoom && this.props.activeRoom !== -1){
+        this.props.fetchRoomMessages(this.props.activeRoom._id)
+      }
+
+      }
+    )
   }
 
   createRoom(){
@@ -66,7 +74,7 @@ export class SideRoomIndex extends Component {
     if (this.props.friends) {
       friends = this.props.friends.map((friend) => {
         return (
-            <label className="friend-label" for={friend.id}><input type="checkbox" key={friend.id} value={friend.id} id={friend.id} />{friend.username}</label>
+            <label className="friend-label" htmlFor={friend.id} key={friend.id}><input type="checkbox" key={friend.id} value={friend.id} id={friend.id} />{friend.username}</label>
         );
       });
     }

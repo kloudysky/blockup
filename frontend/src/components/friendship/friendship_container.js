@@ -3,6 +3,7 @@ import { fetchFriendships, fetchFriendRequests, createFriendship, makeFriendRequ
 import Friendship from "./friendship";
 import {composeRoom, deleteUserRoom, fetchUserRooms} from '../../actions/room_actions';
 import { fetchRoomMessages } from "../../actions/message_actions";
+import { fetchActiveRoom } from "../../actions/ui_actions";
 
 const mapStateToProps = (state) => {
   
@@ -26,6 +27,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchUserRooms: (id) => dispatch(fetchUserRooms(id)),
     fetchRoomMessages: (roomId) => dispatch(fetchRoomMessages(roomId)),
     destroyRoom: (id) => dispatch(deleteUserRoom(id)),
+    setActiveRoom: (id) => dispatch(fetchActiveRoom(id)),
   };
 };
 

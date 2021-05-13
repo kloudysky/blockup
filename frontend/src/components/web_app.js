@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import ChatBoxContainer from "./messages/chat_box_container";
 import SideRoomIndexContainer from "./rooms/side_room_index_container";
 
