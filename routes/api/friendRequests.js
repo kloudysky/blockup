@@ -14,21 +14,41 @@ router.post('/new' , (req, res) => {
         return res.status(400).json(errors);
     }
 
-    const friendRequest = new FriendRequest({
-        senderId: req.body.senderId,
-        receiverId: req.body.receiverId
+    User.find({_id: req.body.receiverId}, (err, docs)=>{
+        if (docs.length > 0){
+            console.log("docs.length",docs)
+            const friendRequest = new FriendRequest({
+                senderId: req.body.senderId,
+                receiverId: req.body.receiverId
+            })
+        
+            // friendRequest.save().then(friendRequest => res.json(friendRequest))
+            friendRequest.save().then(friendRequest =>  {
+                FriendRequest.findById(friendRequest._id)
+                .populate('senderId','username').populate('receiverId','username')
+                .then(friendRequest => {
+                    res.json(friendRequest)
+                })
+            }) 
+        }else{
+            console.log("err: ",docs)
+            return  res.status(404).json({ idCannotfound: 'Entered id cannot be found' })
+        }
     })
 
-    // friendRequest.save().then(friendRequest => res.json(friendRequest))
-    friendRequest.save().then(friendRequest =>  {
-        FriendRequest.findById(friendRequest._id)
-        .populate('senderId','username').populate('receiverId','username')
-        .then(friendRequest => {
-      
-            res.json(friendRequest)
-            // socket.emit("friend request");
-        })
-    }) 
+    // const friendRequest = new FriendRequest({
+    //     senderId: req.body.senderId,
+    //     receiverId: req.body.receiverId
+    // })
+
+    // // friendRequest.save().then(friendRequest => res.json(friendRequest))
+    // friendRequest.save().then(friendRequest =>  {
+    //     FriendRequest.findById(friendRequest._id)
+    //     .populate('senderId','username').populate('receiverId','username')
+    //     .then(friendRequest => {
+    //         res.json(friendRequest)
+    //     })
+    // }) 
 }); 
 
 router.get('/:friend_id', (req, res) => {

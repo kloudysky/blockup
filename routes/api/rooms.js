@@ -8,6 +8,8 @@ const RoomMember = require("../../models/RoomMember");
 
 router.get("/user/:user_id", (req, res) => {
      Room.find({"members": {_id: req.params.user_id}})
+      .populate('messages')
+    //  Room.find({"messages": {_id: req.params.user_id}})
 
   // Room.find({
   //   $or: [{ members: { $elemMatch: { id: req.params.user_id } } }],
@@ -44,7 +46,7 @@ router.get("/:id", (req, res) => {
 
 router.post("/new", (req, res) => {
   // const { errors, isValid } = validateRoomNameInput(req.body);
-  ;
+  // ;
   // if (!isValid) {
   //   return res.status(400).json(errors);
   // }
@@ -55,7 +57,7 @@ router.post("/new", (req, res) => {
     name: name,
     img_url: req.body.img_url || "",
     members: otherMembers,
-    messages: [],
+    messages: [], 
   });
 
   newRoom

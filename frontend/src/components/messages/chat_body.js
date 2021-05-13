@@ -39,7 +39,7 @@ export class ChatBody extends Component {
     const room = this.props.room;
     const messages = this.props.messages;
     //newMessages is the array of new messages sent in from created messages
-    let newMessages = this.props.newMessages || [];    
+    // let newMessages = this.props.newMessages || [];    
 
     if (room && room.messages) {
       return messages.map((message) => (

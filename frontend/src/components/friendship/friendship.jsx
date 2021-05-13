@@ -1,5 +1,4 @@
 import React from "react";
-import {Link} from "react-router-dom";
 import openSocket from "socket.io-client";
 
 class Friendship extends React.Component {
@@ -8,9 +7,10 @@ class Friendship extends React.Component {
     this.state = {
       receiverId: '',
       cannotAddSelf: '',
-      cannotBeenEmpty: '',
+      cannotBeEmpty: '',
+      lengthTooShort: '',
+      lengthTooLong: '',
       cannotFindUser: '',
-      pageInfo:{},
     };
 
     // this.senderIds = [];
@@ -35,6 +35,14 @@ class Friendship extends React.Component {
     this.props.fetchFriendships(this.props.user.id).then((friendship)=>{
       
     })
+
+    this.socket.on("friend request accepted", (data )=>{
+      if(data.sender_id === this.props.user.id){
+        this.props.fetchFriendRequests(this.props.user.id).then(()=>{
+          this.props.fetchFriendships(this.props.user.id)
+        })
+      }
+    })
   }
 
   updateInput(e) {
@@ -46,14 +54,61 @@ class Friendship extends React.Component {
 
   sendFriendsRequest(e){
     e.preventDefault()
-    this.props.makeFriendRequest({senderId: this.props.user.id, receiverId: this.state.receiverId}).then(()=>{
+    let errs = 0;
+    let addSelf = '';
+    let beEmpty = '';
+    let tooShort ='';
+    let tooLong ='';
+    let findUser ='';
 
-      this.socket.emit("friend request", {id: this.state.receiverId, sender_id: this.props.user.id,sender_username: this.props.user.username});
+    if (this.state.receiverId === this.props.user.id) {
+      addSelf = <p className="id-error">Friend id cannot be your id </p>
+      errs++;
+    }
 
-      this.setState({
-        receiverId: "",
-      })
-    }) 
+    if (this.state.receiverId === "") {
+      beEmpty = <p className="id-error">Friend id cannot be empty </p>
+      errs++;
+    }
+
+    if (this.state.receiverId.length < 24) {
+      tooShort = <p className="id-error">Friend id cannot be short than 24 digit </p>
+      errs++;
+    }
+
+    if (this.state.receiverId.length > 24) {
+      tooLong = <p className="id-error">Friend id cannot be longer than 24 digit </p>
+      errs++;
+    }
+
+    this.setState({
+      cannotAddSelf: addSelf ,
+      cannotBeEmpty: beEmpty,
+      lengthTooShort: tooShort,
+      lengthTooLong: tooLong,
+      cannotFindUser: findUser
+    })
+    
+    if(errs === 0){
+      this.props.makeFriendRequest({senderId: this.props.user.id, receiverId: this.state.receiverId}).then(()=>{
+
+        this.socket.emit("friend request", {receiver_id: this.state.receiverId, sender_id: this.props.user.id,sender_username: this.props.user.username});
+        this.setState({
+          receiverId: "",
+        })
+      }, (res)=>{
+
+        if(res.response.data.idCannotfound  === "Entered id cannot be found"){
+          findUser = <p className="id-error">Entered id cannot be found </p>
+          this.setState({
+            // cannotAddSelf: this.state.cannotAddSelf ,
+            // cannotBeEmpty: this.state.cannotBeEmpty,
+            // lengthTooShort: this.state.lengthTooShort,
+            cannotFindUser: findUser
+          })
+        }
+      }) 
+    }
   }
 
   acceptRequest(friendRequest){
@@ -62,7 +117,7 @@ class Friendship extends React.Component {
       .then(()=>{
         this.props.createFriendship(
         {friend1: friendRequest.senderId._id , 
-        friend2: friendRequest.receiverId._id})}).then((res)=>{
+        friend2: friendRequest.receiverId._id})}).then(()=>{
 
      const user = {
         id: friendRequest.receiverId._id,
@@ -75,6 +130,8 @@ class Friendship extends React.Component {
       };
 
       this.props.createRoom(room);
+        }).then(()=>{
+          this.socket.emit("accepted friend request", {receiver_id: friendRequest.receiverId._id, sender_id: friendRequest.senderId._id});
         })
     }
   }
@@ -90,7 +147,7 @@ class Friendship extends React.Component {
     return()=>{
       this.props.deleteFriendship(ids[0]).then(()=>{
         Object.values(this.props.rooms).forEach((ele)=>{
-          if(ele.members.length === 2 && ele.members.every(o => ids.slice(1).includes(o))){
+          if(ele.members.length === 2 && ele.members.every(member => ids.slice(1).includes(member))){
             this.props.destroyRoom((ele._id))
           }
         })
@@ -98,17 +155,29 @@ class Friendship extends React.Component {
     }
   }
 
+  handleRoom(ids){
+    return()=>{
+        Object.values(this.props.rooms).forEach((ele)=>{
+          if(ele.members.length === 2 && ele.members.every(member => ids.includes(member))){
+            this.props.setActiveRoom((ele._id)).then(()=>{
+              this.props.history.push('/')
+            })
+          }
+        })
+    }
+  }
+
 
   render(){
    
-     
       let friends = (
         <div className="all-friends">
                 {Object.values(this.props.friendships).map((friendship,idx)=>(
                   <div className="individual-msg" key={idx}>
                       <p className="friend-page-username">😃 {friendship.friend1._id === this.props.user.id ? friendship.friend2.username : friendship.friend1.username}</p>
                       <p className="friend-page-lastest-msg">This is last message holder for the lastest conversation between two people, need to pull from message</p>
-                      <Link to={`/`} className="msg-link">✉️ </Link>
+                      {/* <Link to={`/`} className="msg-link">✉️ </Link> */}
+                      <button onClick={this.handleRoom([friendship.friend1._id,friendship.friend2._id])} className="msg-button">✉️ </button>
                       <button className="unfriend" onClick={this.handleUnfriend([friendship._id,friendship.friend1._id,friendship.friend2._id])}>❌</button>
                   </div>
                 ))}
@@ -171,6 +240,11 @@ class Friendship extends React.Component {
           <div className="inner-container">
             {friends}
             <div className="right-container">
+              {this.state.cannotAddSelf}
+              {this.state.cannotBeEmpty}
+              {this.state.lengthTooShort}
+              {this.state.lengthTooLong}
+              {this.state.cannotFindUser}
               <form className="add-friend" onSubmit={this.sendFriendsRequest}>
                 <input className="put-friend-id" onChange={this.updateInput} placeholder="Enter your friend id" type="text" value={this.state.receiverId}/>
                 <button className="add-btn">➕</button>

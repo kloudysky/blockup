@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../../logo_transparent.png";
+// import logo from "../../logo_transparent.png";
 import openSocket from "socket.io-client";
 
 class NavBar extends React.Component {
@@ -41,7 +41,7 @@ class NavBar extends React.Component {
         setTimeout(()=>{ this.setState({
           receiver: "",
           sender: ""
-        }) }, 3000);
+        }) }, 5000);
       }
     })
   }
