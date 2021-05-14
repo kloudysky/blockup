@@ -32,6 +32,7 @@ export class ChatBox extends React.Component {
 
 
   handleSubmit(e) {
+    
     e.preventDefault();
     const msg = {
       content: this.state.content,

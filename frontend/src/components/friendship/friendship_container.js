@@ -6,12 +6,22 @@ import { fetchRoomMessages } from "../../actions/message_actions";
 import { fetchActiveRoom } from "../../actions/ui_actions";
 
 const mapStateToProps = (state) => {
+  let rooms2 = {}
+  Object.values(state.rooms).forEach((room)=>{
+    if(room.members.length === 2){
+      let key = room.members[0] === state.session.user.id ? room.members[1] : room.members[0]
+      let value = room.messages.length > 0 ? room.messages.slice(-1)[0].content : 'No conversation yet !'
+      rooms2[key] = value
+    }
+    
+  })
   
   return {
     user: state.session.user,
     friendships: state.friendships,
     friendRequests: state.friendRequests,
-    rooms: state.rooms
+    rooms: state.rooms,
+    roomsFor2: rooms2
   };
 };
 

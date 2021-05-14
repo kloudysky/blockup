@@ -36,6 +36,8 @@ class Friendship extends React.Component {
       
     })
 
+    this.props.fetchUserRooms(this.props.user.id)
+
     this.socket.on("friend request accepted", (data )=>{
       if(data.sender_id === this.props.user.id){
         this.props.fetchFriendRequests(this.props.user.id).then(()=>{
@@ -101,9 +103,6 @@ class Friendship extends React.Component {
         if(res.response.data.idCannotfound  === "Entered id cannot be found"){
           findUser = <p className="id-error">Entered id cannot be found </p>
           this.setState({
-            // cannotAddSelf: this.state.cannotAddSelf ,
-            // cannotBeEmpty: this.state.cannotBeEmpty,
-            // lengthTooShort: this.state.lengthTooShort,
             cannotFindUser: findUser
           })
         }
@@ -157,13 +156,44 @@ class Friendship extends React.Component {
 
   handleRoom(ids){
     return()=>{
-        Object.values(this.props.rooms).forEach((ele)=>{
-          if(ele.members.length === 2 && ele.members.every(member => ids.includes(member))){
-            this.props.setActiveRoom((ele._id)).then(()=>{
-              this.props.history.push('/')
-            })
-          }
+        // Object.values(this.props.rooms).forEach((ele)=>{
+        //   if(ele.members.length === 2 && ele.members.every(member => ids.slice(-2).includes(member))){
+        //               
+        //     this.props.setActiveRoom((ele._id)).then(()=>{
+        //     this.props.history.push('/')
+        //     })
+        //   }
+        // })
+        const rooms = Object.values(this.props.rooms).filter((ele)=>{
+          return (ele.members.length === 2 && ele.members.every(member => ids.slice(0,2).includes(member)))
+      
         })
+
+
+        if(rooms.length > 0){
+
+          this.props.setActiveRoom((rooms[0]._id)).then(()=>{
+          this.props.history.push('/')
+          })
+        }else{
+
+          const user = {
+            id: ids[1],
+            username: ids[3]
+          };
+          const room = {
+            name: ids[2] + " & " +  ids[3],
+            user: user,
+            members: [{_id: ids[0]} ]
+          };
+    
+          this.props.createRoom(room).then(()=>{
+
+            this.handleRoom(ids)()
+          })
+
+        }
+       
     }
   }
 
@@ -175,9 +205,9 @@ class Friendship extends React.Component {
                 {Object.values(this.props.friendships).map((friendship,idx)=>(
                   <div className="individual-msg" key={idx}>
                       <p className="friend-page-username">😃 {friendship.friend1._id === this.props.user.id ? friendship.friend2.username : friendship.friend1.username}</p>
-                      <p className="friend-page-lastest-msg">This is last message holder for the lastest conversation between two people, need to pull from message</p>
+                      <p className="friend-page-lastest-msg">{this.props.roomsFor2[friendship.friend1._id === this.props.user.id ? friendship.friend2._id : friendship.friend1._id]}</p>
                       {/* <Link to={`/`} className="msg-link">✉️ </Link> */}
-                      <button onClick={this.handleRoom([friendship.friend1._id,friendship.friend2._id])} className="msg-button">✉️ </button>
+                      <button onClick={this.handleRoom([friendship.friend1._id,friendship.friend2._id,friendship.friend1.username, friendship.friend2.username])} className="msg-button">✉️ </button>
                       <button className="unfriend" onClick={this.handleUnfriend([friendship._id,friendship.friend1._id,friendship.friend2._id])}>❌</button>
                   </div>
                 ))}
