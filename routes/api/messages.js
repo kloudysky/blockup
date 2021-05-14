@@ -49,7 +49,11 @@ router.post(
       Room.findOneAndUpdate(
         { _id: req.body.room },
         { $push: { messages: result._id } }
-      );
+        , {new: true, useFindAndModify: false} )
+        // , useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true 
+        .then(a=>{ console.log(req.body.room,result._id,a, "ooooooooo")})
+        
+
       Message.find({ _id: result._id })
         .populate("author", "username")
         .then((message) => {

@@ -41,6 +41,7 @@ body{
 .friend-page-lastest-msg{
     width: 80%;
     color: black;
+    font-family: cursive;
 }
 
 a.msg-link {

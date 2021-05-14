@@ -17,7 +17,6 @@ const mDTP = (dispatch, ownProps) => {
   return {
     fetchRoomMessages: (roomId) => dispatch(fetchRoomMessages(roomId)),
     createMessage: (message) => dispatch(createMessage(message)),
-    getMessages: (roomId) => dispatch(fetchRoomMessages),
   };
 };
 
