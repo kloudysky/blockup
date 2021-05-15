@@ -6,14 +6,23 @@ import { fetchRoomMessages } from "../../actions/message_actions";
 import { fetchActiveRoom } from "../../actions/ui_actions";
 
 const mapStateToProps = (state) => {
-  let rooms2 = {}
+  let rooms2 = {};
   Object.values(state.rooms).forEach((room)=>{
     if(room.members.length === 2){
       let key = room.members[0] === state.session.user.id ? room.members[1] : room.members[0]
       let value = room.messages.length > 0 ? room.messages.slice(-1)[0].content : 'No conversation yet !'
       rooms2[key] = value
     }
-    
+  })
+
+  let userFriends = [];
+  Object.values(state.friendships).forEach((friendship)=>{
+    userFriends.push(friendship.friend1._id === state.session.user.id ? friendship.friend2._id : friendship.friend1._id)
+  })
+
+  let userRequests = [];
+  Object.values(state.friendRequests).forEach((friendRequest)=>{
+    userRequests.push(friendRequest.receiverId._id === state.session.user.id ? friendRequest.senderId._id : friendRequest.receiverId._id)
   })
   
   return {
@@ -21,7 +30,9 @@ const mapStateToProps = (state) => {
     friendships: state.friendships,
     friendRequests: state.friendRequests,
     rooms: state.rooms,
-    roomsFor2: rooms2
+    roomsFor2: rooms2,
+    friends: userFriends,
+    requests: userRequests
   };
 };
 

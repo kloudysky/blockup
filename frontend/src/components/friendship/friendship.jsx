@@ -11,6 +11,8 @@ class Friendship extends React.Component {
       lengthTooShort: '',
       lengthTooLong: '',
       cannotFindUser: '',
+      cannotRequestAgain: '',
+      cannotFriendAgain: '',
     };
 
     // this.senderIds = [];
@@ -60,6 +62,10 @@ class Friendship extends React.Component {
     let tooShort ='';
     let tooLong ='';
     let findUser ='';
+    let requestAgain = '';
+    let friendAgain = '';
+
+ 
 
     if (this.state.receiverId === this.props.user.id) {
       addSelf = <p className="id-error">Friend id cannot be your id </p>
@@ -81,12 +87,24 @@ class Friendship extends React.Component {
       errs++;
     }
 
+    if(this.props.friends.includes(this.state.receiverId)){
+      friendAgain = <p className="id-error">Cannot add an existing friend </p>
+      errs++;
+    }
+
+    if(this.props.requests.includes(this.state.receiverId)){
+      friendAgain = <p className="id-error">An friend request with this id is received/sent </p>
+      errs++;
+    }
+
     this.setState({
       cannotAddSelf: addSelf ,
       cannotBeEmpty: beEmpty,
       lengthTooShort: tooShort,
       lengthTooLong: tooLong,
-      cannotFindUser: findUser
+      cannotFindUser: findUser,
+      cannotRequestAgain: requestAgain,
+      cannotFriendAgain: friendAgain,
     })
     
     if(errs === 0){
@@ -275,6 +293,8 @@ class Friendship extends React.Component {
               {this.state.lengthTooShort}
               {this.state.lengthTooLong}
               {this.state.cannotFindUser}
+              {this.state.cannotRequestAgain}
+              {this.state.cannotFriendAgain}
               <form className="add-friend" onSubmit={this.sendFriendsRequest}>
                 <input className="put-friend-id" onChange={this.updateInput} placeholder="Enter your friend id" type="text" value={this.state.receiverId}/>
                 <button className="add-btn">➕</button>
