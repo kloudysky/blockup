@@ -133,12 +133,12 @@ export class VideoChat extends React.Component {
         this.videoContainer.current.appendChild(video)
         
         if(!document.getElementById(userId)){
-        let s = document.createElement('p');
-        s.innerHTML = this.props.friends[userId];
-        s.className = "friend-video-username";
-        s.setAttribute("id", userId)
+        let pTag = document.createElement('p');
+        pTag.innerHTML = this.props.friends[userId] ? this.props.friends[userId] : "not a freind";
+        pTag.className = "friend-video-username";
+        pTag.setAttribute("id", userId)
     
-        this.videoContainer.current.appendChild(s);
+        this.videoContainer.current.appendChild(pTag);
       }
 
       // videos.appendChild(video)

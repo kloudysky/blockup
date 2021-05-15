@@ -9,7 +9,7 @@ export class SideRoomIndex extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: this.props.user,
+      less2peope: "",
       name: "",
       members: [],
     };
@@ -41,8 +41,24 @@ export class SideRoomIndex extends Component {
   }
 
   createRoom(){
-    this.props.createRoom(this.state);
-    this.closeModal();
+
+
+
+    if(this.state.members.length > 1 && this.state.name !== ""){
+      const user = {
+        id: this.props.user.id,
+        username: this.props.user.username
+      };
+  
+      const room = {
+        name: this.state.name,
+        user: user,
+        members: this.state.members
+      };
+  
+      this.props.createRoom(room);
+      this.closeModal();
+    }
   }
 
   openModal() {
@@ -56,16 +72,26 @@ export class SideRoomIndex extends Component {
   }
 
   update(field) {
-    if (field === "name") {
-      return (e) =>
-        this.setState({
-          name: e.currentTarget.value,
-        });
-    } else {
-      return (e) =>
-        this.setState({
-          members: [...this.state.members, e.currentTarget.value],
-        });
+
+    return(e)=> {
+
+    
+      if (field === "name") {
+
+        // return (e) =>{
+            this.setState({
+              name: e.currentTarget.value,
+            });
+        // }
+      } else {
+    
+        // return (e) =>{
+            this.setState({
+              members: [...this.state.members, {_id: e.currentTarget.value}],
+            });
+        // }
+      }
+
     }
   }
 
@@ -74,7 +100,7 @@ export class SideRoomIndex extends Component {
     if (this.props.friends) {
       friends = this.props.friends.map((friend) => {
         return (
-            <label className="friend-label" htmlFor={friend.id} key={friend.id}><input type="checkbox" key={friend.id} value={friend.id} id={friend.id} />{friend.username}</label>
+            <label className="friend-label" htmlFor={friend.id} key={friend.id}><input type="checkbox" key={friend.id} value={friend.id} id={friend.id} onChange={this.update("members")} />{friend.username}</label>
         );
       });
     }
@@ -99,7 +125,7 @@ export class SideRoomIndex extends Component {
               placeholder="Room name"
               onChange={this.update("name")}>
             </input>
-            <div className="all-friends" onChange={this.update("members")}>
+            <div className="all-friends" >
               {friends}
             </div>
             <input
@@ -107,6 +133,8 @@ export class SideRoomIndex extends Component {
               type="submit"
               value="Create Room"
             ></input>
+            <p className="room-notes">Note: this room will only be created if it has more than two members including yourself. Create/enter rooms for only 2 members, please go to the friends page 👥 and click ✉️ </p>
+    
           </form>
 
         </div>

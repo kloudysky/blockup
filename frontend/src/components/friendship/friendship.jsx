@@ -29,19 +29,17 @@ class Friendship extends React.Component {
 
   componentDidMount() {
 
-    this.props.fetchFriendRequests(this.props.user.id).then((friendRequest)=>{
-  
-    })
-    this.props.fetchFriendships(this.props.user.id).then((friendship)=>{
-      
-    })
-
+    
+    this.props.fetchFriendRequests(this.props.user.id)
+    this.props.fetchFriendships(this.props.user.id)
     this.props.fetchUserRooms(this.props.user.id)
 
     this.socket.on("friend request accepted", (data )=>{
       if(data.sender_id === this.props.user.id){
         this.props.fetchFriendRequests(this.props.user.id).then(()=>{
-          this.props.fetchFriendships(this.props.user.id)
+          this.props.fetchFriendships(this.props.user.id).then(()=>{
+            this.props.fetchUserRooms(this.props.user.id)
+          })
         })
       }
     })
@@ -131,6 +129,8 @@ class Friendship extends React.Component {
       this.props.createRoom(room);
         }).then(()=>{
           this.socket.emit("accepted friend request", {receiver_id: friendRequest.receiverId._id, sender_id: friendRequest.senderId._id});
+        }).then(()=>{
+          this.props.fetchUserRooms(this.props.user.id)
         })
     }
   }
