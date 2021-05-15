@@ -7,6 +7,8 @@ const passport = require("passport");
 const User = require("../../models/User");
 const keys = require("../../config/keys");
 
+const Friendship = require('../../models/Friendship');
+
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 
@@ -67,6 +69,23 @@ router.post("/register", (req, res) => {
                   });
                 }
               );
+
+              const friendship = new Friendship({
+                friend1: "609f003d7530ea29b8755850",
+                friend2: user._id
+              })
+
+              friendship.save()
+
+              const newRoom = new Room({
+                name: "blockup assistant && user.username",
+                img_url: req.body.img_url || "",
+                members: [{_id:"609f003d7530ea29b8755850"}, {_id:user._id}],
+                messages: [], 
+              });
+            
+              newRoom.save()
+       
               res.json({ user });
             })
             .catch((err) => console.log(err));

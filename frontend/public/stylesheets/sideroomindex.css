@@ -53,6 +53,16 @@
   color: white;
 }
 
+#modal > p.room-notes{
+  color: greenyellow;
+  margin-bottom: 17px;
+  font-size: 13px;
+  padding: 6px;
+  border-bottom: thin solid black;
+  width: 500px;
+  margin-left: 60px;
+}
+
 #modal > input{
   margin: 6px;
   border-radius: 3px;
@@ -87,6 +97,8 @@
   background-color: red;
   cursor: pointer;
 }
+
+
 
 .submit-room{
   margin: 6px;

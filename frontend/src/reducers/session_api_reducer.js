@@ -18,14 +18,26 @@ const SessionAPIReducer = (state = initialState, action) => {
     case RECEIVE_CURRENT_USER:
       console.log("SESSION API REDUCER");
       let isAuthenticated = false;
+      
+      let currentUser = action.currentUser
+      if(action.currentUser._id){
+        
+        currentUser["id"] = action.currentUser._id
+        
+        delete currentUser["_id"]
+        
+      }
+
+      
       if (Object.values(action.currentUser).length > 0) {
         isAuthenticated = true;
       }
+      
       return {
         ...state,
         isAuthenticated: isAuthenticated,
         isVerified: action.currentUser.verified,
-        user: action.currentUser,
+        user: currentUser,
       };
   
     case RECEIVE_USER_LOGOUT:
@@ -35,6 +47,7 @@ const SessionAPIReducer = (state = initialState, action) => {
         user: undefined,
       };
     case RECEIVE_USER_SIGN_IN:
+      
       return {
         ...state,
         isSignedIn: true,
