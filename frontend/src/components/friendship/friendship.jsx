@@ -15,7 +15,6 @@ class Friendship extends React.Component {
       cannotFriendAgain: '',
     };
 
-    // this.senderIds = [];
     this.socket = openSocket("http://localhost:5000", {
       transports: ["websocket"],
     });
@@ -23,10 +22,7 @@ class Friendship extends React.Component {
 
     this.sendFriendsRequest = this.sendFriendsRequest.bind(this);
     this.acceptRequest = this.acceptRequest.bind(this);
-    this.updateInput =  this.updateInput.bind(this);
-    // this.createRoom = this.createRoom.bind(this);
-    // this.acceptAndCreate = this.acceptAndCreate(this);
-   
+    this.updateInput =  this.updateInput.bind(this);   
   }
 
   componentDidMount() {
@@ -37,7 +33,9 @@ class Friendship extends React.Component {
     this.props.fetchUserRooms(this.props.user.id)
 
     this.socket.on("friend request accepted", (data )=>{
+
       if(data.sender_id === this.props.user.id){
+
         this.props.fetchFriendRequests(this.props.user.id).then(()=>{
           this.props.fetchFriendships(this.props.user.id).then(()=>{
             this.props.fetchUserRooms(this.props.user.id)
@@ -45,6 +43,23 @@ class Friendship extends React.Component {
         })
       }
     })
+
+    this.socket.on("friend request cancelled", (data )=>{
+      
+      if(data.socket_receiver_id === this.props.user.id){
+        
+        this.props.fetchFriendRequests(this.props.user.id)
+      }
+    })
+
+    this.socket.on("unfriend received", (data )=>{
+      
+      if(data.socket_receiver_id === this.props.user.id){
+        
+        this.props.fetchFriendships(this.props.user.id)
+      }
+    })
+
   }
 
   updateInput(e) {
@@ -68,7 +83,7 @@ class Friendship extends React.Component {
  
 
     if (this.state.receiverId === this.props.user.id) {
-      addSelf = <p className="id-error">Friend id cannot be your id </p>
+      addSelf = <p className="id-error">Friend id cannot be your user id </p>
       errs++;
     }
 
@@ -78,12 +93,12 @@ class Friendship extends React.Component {
     }
 
     if (this.state.receiverId.length < 24) {
-      tooShort = <p className="id-error">Friend id cannot be short than 24 digit </p>
+      tooShort = <p className="id-error">Friend id cannot be short than 24 digits </p>
       errs++;
     }
 
     if (this.state.receiverId.length > 24) {
-      tooLong = <p className="id-error">Friend id cannot be longer than 24 digit </p>
+      tooLong = <p className="id-error">Friend id cannot be longer than 24 digits </p>
       errs++;
     }
 
@@ -93,7 +108,7 @@ class Friendship extends React.Component {
     }
 
     if(this.props.requests.includes(this.state.receiverId)){
-      friendAgain = <p className="id-error">An friend request with this id is received/sent </p>
+      friendAgain = <p className="id-error">An friend request with this id is received/sent already</p>
       errs++;
     }
 
@@ -146,17 +161,27 @@ class Friendship extends React.Component {
 
       this.props.createRoom(room);
         }).then(()=>{
-          this.socket.emit("accepted friend request", {receiver_id: friendRequest.receiverId._id, sender_id: friendRequest.senderId._id});
-        }).then(()=>{
+          
+          this.socket.emit("accepted friend request", {receiver_id: this.props.user.id, sender_id: friendRequest.senderId._id});
           this.props.fetchUserRooms(this.props.user.id)
         })
     }
   }
 
 
-  cancelRequest(friendRequest_id){
+  cancelRequest(friendRequest){
     return ()=>{
-      this.props.deleteFriendRequest(friendRequest_id)
+      this.props.deleteFriendRequest(friendRequest[0])
+      .then(()=>{
+        if(friendRequest[1] === "sent"){
+          
+          this.socket.emit("cancel friend request", {id: this.props.user.id, socket_receiver_id: friendRequest[2]});
+        }else{
+          
+          this.socket.emit("cancel friend request", {socket_receiver_id: friendRequest[2], id: this.props.user.id});
+        }
+
+      })
     }
   }
 
@@ -164,11 +189,18 @@ class Friendship extends React.Component {
     return()=>{
       this.props.deleteFriendship(ids[0]).then(()=>{
         Object.values(this.props.rooms).forEach((ele)=>{
-          if(ele.members.length === 2 && ele.members.every(member => ids.slice(1).includes(member))){
+           
+          if(ele.members.length === 2 && ele.members.every(member => ids.slice(1).includes(member._id))){
             this.props.destroyRoom((ele._id))
           }
         })
+      }).then(()=>{
+
+        const socket_id = ids[1] === this.props.user.id ? ids[2] : ids[1]
+        this.socket.emit("unfriend", {socket_receiver_id: socket_id, id: this.props.user.id});
+
       })
+
     }
   }
 
@@ -183,8 +215,8 @@ class Friendship extends React.Component {
         //   }
         // })
         const rooms = Object.values(this.props.rooms).filter((ele)=>{
-          return (ele.members.length === 2 && ele.members.every(member => ids.slice(0,2).includes(member)))
-      
+           
+          return (ele.members.length === 2 && ele.members.every(member => ids.slice(0,2).includes(member._id)))
         })
 
 
@@ -225,8 +257,12 @@ class Friendship extends React.Component {
                       <p className="friend-page-username">😃 {friendship.friend1._id === this.props.user.id ? friendship.friend2.username : friendship.friend1.username}</p>
                       <p className="friend-page-lastest-msg">{this.props.roomsFor2[friendship.friend1._id === this.props.user.id ? friendship.friend2._id : friendship.friend1._id]}</p>
                       {/* <Link to={`/`} className="msg-link">✉️ </Link> */}
-                      <button onClick={this.handleRoom([friendship.friend1._id,friendship.friend2._id,friendship.friend1.username, friendship.friend2.username])} className="msg-button">✉️ </button>
-                      <button className="unfriend" onClick={this.handleUnfriend([friendship._id,friendship.friend1._id,friendship.friend2._id])}>❌</button>
+                      <button onClick={this.handleRoom([friendship.friend1._id,friendship.friend2._id,friendship.friend1.username, friendship.friend2.username])} className="msg-button">✉️ 
+                        <span className="msgtext">Enter/Create the room with your friend {friendship.friend1._id === this.props.user.id ? friendship.friend2.username : friendship.friend1.username}</span>
+                      </button>
+                      <button className="unfriend" onClick={this.handleUnfriend([friendship._id,friendship.friend1._id,friendship.friend2._id])}>❌
+                        <span className="unfriendtext">Delete your friend {friendship.friend1._id === this.props.user.id ? friendship.friend2.username : friendship.friend1.username}</span>
+                      </button>
                   </div>
                 ))}
           </div>
@@ -254,7 +290,7 @@ class Friendship extends React.Component {
             <div key={idx}>
               <p>📥 {friendReq.senderId.username}</p>
                 <button onClick={this.acceptRequest(friendReq)}>Accept</button>
-                <button onClick={this.cancelRequest(friendReq._id)}>Delete</button>
+                <button onClick={this.cancelRequest([friendReq._id, "received", friendReq.senderId._id])}>Delete</button>
             </div>
           ))}
         </div>
@@ -264,16 +300,14 @@ class Friendship extends React.Component {
     let sentRequests;
 
     if (friend_sent.length > 0){     
-
       sentRequests = (
-        
         <div className ="request-sender">
         <p className="all-requests">Requests Sent</p>
           {friend_sent.map((req,idx)=>(
             <div key={idx}>
               <p>📤 {req.receiverId.username}</p>
               {/* <button onClick={(e)=>{this.props.deleteFriendRequest(e)}}>Cancel</button> */}
-              <button onClick={this.cancelRequest(req._id)}>Cancel</button>
+              <button onClick={this.cancelRequest([req._id,"sent",req.receiverId._id])}>Cancel</button>
             </div>
           ))}
       </div>
@@ -295,10 +329,12 @@ class Friendship extends React.Component {
               {this.state.cannotFindUser}
               {this.state.cannotRequestAgain}
               {this.state.cannotFriendAgain}
+              <p className="add-friend-p">Add Friend</p>
               <form className="add-friend" onSubmit={this.sendFriendsRequest}>
                 <input className="put-friend-id" onChange={this.updateInput} placeholder="Enter your friend id" type="text" value={this.state.receiverId}/>
                 <button className="add-btn">➕</button>
               </form>
+              <p className="add-friend-note">Note: Your friend id is your friend's user id which can be found in his/her profile page. Also, you can find it in the room page 💬 by clicking MEMBERS if you are in the room with this user. </p>
               {friendRequests}
               {sentRequests}
 

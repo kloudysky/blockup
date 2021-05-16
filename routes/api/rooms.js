@@ -8,10 +8,13 @@ const RoomMember = require("../../models/RoomMember");
 
 router.get("/user/:user_id", (req, res) => {
      Room.find({"members": {_id: req.params.user_id}})
-     .populate({
-      path: "messages",
-      // populate: { path: "author username" },
-    })
+     .populate( "members", "_id username")
+     .populate("messages", "content -_id")
+     
+    //  {
+    // path: "messages",
+    // populate: { path: "author username" },
+  // }
   // Room.find({
   //   $or: [{ members: { $elemMatch: { id: req.params.user_id } } }],
   // })

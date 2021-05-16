@@ -25,12 +25,9 @@ class NavBar extends React.Component {
     this.socket.on("friend request received", (data)=>{
 
       if(data.receiver_id === this.props.currentUser.id && this.senderIds.indexOf(data.sender_id) === -1){
-    
         this.senderIds.push(data.sender_id)
-   
         console.log(data.receiver + ", "+ data.sender + " sent you a friend request.")
         // alert(data.receiver + ", "+ data.sender + " sent you a friend request. ");
-
         this.props.fetchFriendRequests(this.props.currentUser.id)
 
         this.setState({
@@ -44,6 +41,36 @@ class NavBar extends React.Component {
         }) }, 5000);
       }
     })
+
+    this.socket.on("friend request cancelled", (data)=>{
+
+      const socket_receiver_index = this.senderIds.indexOf(data.socket_receiver_id);
+      const id_index = this.senderIds.indexOf(data.id);
+
+      if (socket_receiver_index > -1) {
+        this.senderIds.splice(id_index, 1);
+      }
+
+      if (id_index > -1) {
+        this.senderIds.splice(id_index, 1);
+      }
+    })
+
+    this.socket.on("unfriend received", (data)=>{
+
+      const socket_receiver_index = this.senderIds.indexOf(data.socket_receiver_id);
+      const id_index = this.senderIds.indexOf(data.id);
+
+      if (socket_receiver_index > -1) {
+        this.senderIds.splice(id_index, 1);
+      }
+
+      if (id_index > -1) {
+        this.senderIds.splice(id_index, 1);
+      }
+    })
+
+
   }
 
   logoutUser(e) {
@@ -56,6 +83,12 @@ class NavBar extends React.Component {
     if (this.props.loggedIn) {
       if (this.props.verified) {
         return (
+          <div>
+  
+            <Link to={"/developers"} id="developers-icon-after-signin">
+              Meet Our Developers
+            </Link>
+
           <div className="top-nav-bar">
             <Link to={"/profile"}>Profile</Link>
             <Link to={"/friends"} className="friend-icon">
@@ -66,15 +99,21 @@ class NavBar extends React.Component {
             </Link>
             <button onClick={this.logoutUser}>Logout</button>
 
+
+
             <p className="notification">{this.state.receiver !== "" ? "🔔 " +this.state.receiver + ", "+ this.state.sender + " sent you a friend request." : null}</p>
           
           </div>
+        </div>
         );
       } else {
         return (
           <div>
             <Link to={"/twoFASetup"}>Setup 2FA</Link>
             <button onClick={this.logoutUser}>Logout</button>
+            <Link to={"/developers"} id="developers-icon">
+              Meet Our Developers
+            </Link>
           </div>
         );
       }
@@ -84,6 +123,9 @@ class NavBar extends React.Component {
           <div className="nav-signup-login">
             <Link to={"/signup"}>Signup</Link>
             <Link to={"/login"}>Login</Link>
+            <Link to={"/developers"} id="developers-icon">
+              Meet Our Developers
+            </Link>
           </div>
         </div>
       );

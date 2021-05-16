@@ -99,11 +99,6 @@ io.on("connection", (socket) => {
         // socket.broadcast.to(socketList[id][1]).emit("friend request received", {receiver: socketList[id][0], sender: data.sender_username})
       }
 
-    // socketList.forEach((soc=>{
-    //   if(soc.id === data.id){
-    //     soc.socket.emit("friend request received", {receiver: soc.username, sender: data.sender_username})
-    //   }
-    // }))
     console.log("friend **************")
     console.log(id, "**************")
    
@@ -112,8 +107,24 @@ io.on("connection", (socket) => {
   socket.on("accepted friend request", (data)=>{
     let id = data.sender_id;
     if( id in socketList){
-      console.log(socketList[id][1],"-------------")
+      console.log(socketList[id],"-------------")
       socket.broadcast.emit("friend request accepted", {receiver_id: data.receiver_id, sender_id: data.sender_id})
+    }
+  })
+
+  socket.on("cancel friend request", (data)=>{
+    let id = data.socket_receiver_id;
+    if( id in socketList){
+      console.log(socketList[id],"-------------")
+      socket.broadcast.emit("friend request cancelled", {socket_receiver_id: data.socket_receiver_id, id: data.id})
+    }
+  })
+
+  socket.on("unfriend", (data)=>{
+    let id = data.socket_receiver_id;
+    if( id in socketList){
+      console.log(socketList[id],"-------------")
+      socket.broadcast.emit("unfriend received", {socket_receiver_id: data.socket_receiver_id, id: data.id})
     }
   })
 
