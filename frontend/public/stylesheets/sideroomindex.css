@@ -18,6 +18,12 @@
 
 .sidebar-header-left > .fa-user-circle {
   font-size: 40px;
+ 
+}
+
+.user-icon-link> .fa-user-circle {
+  font-size: 40px;
+  margin-top: 6px;
 }
 
 .sidebar-header-right {

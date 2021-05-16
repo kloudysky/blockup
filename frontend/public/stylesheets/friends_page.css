@@ -13,6 +13,7 @@ body{
     width: 80%;
     background-color: #ededed;
     margin: 100px auto;
+    margin-top: 50px;
     padding-bottom: 100px;
     padding-right: 0;
     box-shadow: -1px 4px 20px -6px rgb(0 0 0 / 75%);
@@ -27,7 +28,8 @@ body{
 .individual-msg{
     display: flex;
     width: 68%;
-    height: 70px;
+    height: auto;
+
     margin: auto;
     padding-top: 20px;
     border-bottom: 1px grey solid;
@@ -59,10 +61,40 @@ a.msg-link {
     margin-top: 5px;
     font-size: 26px;
     margin-left: 20px;
+    cursor: pointer;
+    position: relative;
 }
 
+.msg-button:hover{
+    background-color: #c7c5c5;
+}
+
+
+.msg-button .msgtext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #c7c5c5;
+    color: red;
+    font-size: 11px;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    right: 105%;
+  }
+
+  .msg-button:hover .msgtext {
+    visibility: visible;
+    
+  }
+
 .right-container{
-    margin-left: auto;
+    /* margin-left: auto; */
+    margin-left: 45px;
 }
 
 .request-receiver{
@@ -113,7 +145,40 @@ a.msg-link {
     margin-top: 10px;
     border: none;
     margin-left: 20px;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
 }
+
+.unfriend:hover{
+    background-color: #c7c5c5;
+}
+
+
+.unfriend .unfriendtext {
+    visibility: hidden;
+    width: max-content;
+    background-color: #c7c5c5;
+    color: red;
+    font-size: 11px;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 3px;
+    
+    margin-top: 4px;
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    left: 105%;
+  }
+
+  .unfriend:hover .unfriendtext  {
+    visibility: visible;
+    background-color: #c7c5c5;
+  }
+
+
+
 
 .add-friend{
     margin: 10px;
@@ -130,9 +195,30 @@ a.msg-link {
 
 .add-btn{
     font-size: 12px;
+    cursor: pointer;
+}
+
+button{
+    cursor: pointer;
 }
 
 .id-error{
     font-size: 12px;
-    color: red;
+    color: red;    
+    padding-bottom: 0px;
 }
+
+.add-friend-p{
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 0px;
+}
+
+.add-friend-note{
+    font-size: 11px;
+    color: #a49b9b;
+    padding-top: 0px;
+    width: 260px;
+}
+
+

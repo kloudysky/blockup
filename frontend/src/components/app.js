@@ -1,4 +1,5 @@
 import React from "react";
+import { Route } from "react-router-dom";
 import {
   AuthRoute,
   ProtectedRoute,
@@ -16,12 +17,14 @@ import FriendshipContainer from "./friendship/friendship_container";
 import WebApp from "./web_app";
 import profile_container from "./profile/profile_container";
 import VideoContainer from './video_chat/video_chat_container';
+import Developers from './meet_developers/developers';
 // import WebAppContainer from "./web_app_container";
 
 const App = () => (
   <div className="app">
     <NavBarContainer />
     <Switch>
+      <Route exact path="/developers" component={Developers}/>
       <AuthRoute exact path="/" component={MainPage} />
       <AuthRoute exact path="/login" component={LoginFormContainer} />
       <AuthRoute exact path="/signup" component={SignupFormContainer} />

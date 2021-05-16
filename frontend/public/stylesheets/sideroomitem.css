@@ -28,8 +28,8 @@
   align-items: center;
   padding: 6px;
   border-radius: 11px;
-  /* margin-left: 340px; */
-  font-size: 14px;
+  border: 1px solid;
+  font-size: 13px;
 }
 
 .destroy-room:hover{

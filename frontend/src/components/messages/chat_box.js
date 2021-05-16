@@ -68,7 +68,8 @@ export class ChatBox extends React.Component {
     return (
       <div className="chat">
         <div className="chat-header">
-          <i className="fas fa-user-circle"></i>
+        <Link to={`/profile`} className="chat-profile-link"> <i className="fas fa-user-circle"></i> </Link>
+          {/* <i className="fas fa-user-circle"></i> */}
           <div className="chat-header-info">
             <h3>{!room ? "no rooms" : room.name}</h3>
             <p>{!room ? "" : room.memebers}</p>

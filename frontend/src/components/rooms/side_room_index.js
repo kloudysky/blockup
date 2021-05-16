@@ -4,6 +4,7 @@ import SideRoomItem from "./side_room_item";
 // import openSocket from "socket.io-client";
 import { BsPlusCircleFill } from "react-icons/bs";
 // const { useState } = React;
+import {Link} from "react-router-dom";
 
 export class SideRoomIndex extends Component {
   constructor(props) {
@@ -110,7 +111,8 @@ export class SideRoomIndex extends Component {
       <div className="sidebar">
         <div className="sidebar-header">
           <div className="sidebar-header-left">
-            <i className="fas fa-user-circle"></i>
+            <Link to={`/profile`} className="user-icon-link"> <i className="fas fa-user-circle"></i> </Link>
+            {/* <i className="fas fa-user-circle"></i> */}
             <h3>{this.props.user.username}</h3>
           </div>
 
@@ -159,6 +161,7 @@ export class SideRoomIndex extends Component {
                 getMessage={this.props.fetchMessage}
                 receiveRoomMessage={this.props.receiveRoomMessage}
                 destroyRoom={this.props.destroyRoom}
+                roomMembers={room.members}
               />
             ))
           ) : (
