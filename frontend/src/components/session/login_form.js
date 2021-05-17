@@ -12,6 +12,7 @@ class LoginForm extends React.Component {
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDemoUser = this.handleDemoUser.bind(this);
     this.renderErrors = this.renderErrors.bind(this);
   }
 
@@ -45,6 +46,16 @@ class LoginForm extends React.Component {
     this.props.login(user);
   }
 
+  handleDemoUser(user){
+
+    return()=>{
+
+      window.open("http://localhost:3000/#/login","newwindow", "width=810, height=800, top=0 left=600")
+      this.props.login(user)
+    }
+
+  }
+
   // Render the session errors if there are any
   renderErrors() {
     return (
@@ -58,32 +69,45 @@ class LoginForm extends React.Component {
 
   render() {
     return (
-      <div className="login-form-container">
-        <h3 className="logo-text">up</h3>
-        <i className="fas fa-cubes"></i>
-        <h3 className="logo-text">block</h3>
-        <form onSubmit={this.handleSubmit}>
-          <div className="signup-form">
-            <input
-              type="text"
-              value={this.state.email}
-              onChange={this.update("email")}
-              placeholder="Email"
-              className="input"
-            />
-            <input
-              type="password"
-              value={this.state.password}
-              onChange={this.update("password")}
-              placeholder="Password"
-              className="input"
-            />
-            <button type="submit" className="btn-session">
-              Login
-            </button>
-            <div className="error-msg">{this.renderErrors()}</div>
-          </div>
-        </form>
+      <div>
+
+        <div className="demo-users">
+          <p>Log in as: </p>
+
+          <button className="demouser1" onClick={this.handleDemoUser({email: "demo_user_1@gmail.com", password: "aaaaaa"})}>demo_user_1</button>
+          <br></br>
+          <button className="demouser2" onClick={this.handleDemoUser({email: "demo_user_2@gmail.com",password: "aaaaaa"})}>demo_user_2</button>
+          
+        </div>
+        
+        <div className="login-form-container">
+
+          <h3 className="logo-text">up</h3>
+          <i className="fas fa-cubes"></i>
+          <h3 className="logo-text">block</h3>
+          <form onSubmit={this.handleSubmit}>
+            <div className="signup-form">
+              <input
+                type="text"
+                value={this.state.email}
+                onChange={this.update("email")}
+                placeholder="Email"
+                className="input"
+              />
+              <input
+                type="password"
+                value={this.state.password}
+                onChange={this.update("password")}
+                placeholder="Password"
+                className="input"
+              />
+              <button type="submit" className="btn-session">
+                Login
+              </button>
+              <div className="error-msg">{this.renderErrors()}</div>
+            </div>
+          </form>
+        </div>
       </div>
     );
   }

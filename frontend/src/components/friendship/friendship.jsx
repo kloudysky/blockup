@@ -251,17 +251,17 @@ class Friendship extends React.Component {
   render(){
    
       let friends = (
-        <div className="all-friends">
+        <div className="friendship-all-friends">
                 {Object.values(this.props.friendships).map((friendship,idx)=>(
                   <div className="individual-msg" key={idx}>
                       <p className="friend-page-username">😃 {friendship.friend1._id === this.props.user.id ? friendship.friend2.username : friendship.friend1.username}</p>
                       <p className="friend-page-lastest-msg">{this.props.roomsFor2[friendship.friend1._id === this.props.user.id ? friendship.friend2._id : friendship.friend1._id]}</p>
                       {/* <Link to={`/`} className="msg-link">✉️ </Link> */}
                       <button onClick={this.handleRoom([friendship.friend1._id,friendship.friend2._id,friendship.friend1.username, friendship.friend2.username])} className="msg-button">✉️ 
-                        <span className="msgtext">Enter/Create the room with your friend {friendship.friend1._id === this.props.user.id ? friendship.friend2.username : friendship.friend1.username}</span>
+                        <span className="msgtext">Enter/Create the room with {friendship.friend1._id === this.props.user.id ? friendship.friend2.username : friendship.friend1.username}</span>
                       </button>
                       <button className="unfriend" onClick={this.handleUnfriend([friendship._id,friendship.friend1._id,friendship.friend2._id])}>❌
-                        <span className="unfriendtext">Delete your friend {friendship.friend1._id === this.props.user.id ? friendship.friend2.username : friendship.friend1.username}</span>
+                        <span className="unfriendtext">Delete {friendship.friend1._id === this.props.user.id ? friendship.friend2.username : friendship.friend1.username}</span>
                       </button>
                   </div>
                 ))}

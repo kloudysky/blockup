@@ -122,11 +122,12 @@ export class SideRoomIndex extends Component {
 
           <form id="modal" onSubmit={this.createRoom} tabIndex="0">
             <div className="close-modal" onClick={this.closeModal}>X</div>
-            <p>Create a new Room</p>
+            <p>Create a new room</p>
             <input
               placeholder="Room name"
               onChange={this.update("name")}>
             </input>
+            <p className="select-friends">Please select at least two friends below: </p>
             <div className="all-friends" >
               {friends}
             </div>

@@ -78,7 +78,7 @@ export class SideRoomItem extends React.Component {
         <div onClick={() => this.getActiveRoom()} className="sidebar-chat">
           <i className="fas fa-user-circle"></i>
           <div className="sidebar-chat-info">
-            <h2>{this.props.name}</h2>
+            <h3>{this.props.name}</h3>
           </div>
           <button className="destroy-room" onClick={() => this.props.destroyRoom(this.props.id)}>delete</button>
           <button className="show-room-members"onClick={this.hanleShowMembers}>members</button>

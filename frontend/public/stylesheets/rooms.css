@@ -45,3 +45,8 @@
     background-color: red;
     font-weight: bold;
   }
+
+  #modal > .select-friends{
+    font-size: 15px;
+    margin-top: 12px;
+  }

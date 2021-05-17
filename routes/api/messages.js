@@ -50,8 +50,7 @@ router.post(
         { _id: req.body.room },
         { $push: { messages: result._id } }
         , {new: true, useFindAndModify: false} )
-        // , useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true 
-        .then(a=>{ console.log(req.body.room,result._id,a, "ooooooooo")})
+        // .then(a=>{ console.log(req.body.room,result._id,a, "ooooooooo")})
         
 
       Message.find({ _id: result._id })

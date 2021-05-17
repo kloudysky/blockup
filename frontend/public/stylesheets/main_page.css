@@ -116,3 +116,16 @@ p {
   font-size: 400px;
   color: #3b3a30;
 }
+
+.demo-users{
+  margin-top: 20px;
+  margin-left: 75%;
+}
+
+.demouser1{
+  margin: 0px 80px;
+}
+
+.demouser2{
+  margin: 10px 80px;
+}
