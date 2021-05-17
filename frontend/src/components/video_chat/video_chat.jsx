@@ -35,14 +35,16 @@ export class VideoChat extends React.Component {
         video: this.props.match.params.isVideo === "true"? true : false, 
         audio: true,
       }).then(stream => {
+
+        const myVideo = document.createElement('video')
          
-        // this.addVideoStream(myVideo , stream)
+        this.addVideoStream(myVideo , stream, this.props.user.id)
       
-        const videoObj = this.videoRef.current;
-        videoObj.srcObject = stream;
-        videoObj.innerHTML = this.props.user.username
-        videoObj.muted = true;
-        videoObj.play();
+        // const videoObj = this.videoRef.current;
+        // videoObj.srcObject = stream;
+        // videoObj.innerHTML = this.props.user.username
+        // videoObj.muted = true;
+        // videoObj.play();
  
         this.myPeer.on('call', call => {
           
@@ -65,8 +67,6 @@ export class VideoChat extends React.Component {
             }
 
           })
-
-
         })
       
         this.socket.on('user-connected', userId => {
@@ -109,10 +109,6 @@ export class VideoChat extends React.Component {
       })
 
       this.peers[userId] = call
-
-      // let s = document.createElement('p')
-      // s.innerHTML = 'hah'
-      // this.videoContainer.current.appendChild(s)
      
     }
 
@@ -123,23 +119,53 @@ export class VideoChat extends React.Component {
         video.play()
       })
 
-      // let div = document.createElement('div');
-      // div.innerHTML = this.props.friends[userId];
-      // this.videoContainer.current.appendChild(div)
-      // const videos = document.getElementById(userId)
+      if(!document.getElementById(userId + "div")){
 
-      // if(!this.state.ids.includes(userId)){
-        // this.state.ids.push(userId)
-        this.videoContainer.current.appendChild(video)
-        
+        let divTag = document.createElement('div');
+        divTag.setAttribute("id", userId + "div")
+        divTag.className = "video-div"
+        // 
+
+       
         if(!document.getElementById(userId)){
-        let pTag = document.createElement('p');
-        pTag.innerHTML = this.props.friends[userId] ? this.props.friends[userId] : "not a freind";
-        pTag.className = "friend-video-username";
-        pTag.setAttribute("id", userId)
-    
-        this.videoContainer.current.appendChild(pTag);
+          let pTag = document.createElement('p');
+          pTag.innerHTML = this.props.room_members[userId]
+          // pTag.innerHTML = this.props.friends[userId] ? this.props.friends[userId] : "not a freind";
+          pTag.className = "friend-video-username";
+          pTag.setAttribute("id", userId)
+      
+          divTag.appendChild(pTag);
+        }
+
+        divTag.appendChild(video)
+      // 
+        this.videoContainer.current.appendChild(divTag)
+        
+      }else{
+        let divContainer = document.getElementById(userId + "div")
+        if(!document.getElementById(userId)){
+          let pTag = document.createElement('p');
+          pTag.innerHTML = this.props.room_members[userId]
+          // pTag.innerHTML = this.props.friends[userId] ? this.props.friends[userId] : "not a freind";
+          pTag.className = "friend-video-username";
+          pTag.setAttribute("id", userId)
+      
+          divContainer.appendChild(pTag);
+        }
+        divContainer.appendChild(video)
+
       }
+
+      //   this.videoContainer.current.appendChild(video)
+        
+      //   if(!document.getElementById(userId)){
+      //   let pTag = document.createElement('p');
+      //   pTag.innerHTML = this.props.friends[userId] ? this.props.friends[userId] : "not a freind";
+      //   pTag.className = "friend-video-username";
+      //   pTag.setAttribute("id", userId)
+    
+      //   this.videoContainer.current.appendChild(pTag);
+      // }
 
       // videos.appendChild(video)
      
@@ -167,8 +193,8 @@ export class VideoChat extends React.Component {
             <h1>{this.props.room}</h1>
             <button className="leave-meeting" onClick={this.leaveMeeting}>Leave Meeting</button>
             <div id="videos-container" ref={this.videoContainer} >
-                <p className="video-username"> {this.props.user.username}</p>
-                {myVideo}
+                {/* <p className="video-username"> {this.props.user.username}</p>
+                {myVideo} */}
             </div>
             
            

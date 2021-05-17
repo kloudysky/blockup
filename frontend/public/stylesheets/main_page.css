@@ -129,3 +129,8 @@ p {
 .demouser2{
   margin: 10px 80px;
 }
+
+.login-noti{
+  font-size: 13px;
+  color: rgb(160, 157, 157);
+}

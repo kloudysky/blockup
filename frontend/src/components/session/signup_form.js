@@ -72,6 +72,8 @@ class SignupForm extends React.Component {
           <button className="demouser1" onClick={this.handleDemoUser({email: "demo_user_1@gmail.com", password: "aaaaaa"})}>demo_user_1</button>
           <br></br>
           <button className="demouser2" onClick={this.handleDemoUser({email: "demo_user_2@gmail.com",password: "aaaaaa"})}>demo_user_2</button>   
+          <p className="login-noti">Note: by clicking demo_user_1, you will log in as demo_user_1, and a new window will pop up, so you can login as demo_user_2 by Clicking the button, or you can log in with your existing account or sign up another account to experience two accounts interaction. The same applies to clicking demo_user_2.</p>
+
         </div>
 
         <div className="signup-form-container">
