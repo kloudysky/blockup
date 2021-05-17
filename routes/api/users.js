@@ -8,6 +8,7 @@ const User = require("../../models/User");
 const keys = require("../../config/keys");
 
 const Friendship = require('../../models/Friendship');
+const FriendRequest = require('../../models/FriendRequest');
 
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
@@ -71,20 +72,43 @@ router.post("/register", (req, res) => {
               );
 
               const friendship = new Friendship({
-                friend1: "609f003d7530ea29b8755850",
+                friend1: "60a275df35220b0c9f8846c7",
                 friend2: user._id
               })
 
               friendship.save()
+              
+              const friendRequest1 = new FriendRequest({
+                senderId: "60a276796cd7290d37467407",
+                receiverId: user._id
+              })
+              
+              friendRequest1.save()
 
-              const newRoom = new Room({
-                name: "blockup assistant && user.username",
+              const friendRequest2 = new FriendRequest({
+                senderId: user._id,
+                receiverId: "60a277231c7ec00d9bf50ff6"
+              })
+              
+              friendRequest2.save()
+
+              const newRoom1 = new Room({
+                name: "Blockup Assistant && " + user.username,
                 img_url: req.body.img_url || "",
-                members: [{_id:"609f003d7530ea29b8755850"}, {_id:user._id}],
+                members: [{_id:"60a275df35220b0c9f8846c7"}, {_id:user._id}],
                 messages: [], 
               });
             
-              newRoom.save()
+              newRoom1.save()
+
+              const newRoom2 = new Room({
+                name: "Blockup Developers && " + user.username,
+                img_url: req.body.img_url || "",
+                members: [{_id:"60633293e2e3a540721cb55d"}, {_id:"60a27af5862e570de3ada7d0"}, {_id:"60a27ba7862e570de3ada7d5"}, {_id:"60a27d57862e570de3ada7da"}, {_id:user._id}],
+                messages: [], 
+              });
+            
+              newRoom2.save()
        
               res.json({ user });
             })

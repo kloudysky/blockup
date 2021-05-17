@@ -50,7 +50,7 @@ app.use("/api/friendRequests", friendRequests);
 let socketList = {}
 io.on("connection", (socket) => {
   console.log("testingggggggggggggg", socket.id )
-  console.log(socketList)
+  console.log("login user: ", socketList)
   app.locals.socket = socket;
 
 

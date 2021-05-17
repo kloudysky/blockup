@@ -25,7 +25,8 @@
 }
 
 .chat-header-info > h3 {
-  margin-bottom: 3px;
+  margin-bottom: -18px;
+  margin-top: 22px;
   font-weight: 500;
 }
 
