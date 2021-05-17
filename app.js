@@ -85,8 +85,8 @@ io.on("connection", (socket) => {
       delete socketList[data]
     }
     // socketList.push({ id: data[0], username: data[1], socket: socket.id})
-    console.log("********* logout", socket.id, "********")
-    console.log("********* logout", socketList, "********")
+    console.log("********* logout", data, "********")
+    console.log("********* login", socketList, "********")
   })
 
   socket.on("friend request",(data)=>{
