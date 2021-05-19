@@ -50,8 +50,22 @@ class LoginForm extends React.Component {
 
     return()=>{
 
-      window.open("http://localhost:3000/#/login","newwindow", "width=810, height=800, top=0 left=600")
-      this.props.login(user)
+      if(user.length === 1){
+        this.props.login(user[0])
+
+      }else{
+      
+        this.props.login(user[1]).then(()=>{
+
+          
+          let newWindow = window.open(window.location.href, "newWindow", "width=810, height=800, top=0 left=600")
+          setTimeout(() => {
+            this.props.login(user[0]).then(this.props.history.push("/profile"))
+          }, 500);
+  
+        })
+
+      }
     }
 
   }
@@ -74,10 +88,14 @@ class LoginForm extends React.Component {
         <div className="demo-users">
           <p>Log in as: </p>
 
-          <button className="demouser1" onClick={this.handleDemoUser({email: "demo_user_1@gmail.com", password: "aaaaaa"})}>demo_user_1</button>
+          <button className="demouser1" onClick={this.handleDemoUser([{email: "demo_user_1@gmail.com", password: "aaaaaa"}])}>demo_user_1</button>
+          <p className="or">or</p>
+          <button className="demouser2" onClick={this.handleDemoUser([{email: "demo_user_2@gmail.com",password: "aaaaaa"}])}>demo_user_2</button>
           <br></br>
-          <button className="demouser2" onClick={this.handleDemoUser({email: "demo_user_2@gmail.com",password: "aaaaaa"})}>demo_user_2</button>
-          <p className="login-noti">Note: by clicking demo_user_1, you will log in as demo_user_1, and a new window will pop up, so you can login as demo_user_2 by Clicking the button, or you can log in with your existing account or sign up another account to experience two accounts interaction. The same applies to clicking demo_user_2 .</p>
+          <p>Log in above two accounts at the same time: </p>
+          <button className="two-accounts" onClick={this.handleDemoUser([{email: "demo_user_1@gmail.com", password: "aaaaaa"},{email: "demo_user_2@gmail.com",password: "aaaaaa"}])}>Click</button>
+         
+          <p className="login-noti">Note: Log in above two accounts at the same time, the original window will load profile page logged in as demo_user_1 and a new pop-up windown will load webpage logged in as demo_user_2. </p>
         </div>
         
         <div className="login-form-container">
@@ -108,6 +126,7 @@ class LoginForm extends React.Component {
             </div>
           </form>
         </div>
+        <p className="login-noti">Note: If you log in without Two-Factor Authentication, you are only able to ask Blockup Assistant for help, or have conversations with Blockup developers. In order to continue using other functionalities, you have to set up your Two-Factor Authentication. A friend request received from Blockup1 and a friend request sent to Blockup2 will show up on your friends page after loging in your account with Two-Factor Authentication. </p>
       </div>
     );
   }

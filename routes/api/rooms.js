@@ -63,10 +63,20 @@ router.post("/new", (req, res) => {
     members: otherMembers,
     messages: [], 
   });
+  // friendship.save().then(friendship =>  {
+//   Friendship.findById(friendship._id)
+//   .populate('friend1','username').populate('friend2','username')
+//   .then(friendship => res.json(friendship ))
+// } ) 
 
   newRoom
   .save()
-  .then((room) => { room.populate('members'); console.log("after pop", room); res.json(room)})
+  // .then((room) => { room.populate('members'); console.log("after pop", room); res.json(room)})
+  .then((room) => {
+    Room.findById(room._id)
+    .populate( "members", "_id username")
+    .then(room1 => res.json(room1))
+  })
   .catch((err) => {
     console.log(err);
     res.status(404).json({

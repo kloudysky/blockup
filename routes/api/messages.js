@@ -49,9 +49,15 @@ router.post(
       Room.findOneAndUpdate(
         { _id: req.body.room },
         { $push: { messages: result._id } }
-        , {new: true, useFindAndModify: false} )
-        // .then(a=>{ console.log(req.body.room,result._id,a, "ooooooooo")})
-        
+        , {new: true, useFindAndModify: false}
+        ,(error, success)=>{
+            if(error){
+              console.log(error,"not append message...............");
+            }else{
+              console.log(success.messages.slice(-1),"appended message...............")
+            }
+          }
+      )
 
       Message.find({ _id: result._id })
         .populate("author", "username")

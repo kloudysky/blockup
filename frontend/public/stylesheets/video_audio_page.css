@@ -39,11 +39,11 @@
 
   .friend-video-username{
     position: relative;
-    /* margin-top: 88px; */
-    /* margin-left: 200px; */
     font-size: 28px;
-    left: 200px;
-    top: 45px;
+    text-align: center;
+    top: 40px;
+    padding: 0px;
+
   }
 
   .leave-meeting{

@@ -127,10 +127,21 @@ p {
 }
 
 .demouser2{
-  margin: 10px 80px;
+  margin: 0px 80px;
+}
+
+.two-accounts{
+  margin: 0px 80px;
+  width: 50px;
 }
 
 .login-noti{
   font-size: 13px;
   color: rgb(160, 157, 157);
+}
+
+.or{
+  font-size: 14px;
+  margin: 0px 120px;
+  padding: 0px;
 }
