@@ -74,7 +74,7 @@ export class ChatBox extends React.Component {
             <h3>{!room ? "no rooms" : room.name}</h3>
             <p>{!room ? "" : room.memebers}</p>
           </div>
-          <div className="chat-header-right">
+          <div className="-right">
           <Link to={ !room ?  "" : `/video/${this.props.activeRoom._id}/true`} className="msg-link"><i className="fas fa-video"></i></Link>
           <Link to={ !room ?  "" : `/video/${this.props.activeRoom._id}/false`} className="msg-link"> <i className="fas fa-phone"></i></Link>
           </div>

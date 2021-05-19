@@ -93,7 +93,7 @@ router.post("/register", (req, res) => {
               friendRequest2.save()
 
               const newRoom1 = new Room({
-                name: "Blockup Assistant && " + user.username,
+                name: "Blockup Assistant & " + user.username,
                 img_url: req.body.img_url || "",
                 members: [{_id:"60a275df35220b0c9f8846c7"}, {_id:user._id}],
                 messages: [], 
@@ -102,7 +102,7 @@ router.post("/register", (req, res) => {
               newRoom1.save()
 
               const newRoom2 = new Room({
-                name: "Blockup Developers && " + user.username,
+                name: "Blockup Developers & " + user.username,
                 img_url: req.body.img_url || "",
                 members: [{_id:"60633293e2e3a540721cb55d"}, {_id:"60a27af5862e570de3ada7d0"}, {_id:"60a27ba7862e570de3ada7d5"}, {_id:"60a27d57862e570de3ada7da"}, {_id:user._id}],
                 messages: [], 

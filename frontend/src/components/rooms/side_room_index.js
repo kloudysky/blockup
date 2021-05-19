@@ -75,24 +75,17 @@ export class SideRoomIndex extends Component {
   update(field) {
 
     return(e)=> {
-
-    
       if (field === "name") {
 
-        // return (e) =>{
             this.setState({
               name: e.currentTarget.value,
             });
-        // }
       } else {
-    
-        // return (e) =>{
+
             this.setState({
               members: [...this.state.members, {_id: e.currentTarget.value}],
             });
-        // }
       }
-
     }
   }
 
