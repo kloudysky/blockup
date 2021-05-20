@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { composeRoom, fetchUserRooms } from "../../actions/room_actions";
+import { composeRoom } from "../../actions/room_actions";
 import Rooms from "./rooms";
 
 const mapStateToProps = (state) => {

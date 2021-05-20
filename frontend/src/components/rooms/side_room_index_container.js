@@ -16,6 +16,7 @@ const mapStateToProps = (state) => {
     rooms: Object.values(state.rooms),
     activeRoom: state.ui.activeRoom,
     friends: state.session.user.friends,
+    messags: state.messages
   };
 };
 

@@ -223,7 +223,7 @@ button{
 
   /*  &&&&&&&&&&& */
 
-  #unfriend-modal{
+  .unfriend-modal{
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     justify-content: center;
@@ -240,7 +240,7 @@ button{
   }
 
   
-#delete-room-modal{
+.delete-room-modal{
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     justify-content: center;

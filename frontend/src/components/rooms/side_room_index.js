@@ -12,13 +12,14 @@ export class SideRoomIndex extends Component {
     this.state = {
       less2peope: "",
       name: "",
-      members: [],
+      members: {},
     };
     this.createRoom = this.createRoom.bind(this);
     this.openModal = this.openModal.bind(this);
     this.update = this.update.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
+
   componentDidMount() {
     const id = this.props.user.id;
     ;
@@ -43,9 +44,13 @@ export class SideRoomIndex extends Component {
 
   createRoom(){
 
+    if( Object.keys(this.state.members).length > 1 && this.state.name !== ""){
 
+      const roomMembers = [];
+      Object.keys(this.state.members).forEach((member)=>{
+        roomMembers.push({_id: member})
+      })
 
-    if(this.state.members.length > 1 && this.state.name !== ""){
       const user = {
         id: this.props.user.id,
         username: this.props.user.username
@@ -54,9 +59,9 @@ export class SideRoomIndex extends Component {
       const room = {
         name: this.state.name,
         user: user,
-        members: this.state.members
+        members: roomMembers
       };
-  
+
       this.props.createRoom(room);
       this.closeModal();
     }
@@ -74,17 +79,31 @@ export class SideRoomIndex extends Component {
 
   update(field) {
 
-    return(e)=> {
+    return (e)=> {
       if (field === "name") {
-
+  
             this.setState({
               name: e.currentTarget.value,
             });
       } else {
+ 
+          let newMembers = this.state.members;
+          if(e.currentTarget.checked){
+
+            newMembers[e.currentTarget.value] = true;
 
             this.setState({
-              members: [...this.state.members, {_id: e.currentTarget.value}],
+              members: newMembers,
             });
+
+          }else{
+            delete newMembers[e.currentTarget.value]
+
+            this.setState({
+              members: newMembers,
+            });
+          }
+
       }
     }
   }
@@ -156,6 +175,7 @@ export class SideRoomIndex extends Component {
                 receiveRoomMessage={this.props.receiveRoomMessage}
                 destroyRoom={this.props.destroyRoom}
                 roomMembers={room.members}
+                messages={this.props.messages}
               />
             ))
           ) : (

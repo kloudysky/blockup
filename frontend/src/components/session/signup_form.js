@@ -54,9 +54,12 @@ class SignupForm extends React.Component {
 
         this.props.login(user[1]).then(()=>{
   
-          let newWindow = window.open(window.location.href, "newWindow", "width=810, height=800, top=0 left=600")
+          window.open(window.location.href, "newWindow", "width=860, height=800, top=0 left=600")
+          setTimeout(() => {
+            this.props.login(user[0]).then(this.props.history.push("/profile"))
+          }, 500);
+  
           
-          this.props.login(user[0]).then(this.props.history.push("profile"))
         })
 
       }
@@ -87,7 +90,7 @@ class SignupForm extends React.Component {
           <p>Log in above two accounts at the same time: </p>
           <button className="two-accounts" onClick={this.handleDemoUser([{email: "demo_user_1@gmail.com", password: "aaaaaa"},{email: "demo_user_2@gmail.com",password: "aaaaaa"}])}>Click</button>
 
-          <p className="login-noti">Note: Log in above two accounts at the same time, the original window will load profile page logged in as demo_user_1 and a new pop-up windown will load webpage logged in as demo_user_2. </p>
+          <p className="login-noti">Note: Logging in with above two accounts at the same time, the original window will load profile page logged in as demo_user_1 and a new pop-up windown will load webpage logged in as demo_user_2. </p>
 
         </div>
 

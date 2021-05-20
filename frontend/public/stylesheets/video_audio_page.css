@@ -16,9 +16,9 @@
     height: 100%;
     object-fit: cover; */
 
-    width: 400px;
-    height: 400px;
-    padding: 0 40px;
+    width: 380px;
+    height: 360px;
+    padding: 0 20px;
     border: 1px solid black;
     background-image: url("../audio.png");
     background-size: 100px 100px;
@@ -39,9 +39,9 @@
 
   .friend-video-username{
     position: relative;
-    font-size: 28px;
+    font-size: 24px;
     text-align: center;
-    top: 40px;
+    top: 32px;
     padding: 0px;
 
   }
