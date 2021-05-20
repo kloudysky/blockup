@@ -69,21 +69,30 @@ class Friendship extends React.Component {
 
   }
 
-  openModal() {
+  openModal(id) {
 
-    const ele = document.getElementById("unfriend-modal");
+    return()=>{
 
-    if(ele){
-
-      ele.style.display = "flex";
+      const ele = document.getElementById(id);
+  
+      if(ele){
+  
+        ele.style.display = "flex";
+      }
     }
+
   }
 
-  closeModal(){
-    const ele = document.getElementById("unfriend-modal");
-    if(ele){
+  closeModal(id){
 
-      ele.style.display = "none";
+    return ()=>{
+
+      const ele = document.getElementById(id);
+      if(ele){
+  
+        ele.style.display = "none";
+      }
+
     }
   }
 
@@ -224,14 +233,14 @@ class Friendship extends React.Component {
         const socket_id = ids[1] === this.props.user.id ? ids[2] : ids[1]
         this.socket.emit("unfriend", {socket_receiver_id: socket_id, id: this.props.user.id});
 
-        this.closeModal()
+        this.closeModal(ids[0]+"unfriend-modal")
       })
 
     }
   }
 
   handleRoom(ids){
-    const rooms = this.props.rooms
+   
     return()=>{
       
 
@@ -295,22 +304,22 @@ class Friendship extends React.Component {
                         <span className="msgtext">Enter/Create the room with {friendship.friend1._id === this.props.user.id ? friendship.friend2.username : friendship.friend1.username}</span>
                       </button>
                       {/* <button className="unfriend" onClick={this.handleUnfriend([friendship._id,friendship.friend1._id,friendship.friend2._id])}>❌ */}
-                      <button className="unfriend" onClick={this.openModal}>❌
+                      <button className="unfriend" onClick={this.openModal(friendship._id + "unfriend-modal")}>❌
                         <span className="unfriendtext">Delete {friendship.friend1._id === this.props.user.id ? friendship.friend2.username : friendship.friend1.username}</span>
                       </button>
 
 
-  <div id="unfriend-modal">
-    <div className="unfriend-modal-container">
+                      <div id={friendship._id + "unfriend-modal"} className="unfriend-modal">
+                        <div className="unfriend-modal-container">
 
-      <div className="close-unfriend-modal" onClick={this.closeModal}>&times;</div>
-      <p className="unfriend-modal-sent">Delete this friend will also delete the room belongs to you two. </p>
-      <button className="unfriend-btn" onClick={this.closeModal}>Cancel</button>
-      <button className="unfriend-btn" onClick={this.handleUnfriend([friendship._id,friendship.friend1._id,friendship.friend2._id])}>Confirm</button>
+                          <div className="close-unfriend-modal" onClick={this.closeModal(friendship._id + "unfriend-modal")}>&times;</div>
+                          <p className="unfriend-modal-sent">Delete this friend ({friendship.friend1._id === this.props.user.id ? friendship.friend2.username : friendship.friend1.username}) will also delete the room belongs to you two. </p>
+                          <button className="unfriend-btn" onClick={this.closeModal(friendship._id + "unfriend-modal")}>Cancel</button>
+                          <button className="unfriend-btn" onClick={this.handleUnfriend([friendship._id,friendship.friend1._id,friendship.friend2._id])}>Confirm</button>
 
-    </div>
+                        </div>
 
-  </div>
+                      </div>
 
 
                   </div>

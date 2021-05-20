@@ -1,6 +1,4 @@
 import React from 'react';
-import { connect } from "react-redux";
-import { fetchSingleRoom } from '../../actions/room_actions';
 
 class RoomListItem extends React.Component {
     constructor(props){

@@ -10,6 +10,7 @@ export class SideRoomItem extends React.Component {
     this.state = {
       activeRoom: null,
       showMembers: false,
+      deleteId: "",
     };
 
     this.getActiveRoom = this.getActiveRoom.bind(this);
@@ -23,8 +24,11 @@ export class SideRoomItem extends React.Component {
   componentDidMount() {
     this.socket.on("incoming message", (msg) => {
       console.log("Incoming Message From Server");
+
       if (this.props.user.id !== msg.author._id) {
-        this.props.receiveRoomMessage(msg);
+
+          this.props.receiveRoomMessage(msg);
+
       }
     });
     this.socket.on("test", (msg) => {
@@ -33,23 +37,33 @@ export class SideRoomItem extends React.Component {
   }
 
 
-  openModal() {
-    const ele = document.getElementById("delete-room-modal");
-    if(ele){
+  openModal(id) {
+    return()=>{
 
-      ele.style.display = "flex";
+      const ele = document.getElementById(id);
+      if(ele){
+  
+        ele.style.display = "flex";
+      }
+
     }
   }
 
-  closeModal(){
-    const ele = document.getElementById("delete-room-modal");
-    if(ele){
-      ele.style.display = "none";
+  closeModal(id){
+    return()=>{
+
+      // const ele = document.getElementById("delete-room-modal");
+      const ele = document.getElementById(id);
+      if(ele){
+        ele.style.display = "none";
+      }
+
     }
   }
 
   deleteRoom(id){
     return()=>{
+
       this.props.destroyRoom(id).then(()=> this.closeModal())
     }
   }
@@ -75,12 +89,12 @@ export class SideRoomItem extends React.Component {
 
   render() {
 
-    let roomName;
-    if (this.props.activeRoom) {
-      roomName = this.props.activeRoom.name;
-    } else {
-      roomName = "No Rooms no active room";
-    }
+    // let roomName;
+    // if (this.props.activeRoom) {
+    //   roomName = this.props.activeRoom.name;
+    // } else {
+    //   roomName = "No Rooms no active room";
+    // }
 
     let room_member_name;
     if(this.props.roomMembers.length === 2){
@@ -113,14 +127,15 @@ export class SideRoomItem extends React.Component {
             {/* <h3>{this.props.name}</h3> */}
           </div>
           {/* <button className="destroy-room" onClick={() => this.props.destroyRoom(this.props.id)}>delete</button> */}
-<button className="destroy-room" onClick={this.openModal}>delete</button>
+<button className="destroy-room" onClick={this.openModal(this.props.id + "deleteRoom")}>delete</button>
 
-<div id="delete-room-modal">
+<div id={this.props.id + "deleteRoom" }className="delete-room-modal">
   <div className="unfriend-modal-container">
 
-    <div className="close-unfriend-modal" onClick={this.closeModal}>&times;</div>
-    <p className="unfriend-modal-sent">Delete this room will not delete your friendships between you and the members in this room. </p>
-    <button className="unfriend-btn" onClick={this.closeModal}>Cancel</button>
+    <div className="close-unfriend-modal" onClick={this.closeModal(this.props.id + "deleteRoom")}>&times;</div>
+    <p className="unfriend-modal-sent">Delete this room ({this.props.name}) will not delete your friendships between you and the members in this room. </p>
+    <button className="unfriend-btn" onClick={this.closeModal(this.props.id + "deleteRoom")}>Cancel</button>
+    {/* <button className="unfriend-btn" onClick={()=> this.props.destroyRoom(this.props.id).then(()=> this.closeModal())}>Confirm</button> */}
     <button className="unfriend-btn" onClick={this.deleteRoom(this.props.id)}>Confirm</button>
 
   </div>

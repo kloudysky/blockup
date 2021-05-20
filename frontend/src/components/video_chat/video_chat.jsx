@@ -187,7 +187,7 @@ export class VideoChat extends React.Component {
     }
   
   render(){
-    const myVideo = <video ref={this.videoRef}></video>
+    // const myVideo = <video ref={this.videoRef}></video>
       return (
         <div>
             <h1>{this.props.room}</h1>
