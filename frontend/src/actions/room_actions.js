@@ -32,9 +32,17 @@ export const deleteThisRoom = room => ({
 })
 
 export const composeRoom = data => dispatch => {
+    
     return (createRoom(data)
-        .then(room => { dispatch(receiveNewRoom(room.data))})
-        .catch(err => console.log(err)))
+        .then(room => { 
+            
+            dispatch(receiveNewRoom(room.data))})
+        // .catch(err => {
+        //     
+        //     console.log(err)
+        //     }
+        //   )
+        )
 };
 
 export const fetchSingleRoom = id => dispatch => {

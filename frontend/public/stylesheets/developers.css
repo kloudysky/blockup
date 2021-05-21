@@ -21,8 +21,8 @@
 .developers-container-outer{
     width: 80%;
     background-color: #ededed;
-    margin: 100px auto;
-    margin-top: 50px;
+    margin: 0px auto;
+    /* margin-top: 50px; */
     padding-bottom: 100px;
     padding-right: 0;
     box-shadow: -1px 4px 20px -6px rgb(0 0 0 / 75%);

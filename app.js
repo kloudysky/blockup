@@ -120,6 +120,30 @@ io.on("connection", (socket) => {
     }
   })
 
+  socket.on("create room", (data)=>{
+  
+    data.forEach( id => {
+      
+      if( id in socketList ){
+        console.log(socketList[id],"-------------")
+        socket.broadcast.emit("create room received", {socket_receiver_id: id})
+      }
+
+    });
+  })
+
+  socket.on("delete room", (data)=>{
+
+    data.members.forEach( id => {
+      
+      if( id in socketList ){
+        console.log(socketList[id],"-------------")
+        socket.broadcast.emit("delete room received", {socket_receiver_id: id, roomId: data.roomId})
+      }
+
+    });
+  })
+
   socket.on("unfriend", (data)=>{
     let id = data.socket_receiver_id;
     if( id in socketList){

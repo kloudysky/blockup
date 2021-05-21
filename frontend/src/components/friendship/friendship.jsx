@@ -63,7 +63,9 @@ class Friendship extends React.Component {
       
       if(data.socket_receiver_id === this.props.user.id){
         
-        this.props.fetchFriendships(this.props.user.id)
+        this.props.fetchFriendships(this.props.user.id).then(()=>{
+          this.props.fetchUserRooms(this.props.user.id)
+        })
       }
     })
 
@@ -117,7 +119,7 @@ class Friendship extends React.Component {
  
 
     if (this.state.receiverId === this.props.user.id) {
-      addSelf = <p className="id-error">Friend id cannot be your user id </p>
+      addSelf = <p className="id-error">Friend id cannot be your own user id </p>
       errs++;
     }
 
@@ -193,7 +195,13 @@ class Friendship extends React.Component {
         members: [{_id: friendRequest.senderId._id} ]
       };
 
-      this.props.createRoom(room);
+      this.props.createRoom(room).then(()=>{
+
+        this.socket.emit("create room",[friendRequest.senderId._id]);
+
+      })
+
+
         }).then(()=>{
           
           this.socket.emit("accepted friend request", {receiver_id: this.props.user.id, sender_id: friendRequest.senderId._id});
@@ -271,7 +279,11 @@ class Friendship extends React.Component {
     
           // const that = this
           this.props.createRoom(room).then(()=>{
-            
+
+            const friendId = ids[0] === this.props.user.id ? ids[1] : ids[0]
+
+            this.socket.emit("create room",[friendId]);
+
             this.handleRoom(ids)()
       
             //   const rooms = Object.values(that.props.rooms).filter((ele)=>{

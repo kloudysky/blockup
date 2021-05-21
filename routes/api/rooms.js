@@ -6,6 +6,7 @@ const passport = require("passport");
 const validateRoomNameInput = require("../../validation/room");
 const RoomMember = require("../../models/RoomMember");
 
+
 router.get("/user/:user_id", (req, res) => {
      Room.find({"members": {_id: req.params.user_id}})
      .populate( "members", "_id username")
@@ -63,19 +64,19 @@ router.post("/new", (req, res) => {
     members: otherMembers,
     messages: [], 
   });
-  // friendship.save().then(friendship =>  {
-//   Friendship.findById(friendship._id)
-//   .populate('friend1','username').populate('friend2','username')
-//   .then(friendship => res.json(friendship ))
-// } ) 
 
   newRoom
   .save()
   // .then((room) => { room.populate('members'); console.log("after pop", room); res.json(room)})
   .then((room) => {
+    console.log("**************1",room)
     Room.findById(room._id)
     .populate( "members", "_id username")
-    .then(room1 => res.json(room1))
+    .then(room1 => {
+      console.log("**************2",room1)
+      res.json(room1)}).catch((err) => {
+        console.log(err);
+      })
   })
   .catch((err) => {
     console.log(err);

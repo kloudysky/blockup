@@ -9,6 +9,8 @@ const keys = require("../../config/keys");
 
 const Friendship = require('../../models/Friendship');
 const FriendRequest = require('../../models/FriendRequest');
+const Message = require("./../../models/Message");
+
 
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
@@ -95,11 +97,21 @@ router.post("/register", (req, res) => {
               const newRoom1 = new Room({
                 name: "Blockup Assistant & " + user.username,
                 img_url: req.body.img_url || "",
-                members: [{_id:"60a275df35220b0c9f8846c7"}, {_id:user._id}],
+                members: [{_id:"60a275df35220b0c9f8846c7"}, {_id: user._id}],
                 messages: [], 
               });
             
-              newRoom1.save()
+              const messsage = `Hi ${user.username}. Welcome to Blockup! We are delghted you signed up. Please let me know if you have any questions. I am always happy to help 😃. Also, feel free to talk with our delvelopers in the group chat. Thanks, Blockup Assistant.`
+
+              newRoom1.save().then((result=>{
+                const newMessage = new Message({
+                  content: messsage,
+                  author: user._id,
+                  room: result._id,
+                });
+            
+                newMessage.save()
+              }))
 
               const newRoom2 = new Room({
                 name: "Blockup Developers & " + user.username,

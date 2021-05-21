@@ -100,8 +100,14 @@
   border: none;
 }
 
-.chat-footer > form > button {
+/* .chat-footer > form > button {
   display: none;
+} */
+
+.paper-plane{
+  border: none;
+  font-size: larger;
+  margin: 0px 7px;
 }
 
 .chat-footer > .MuiSvgIcon-root {
