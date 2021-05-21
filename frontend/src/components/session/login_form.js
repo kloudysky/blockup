@@ -57,8 +57,7 @@ class LoginForm extends React.Component {
       
         this.props.login(user[1]).then(()=>{
 
-          
-          window.open(window.location.href, "newWindow", "width=860, height=800, top=0 left=600")
+          window.open(window.location.href, "newWindow", "width=900, height=800, top=0 left=600")
           setTimeout(() => {
             this.props.login(user[0]).then(this.props.history.push("/profile"))
           }, 500);
@@ -125,8 +124,8 @@ class LoginForm extends React.Component {
               <div className="error-msg">{this.renderErrors()}</div>
             </div>
           </form>
-        </div>
         <p className="login-noti">Note: If you log in without Two-Factor Authentication, you are only able to ask Blockup Assistant for help, or have conversations with Blockup developers. In order to continue using other functionalities, you have to set up your Two-Factor Authentication. A friend request received from Blockup1 and a friend request sent to Blockup2 will show up on your friends page after loging in your account with Two-Factor Authentication. </p>
+        </div>
       </div>
     );
   }

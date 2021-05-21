@@ -31,6 +31,7 @@ export class SideRoomItem extends React.Component {
 
       }
     });
+
     this.socket.on("test", (msg) => {
       console.log(msg);
     });
@@ -64,7 +65,33 @@ export class SideRoomItem extends React.Component {
   deleteRoom(id){
     return()=>{
 
-      this.props.destroyRoom(id).then(()=> this.closeModal())
+      const roomMembers = this.props.activeRoom.members
+
+      this.props.destroyRoom(id).then(()=> {
+     
+        const index = roomMembers.indexOf(this.props.user.id);
+
+        if (index > -1) {
+          roomMembers.splice(index, 1);
+        }
+
+        this.socket.emit("delete room", {members: roomMembers, roomId: id});
+        
+        this.props.resetActiveRoom();
+
+        setTimeout(()=>this.props.fetchUserRooms(this.props.user.id).then(()=>{
+          // if(this.props.activeRoom === -1 || this.props.activeRoom === undefined) {
+            if(this.props.rooms.length > 0){
+              this.props.setActiveRoom(this.props.rooms[0]._id).then(
+                ()=>{this.props.fetchRoomMessages(this.props.rooms[0]._id)}
+              );
+            }
+          // }
+        }) , 3)
+
+        this.closeModal(id)();
+
+      })
     }
   }
 

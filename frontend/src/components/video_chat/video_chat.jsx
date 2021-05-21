@@ -38,7 +38,7 @@ export class VideoChat extends React.Component {
 
         const myVideo = document.createElement('video')
          
-        this.addVideoStream(myVideo , stream, this.props.user.id)
+        this.addVideoStream(myVideo, stream, this.props.user.id)
       
         // const videoObj = this.videoRef.current;
         // videoObj.srcObject = stream;
@@ -114,7 +114,11 @@ export class VideoChat extends React.Component {
 
     addVideoStream(video, stream, userId=null) {
 
-      video.srcObject = stream 
+      video.srcObject = stream
+      if(userId === this.props.user.id){
+        video.muted = true;
+      } 
+      
       video.addEventListener('loadedmetadata', () => {
         video.play()
       })

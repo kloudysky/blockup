@@ -5,6 +5,7 @@ import SideRoomItem from "./side_room_item";
 import { BsPlusCircleFill } from "react-icons/bs";
 // const { useState } = React;
 import {Link} from "react-router-dom";
+import openSocket from "socket.io-client";
 
 export class SideRoomIndex extends Component {
   constructor(props) {
@@ -14,6 +15,11 @@ export class SideRoomIndex extends Component {
       name: "",
       members: {},
     };
+
+    this.socket = openSocket("http://localhost:5000", {
+      transports: ["websocket"],
+    });
+
     this.createRoom = this.createRoom.bind(this);
     this.openModal = this.openModal.bind(this);
     this.update = this.update.bind(this);
@@ -40,31 +46,15 @@ export class SideRoomIndex extends Component {
 
       }
     )
-  }
 
-  createRoom(){
+    // this.socket.on("create room received", (data)=>{
+    
+    //   if(data.socket_receiver_id === this.props.user.id){
+       
+    //     this.props.fetchUserRooms(this.props.user.id)
+    //   }
+    // })
 
-    if( Object.keys(this.state.members).length > 1 && this.state.name !== ""){
-
-      const roomMembers = [];
-      Object.keys(this.state.members).forEach((member)=>{
-        roomMembers.push({_id: member})
-      })
-
-      const user = {
-        id: this.props.user.id,
-        username: this.props.user.username
-      };
-  
-      const room = {
-        name: this.state.name,
-        user: user,
-        members: roomMembers
-      };
-
-      this.props.createRoom(room);
-      this.closeModal();
-    }
   }
 
   openModal() {
@@ -76,6 +66,58 @@ export class SideRoomIndex extends Component {
     const ele = document.getElementById("modal");
     ele.style.display = "none";
   }
+
+  createRoom(e){
+    e.preventDefault();
+    
+    if( Object.keys(this.state.members).length > 1 && this.state.name !== ""){
+
+      const roomMembers = [];
+
+      Object.keys(this.state.members).forEach((member)=>{
+        roomMembers.push({_id: member})
+      })
+
+      // const user = {
+      //   id: ids[1],
+      //   username: ids[3]
+      // };
+      // const room = {
+      //   name: ids[2] + " & " +  ids[3],
+      //   user: user,
+      //   members: [{_id: ids[0]} ]
+      // };
+
+      const user = {
+        id: this.props.user.id,
+        username: this.props.user.username
+      };
+  
+      const room = {
+        name: this.state.name,
+        user: user,
+        members: roomMembers
+        // members: roomMembers.slice(0,1)
+      };
+
+      this.props.createRoom(room)
+      .then(()=>{
+        
+        });
+        
+
+        const members = Object.keys(this.state.members) 
+        
+
+        this.socket.emit("create room", members);
+      
+      
+
+      this.closeModal();
+    }
+  }
+
+
 
   update(field) {
 
@@ -167,6 +209,7 @@ export class SideRoomIndex extends Component {
                 key={room._id}
                 id={room._id}
                 name={room.name}
+                rooms={this.props.rooms}
                 user={this.props.user}
                 setActiveRoom={this.props.setActiveRoom}
                 activeRoom={this.props.activeRoom}
@@ -176,6 +219,10 @@ export class SideRoomIndex extends Component {
                 destroyRoom={this.props.destroyRoom}
                 roomMembers={room.members}
                 messages={this.props.messages}
+                resetActiveRoom={this.props.resetActiveRoom}
+                fetchUserRooms={this.props.fetchUserRooms}
+                fetchRoomMessages={this.props.fetchRoomMessages}
+
               />
             ))
           ) : (

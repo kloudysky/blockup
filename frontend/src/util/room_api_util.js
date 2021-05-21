@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 export const createRoom = data => {
+  
   return axios.post('/api/rooms/new', data)
+
 }
 
 export const showRoom = id => {

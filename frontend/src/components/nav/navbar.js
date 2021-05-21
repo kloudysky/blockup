@@ -6,6 +6,11 @@ import openSocket from "socket.io-client";
 class NavBar extends React.Component {
   constructor(props) {
     super(props);
+
+    this.socket = openSocket("http://localhost:5000", {
+      transports: ["websocket"],
+    });
+
     this.state = {
       receiver: "",
       sender: "",
@@ -14,9 +19,6 @@ class NavBar extends React.Component {
     this.logoutUser = this.logoutUser.bind(this);
     this.getLinks = this.getLinks.bind(this);
     this.senderIds = [];
-    this.socket = openSocket("http://localhost:5000", {
-      transports: ["websocket"],
-    });
   }
 
   componentDidMount() {
@@ -68,6 +70,42 @@ class NavBar extends React.Component {
       if (id_index > -1) {
         this.senderIds.splice(id_index, 1);
       }
+    })
+
+
+    this.socket.on("create room received", (data)=>{
+      
+      if(data.socket_receiver_id === this.props.currentUser.id){
+  
+        this.props.fetchUserRooms(this.props.currentUser.id)
+      }
+
+    })
+
+    this.socket.on("delete room received", (data)=>{
+      
+      if(data.socket_receiver_id === this.props.currentUser.id){
+
+       
+        if(this.props.activeRoom._id === data.roomId){
+
+          this.props.resetActiveRoom()
+        }
+
+          setTimeout(()=>this.props.fetchUserRooms(this.props.currentUser.id).then(()=>{
+            if(this.props.activeRoom === -1 || this.props.activeRoom === undefined) { 
+
+              if(this.props.rooms.length > 0){
+                this.props.fetchActiveRoom(this.props.rooms[0]._id).then(
+                  ()=>{this.props.fetchRoomMessages(this.props.rooms[0]._id)}
+                  );
+                }
+              }
+
+            }) , 10)       
+        
+      }
+
     })
 
 

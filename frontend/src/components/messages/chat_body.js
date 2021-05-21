@@ -23,15 +23,18 @@ export class ChatBody extends Component {
         let year = oldDate.getFullYear() % 100;
         let month = oldDate.getMonth() + 1;
         let day = oldDate.getDate();
-        let hours = oldDate.getHours() > 12 ? oldDate.getHours() - 12 : oldDate.getHours();
+        let hours = oldDate.getHours() > 12 ? oldDate.getHours() - 12  : oldDate.getHours();
+        let amPm = oldDate.getHours() > 12 ? "PM" : "AM";
         let minutes = oldDate.getMinutes();
 
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+
         if (dayDiff === 0 && monthDiff === 0 && yearDiff === 0) {
-          return `Today at ${hours}:${minutes}`
+          return `Today at ${hours}:${minutes} ${amPm}`
         } else if (dayDiff === 1 && monthDiff === 0 && yearDiff === 0) {
-          return `Yesterday at ${hours}:${minutes}`
+          return `Yesterday at ${hours}:${minutes} ${amPm}`
         } else {
-          return `${month}/${day}/${year} at ${hours}:${minutes}`
+          return `${month}/${day}/${year} at ${hours}:${minutes}  ${amPm}`
         }
     }
 
