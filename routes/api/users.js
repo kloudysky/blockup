@@ -44,6 +44,7 @@ router.post("/register", (req, res) => {
       const newUser = new User({
         username: req.body.username,
         email: req.body.email,
+        img_url: "default-user-pic.png",
         password: req.body.password,
         secret: auth_token.base32,
         otpauth_url: auth_token.otpauth_url,
@@ -152,6 +153,7 @@ router.post("/login", (req, res) => {
           id: user.id,
           username: user.username,
           verified: user.verified,
+          img_url:  user.img_url,
           otpauth_url: user.otpauth_url,
         };
 

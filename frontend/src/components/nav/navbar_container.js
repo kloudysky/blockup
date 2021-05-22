@@ -3,7 +3,7 @@ import * as sessionActions from "../../actions/session_actions";
 import {fetchFriendRequests } from "../../actions/friendship_actions";
 import { fetchUserRooms } from "../../actions/room_actions";
 import { fetchActiveRoom, resetActiveRoom } from "../../actions/ui_actions";
-
+import { fetchRoomMessages } from "../../actions/message_actions";
 
 import NavBar from "./navbar";
 
@@ -22,6 +22,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchUserRooms: (id) => dispatch(fetchUserRooms(id)),
   fetchActiveRoom: (id) => dispatch(fetchActiveRoom(id)),
   resetActiveRoom: () => dispatch(resetActiveRoom()),
+  fetchRoomMessages: (roomId) => dispatch(fetchRoomMessages(roomId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

@@ -22,6 +22,9 @@ export class SideRoomItem extends React.Component {
 
 
   componentDidMount() {
+
+
+    
     this.socket.on("incoming message", (msg) => {
       console.log("Incoming Message From Server");
 
@@ -123,17 +126,29 @@ export class SideRoomItem extends React.Component {
     //   roomName = "No Rooms no active room";
     // }
 
+    const members = this.props.roomMembers
     let room_member_name;
-    if(this.props.roomMembers.length === 2){
-      room_member_name = this.props.roomMembers[0]._id === this.props.user.id ? this.props.roomMembers[1].username : this.props.roomMembers[0].username
+    let room_member_pic;
+    let room_members_pic = "multiple-users.png";
+    if(members.length === 2){
+      members.forEach(member => {
+        if(member._id !== this.props.user.id){
+          room_member_name = member.username;
+          room_member_pic = member.img_url ?  member.img_url : "default-user-pic.png";
+        }
+
+      });
+
+      // room_member_name = this.props.roomMembers[0]._id === this.props.user.id ? this.props.roomMembers[1].username : this.props.roomMembers[0].username
     }
 
     const showMembersUi =(        
         <ul className="room-members-ul">
-          <p>Group ({this.props.roomMembers.length})</p>
-          {this.props.roomMembers.map((member)=>(
-
+          <p>Group ({members.length})</p>
+          {members.map((member)=>(
+            
             <li key={member._id} className="room-members-li">
+              <img src={member.img_url ?  member.img_url : "one-user.png" } alt="user pic" className="user-pic-chat-room-small"/>
               <p className="room-friend-request-username">Username: {member.username}</p>
               <p className="room-friend-request-id">id: {member._id}</p>
 
@@ -148,16 +163,17 @@ export class SideRoomItem extends React.Component {
       <div>
 
         <div onClick={() => this.getActiveRoom()} className="sidebar-chat">
-          <i className="fas fa-user-circle"></i>
+          {/* <i className="fas fa-user-circle"></i> */}
+          <img src={members.length === 2 ? room_member_pic : room_members_pic } alt="users pic" className="user-pic-chat-room-big"/>
           <div className="sidebar-chat-info">
-            <h3>{ room_member_name ? room_member_name : this.props.name}</h3>
+            <p className="room-name-list">{ room_member_name ? room_member_name : this.props.name}</p>
             {/* <h3>{this.props.name}</h3> */}
           </div>
           {/* <button className="destroy-room" onClick={() => this.props.destroyRoom(this.props.id)}>delete</button> */}
-<button className="destroy-room" onClick={this.openModal(this.props.id + "deleteRoom")}>delete</button>
+    <button className="destroy-room" onClick={this.openModal(this.props.id + "deleteRoom")}>delete</button>
 
-<div id={this.props.id + "deleteRoom" }className="delete-room-modal">
-  <div className="unfriend-modal-container">
+    <div id={this.props.id + "deleteRoom" }className="delete-room-modal">
+      <div className="unfriend-modal-container">
 
     <div className="close-unfriend-modal" onClick={this.closeModal(this.props.id + "deleteRoom")}>&times;</div>
     <p className="unfriend-modal-sent">Delete this room ({this.props.name}) will not delete your friendships between you and the members in this room. </p>

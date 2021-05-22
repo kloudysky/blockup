@@ -9,7 +9,7 @@ const RoomMember = require("../../models/RoomMember");
 
 router.get("/user/:user_id", (req, res) => {
      Room.find({"members": {_id: req.params.user_id}})
-     .populate( "members", "_id username")
+     .populate( "members", "_id username img_url")
      .populate("messages", "content -_id")
      
     //  {

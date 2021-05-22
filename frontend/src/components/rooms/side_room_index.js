@@ -14,6 +14,7 @@ export class SideRoomIndex extends Component {
       less2peope: "",
       name: "",
       members: {},
+      keyWords: '',
     };
 
     this.socket = openSocket("http://localhost:5000", {
@@ -24,6 +25,7 @@ export class SideRoomIndex extends Component {
     this.openModal = this.openModal.bind(this);
     this.update = this.update.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentDidMount() {
@@ -48,9 +50,7 @@ export class SideRoomIndex extends Component {
     )
 
     // this.socket.on("create room received", (data)=>{
-    
     //   if(data.socket_receiver_id === this.props.user.id){
-       
     //     this.props.fetchUserRooms(this.props.user.id)
     //   }
     // })
@@ -78,16 +78,6 @@ export class SideRoomIndex extends Component {
         roomMembers.push({_id: member})
       })
 
-      // const user = {
-      //   id: ids[1],
-      //   username: ids[3]
-      // };
-      // const room = {
-      //   name: ids[2] + " & " +  ids[3],
-      //   user: user,
-      //   members: [{_id: ids[0]} ]
-      // };
-
       const user = {
         id: this.props.user.id,
         username: this.props.user.username
@@ -97,27 +87,18 @@ export class SideRoomIndex extends Component {
         name: this.state.name,
         user: user,
         members: roomMembers
-        // members: roomMembers.slice(0,1)
       };
 
       this.props.createRoom(room)
       .then(()=>{
         
+        const members = Object.keys(this.state.members) 
+        this.socket.emit("create room", members);
         });
         
-
-        const members = Object.keys(this.state.members) 
-        
-
-        this.socket.emit("create room", members);
-      
-      
-
       this.closeModal();
     }
   }
-
-
 
   update(field) {
 
@@ -150,6 +131,13 @@ export class SideRoomIndex extends Component {
     }
   }
 
+  handleSearch(e){
+  
+    this.setState({
+      keyWords: e.currentTarget.value
+    })
+  }
+
   render() {
     let friends = "";
     if (this.props.friends) {
@@ -160,12 +148,24 @@ export class SideRoomIndex extends Component {
       });
     }
 
+    let rooms = this.props.rooms
+    rooms = rooms.filter((room)=> {
+
+      let target = room.name;
+      if(room.members.length === 2){
+        target = room.members[0]._id === this.props.user.id ? room.members[1].username : room.members[0].username
+      }
+      return target.toUpperCase().includes(this.state.keyWords.toUpperCase()) 
+     
+    })
 
     return (
       <div className="sidebar">
         <div className="sidebar-header">
           <div className="sidebar-header-left">
-            <Link to={`/profile`} className="user-icon-link"> <i className="fas fa-user-circle"></i> </Link>
+            {/* <Link to={`/profile`} className="user-icon-link"> <i className="fas fa-user-circle"></i> </Link> */}
+            <Link to={`/profile`} className="user-icon-link"> {this.props.user.img_url ?  <img src={this.props.user.img_url} alt="user pic" className="user-pic-chat-room-circle"/> : <i className="fas fa-user-circle"></i> }
+            </Link>
             {/* <i className="fas fa-user-circle"></i> */}
             <h3>{this.props.user.username}</h3>
           </div>
@@ -198,13 +198,14 @@ export class SideRoomIndex extends Component {
         <div className="sidebar-search">
           <div className="search-container">
             <i className="fas fa-search"></i>
-            <input type="text" placeholder="Search" />
+            <input type="text" placeholder="Search" onChange={this.handleSearch} />
           </div>
         </div>
 
         <div className="sidebar-chats">
-          {this.props.rooms.length > 0 ? (
-            this.props.rooms.map((room) => (
+ 
+           {rooms.length > 0 ? (
+              rooms.map((room) => (
               <SideRoomItem
                 key={room._id}
                 id={room._id}
