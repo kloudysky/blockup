@@ -241,7 +241,7 @@ class Friendship extends React.Component {
         const socket_id = ids[1] === this.props.user.id ? ids[2] : ids[1]
         this.socket.emit("unfriend", {socket_receiver_id: socket_id, id: this.props.user.id});
 
-        this.closeModal(ids[0]+"unfriend-modal")
+        this.closeModal(ids[0]+"unfriend-modal")()
       })
 
     }

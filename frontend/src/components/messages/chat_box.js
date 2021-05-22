@@ -14,7 +14,8 @@ export class ChatBox extends React.Component {
       newMessages: [],
       emojiPicker: false,
       isListening: false,
-      savedNotes: []
+      micOn: false,
+
     };
 
     this.socket = openSocket("http://localhost:5000", {
@@ -107,9 +108,8 @@ export class ChatBox extends React.Component {
     }
     
     this.setState({
-      isListening: false,
-      note: null,
-      savedNotes: []
+      isListening: false, 
+      micOn: false 
     })
     setTimeout(()=>this.messageInputRef.focus(), 0);
 
@@ -117,17 +117,21 @@ export class ChatBox extends React.Component {
 
 
   handleSubmit(e) {
-    
     e.preventDefault();
-    const msg = {
-      content: this.state.content,
-      author: this.props.currentUser.id,
-      room: this.props.activeRoom._id,
-      
-    };
-    this.props.createMessage(msg);
-    this.setState({ content: "" });
-    this.sendSocketIO(msg);
+    if(!this.state.isListening){    
+      const msg = {
+        content: this.state.content,
+        author: this.props.currentUser.id,
+        room: this.props.activeRoom._id,
+        
+      };
+      this.props.createMessage(msg);
+      this.setState({ content: "" });
+      this.sendSocketIO(msg);
+    }else{
+      this.setState({ micOn: true });
+    }
+
   }
 
   handleChange() {
@@ -142,7 +146,7 @@ export class ChatBox extends React.Component {
     return (
       <div className="chat">
         <div className="chat-header">
-        <Link to={`/profile`} className="chat-profile-link"> <i className="fas fa-user-circle"></i> </Link>
+        {/* <Link to={`/profile`} className="chat-profile-link"> <i className="fas fa-user-circle"></i> </Link> */}
           {/* <i className="fas fa-user-circle"></i> */}
           <div className="chat-header-info">
             <h3>{!room ? "no rooms" : room.name}</h3>
@@ -158,7 +162,8 @@ export class ChatBox extends React.Component {
           room={room}
           messages={messages}
           newMessages={this.state.newMessages}
-        />
+          />
+          {this.state.micOn ? <p>Turn off the microphone before sending the message! (click 🛑)</p> : null}
         <div className="chat-footer">
 
           {emojiPicker && (<Picker set="apple"  
@@ -182,7 +187,7 @@ export class ChatBox extends React.Component {
             {/* <i className="fas fa-paper-plane" type="submit"></i> */}
           </form>
      
-          {this.state.isListening ? <span onClick={this.handleStopListening}>🛑</span>  : <i className="fas fa-microphone" onClick={this.handleIsListen}></i>}
+          {this.state.isListening ? <span onClick={this.handleStopListening} style={{"marginRight": "10px"}}>🛑</span>  : <i className="fas fa-microphone" onClick={this.handleIsListen}></i>}
         </div>
         
       </div>
