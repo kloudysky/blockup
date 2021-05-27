@@ -14,11 +14,11 @@ import LoginFormContainer from "./session/login_form_container";
 import SignupFormContainer from "./session/signup_form_container";
 import RoomsContainer from "./rooms/rooms_container";
 import FriendshipContainer from "./friendship/friendship_container";
-import WebApp from "./web_app";
+// import WebApp from "./web_app";
 import profile_container from "./profile/profile_container";
 import VideoContainer from './video_chat/video_chat_container';
 import Developers from './meet_developers/developers';
-// import WebAppContainer from "./web_app_container";
+import WebAppContainer from "./web_app_container";
 
 const App = () => (
   <div className="app">
@@ -36,12 +36,12 @@ const App = () => (
       <ProtectedRoute 
       exact
       path="/web"
-      component={WebApp}
+      component={WebAppContainer}
       />
       <TwoFAProtectedRoute exact path="/friends" component={FriendshipContainer}/>
       <TwoFAProtectedRoute exact path="/video/:roomId/:isVideo" component={VideoContainer}/>
       <TwoFAProtectedRoute exact path="/rooms" component={RoomsContainer} />
-      <TwoFAProtectedRoute exact path="/web" component={WebApp} />
+      <TwoFAProtectedRoute exact path="/web" component={WebAppContainer} />
       <TwoFAProtectedRoute exact path="/profile" component={profile_container} />
     </Switch>
   </div>

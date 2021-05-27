@@ -194,7 +194,7 @@ export class VideoChat extends React.Component {
     // const myVideo = <video ref={this.videoRef}></video>
       return (
         <div>
-            <h1>{this.props.room}</h1>
+            <h2>{this.props.room}</h2>
             <button className="leave-meeting" onClick={this.leaveMeeting}>Leave Meeting</button>
             <div id="videos-container" ref={this.videoContainer} >
                 {/* <p className="video-username"> {this.props.user.username}</p>

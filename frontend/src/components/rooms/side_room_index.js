@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 // import UiReducer from "../../reducers/ui_reducer";
 import SideRoomItem from "./side_room_item";
-// import openSocket from "socket.io-client";
+import openSocket from "socket.io-client";
 import { BsPlusCircleFill } from "react-icons/bs";
 // const { useState } = React;
 import {Link} from "react-router-dom";
-import openSocket from "socket.io-client";
 
 export class SideRoomIndex extends Component {
   constructor(props) {
@@ -17,21 +16,24 @@ export class SideRoomIndex extends Component {
       keyWords: '',
     };
 
+
     this.socket = openSocket("http://localhost:5000", {
       transports: ["websocket"],
     });
+
 
     this.createRoom = this.createRoom.bind(this);
     this.openModal = this.openModal.bind(this);
     this.update = this.update.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleClearText = this.handleClearText.bind(this);
   }
 
   componentDidMount() {
+     
     const id = this.props.user.id;
-    ;
-    this.props.fetchFriends(id);
+
     this.props.fetchUserRooms(id).then(()=>{
       if(this.props.activeRoom === -1 || this.props.activeRoom === undefined) {
         if(this.props.rooms.length > 0){
@@ -49,11 +51,15 @@ export class SideRoomIndex extends Component {
       }
     )
 
-    // this.socket.on("create room received", (data)=>{
-    //   if(data.socket_receiver_id === this.props.user.id){
-    //     this.props.fetchUserRooms(this.props.user.id)
-    //   }
-    // })
+    this.socket.on("create room received", (data)=>{
+
+      if(data.socket_receiver_id === this.props.user.id){
+        
+        this.props.fetchUserRooms(this.props.user.id)
+      }
+    })
+
+    this.props.fetchFriends(id);
 
   }
 
@@ -93,7 +99,10 @@ export class SideRoomIndex extends Component {
       .then(()=>{
         
         const members = Object.keys(this.state.members) 
-        this.socket.emit("create room", members);
+        
+
+        this.socket.emit("create room", members)
+
         });
         
       this.closeModal();
@@ -138,6 +147,12 @@ export class SideRoomIndex extends Component {
     })
   }
 
+  handleClearText(){
+    this.setState({
+      keyWords: ""
+    })
+  }
+
   render() {
     let friends = "";
     if (this.props.friends) {
@@ -164,7 +179,7 @@ export class SideRoomIndex extends Component {
         <div className="sidebar-header">
           <div className="sidebar-header-left">
             {/* <Link to={`/profile`} className="user-icon-link"> <i className="fas fa-user-circle"></i> </Link> */}
-            <Link to={`/profile`} className="user-icon-link"> {this.props.user.img_url ?  <img src={this.props.user.img_url} alt="user pic" className="user-pic-chat-room-circle"/> : <i className="fas fa-user-circle"></i> }
+            <Link to={`/profile`} className="user-icon-link"> {this.props.user.img_url ?  <img src={"images/" + this.props.user.img_url} alt="user pic" className="user-pic-chat-room-circle"/> : <i className="fas fa-user-circle"></i> }
             </Link>
             {/* <i className="fas fa-user-circle"></i> */}
             <h3>{this.props.user.username}</h3>
@@ -198,13 +213,14 @@ export class SideRoomIndex extends Component {
         <div className="sidebar-search">
           <div className="search-container">
             <i className="fas fa-search"></i>
-            <input type="text" placeholder="Search" onChange={this.handleSearch} />
+            <input type="text" placeholder="Search" onChange={this.handleSearch} value={this.state.keyWords} />
+            {this.state.keyWords !== "" ?  <button className="clear-text" onClick={this.handleClearText}>&times;</button> : null }
           </div>
         </div>
 
         <div className="sidebar-chats">
  
-           {rooms.length > 0 ? (
+           {rooms.length > 0  && this.props.activeRoom  && this.props.activeRoom !== -1 ? (
               rooms.map((room) => (
               <SideRoomItem
                 key={room._id}

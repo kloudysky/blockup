@@ -29,10 +29,11 @@ body{
     display: flex;
     width: 80%;
     height: auto;
-
     margin: auto;
     padding-top: 20px;
+    padding-bottom: 5px;
     border-bottom: 1px grey solid;
+    align-items: center;
 }
 
 .friend-page-username{
@@ -41,9 +42,13 @@ body{
 }
 
 .friend-page-lastest-msg{
-    width: 80%;
-    color: black;
-    font-family: cursive;
+  width: 65%;
+  color: black;
+  font-family: cursive;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 a.msg-link {
@@ -93,8 +98,8 @@ a.msg-link {
   }
 
 .right-container{
-    /* margin-left: auto; */
-    margin-left: 45px;
+    margin-left: auto;
+    width: 300px;
 }
 
 .request-receiver{
@@ -132,10 +137,13 @@ a.msg-link {
 .all-requests{
     font-weight: bold;
     padding-left: 0px;
+    margin-bottom: 5px;
 }
 
 .friendship-all-friends{
-    width: 100%;
+  width: 65%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .unfriend{
@@ -178,19 +186,43 @@ a.msg-link {
   }
 
 
-
-
+  
 .add-friend{
-    margin: 10px;
-    white-space: nowrap;
+  margin: 10px;
+  white-space: nowrap;
+  display: flex;
+}
+
+.friend-id-delete{
+  border: grey 1px solid;
+  width: 208px;
+  background: white;
+  border-radius: 3px;
+  height: 29px;
 }
 
 .put-friend-id{
-    padding-left: 6px;
-    width: 166px;
-    border-radius: 3px;
-    height: 23px;
-    border: grey 1px solid;
+  height: 23px;
+  padding-left: 6px;
+  width: 170px;
+  border: none;
+  padding-right: 5px;
+  border: transparent 1px solid;
+}
+.clear-text-friendship{
+  /* margin-left: auto;
+  margin-right: 10px; */
+  background: transparent;
+  font-size: 18px;
+  border: none;
+  border: transparent 1px solid;
+  /* position: absolute;
+  right: 63px; */
+}
+
+.clear-text-friendship:hover{
+  color: red;
+  font-weight: bolder;
 }
 
 .add-btn{
@@ -290,4 +322,32 @@ button{
     background-color: red;
     cursor: pointer;
   }
+
+
   
+  .user-pic-friendship{
+    width: 35px;
+    height: 35px;
+    border-radius: 20px;
+  }
+
+  .user-pic-friendrequest{
+    width: 28px;
+    height: 28px;
+    border-radius: 20px;
+  }
+
+  .friendrequest-img-username{
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+  }
+
+  .friendrequest-container{
+    margin-bottom: 15px;
+  }
+
+  .delete-request{
+    margin-left: 40px;
+  }
+

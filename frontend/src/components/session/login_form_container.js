@@ -6,6 +6,7 @@ import * as sessionActions from "../../actions/session_actions";
 const mapStateToProps = (state) => {
   return {
     errors: state.errors.session,
+    
   };
 };
 

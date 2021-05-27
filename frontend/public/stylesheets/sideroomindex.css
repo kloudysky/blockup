@@ -169,10 +169,24 @@
   border: none;
   outline-width: 0;
   margin-left: 10px;
+  width: 100%;
 }
 
 .sidebar-chats {
   flex: 1;
   background-color: white;
   overflow: scroll;
+}
+
+.clear-text{
+  margin-left: auto;
+  margin-right: 10px;
+  background: transparent;
+  font-size: 22px;
+  border: none;
+}
+
+.clear-text:hover{
+  color: red;
+  font-weight: bolder;
 }

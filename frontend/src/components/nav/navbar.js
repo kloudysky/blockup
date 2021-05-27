@@ -22,6 +22,7 @@ class NavBar extends React.Component {
   }
 
   componentDidMount() {
+   
     this.props.receiveCurrentUser(this.props.currentUser);
 
     this.socket.on("friend request received", (data)=>{
@@ -147,7 +148,7 @@ class NavBar extends React.Component {
         );
       } else {
         return (
-          <div>
+          <div className="set2F">
             <Link to={"/twoFASetup"}>Setup 2FA</Link>
             <button onClick={this.logoutUser}>Logout</button>
             <Link to={"/developers"} id="developers-icon">

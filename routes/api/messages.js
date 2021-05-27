@@ -62,9 +62,13 @@ router.post(
       Message.find({ _id: result._id })
         .populate("author", "username")
         .then((message) => {
-          socket.to(req.body.room).emit("incoming message", message[0]);
+          
+          // socket.to(req.body.room).emit("incoming message", message[0]);
+          
+          console.log(message[0]);
           res.json(message[0]);
         });
+        
     });
   }
 );

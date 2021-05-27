@@ -7,10 +7,13 @@ export class SideRoomItem extends React.Component {
     this.socket = openSocket("http://localhost:5000", {
       transports: ["websocket"],
     });
+
+    this.joinSocket =  true;
     this.state = {
-      activeRoom: null,
+      
       showMembers: false,
       deleteId: "",
+
     };
 
     this.getActiveRoom = this.getActiveRoom.bind(this);
@@ -23,12 +26,16 @@ export class SideRoomItem extends React.Component {
 
   componentDidMount() {
 
-
+    if(this.props.activeRoom._id === this.props.id){
+    
+      this.socket.emit("join room", this.props.activeRoom._id);
+    }
     
     this.socket.on("incoming message", (msg) => {
-      console.log("Incoming Message From Server");
 
-      if (this.props.user.id !== msg.author._id) {
+      console.log("Incoming Message From Server");
+     
+      if (this.props.user.id !== msg.author._id && msg.room === this.props.activeRoom._id) {
 
           this.props.receiveRoomMessage(msg);
 
@@ -38,6 +45,7 @@ export class SideRoomItem extends React.Component {
     this.socket.on("test", (msg) => {
       console.log(msg);
     });
+
   }
 
 
@@ -99,8 +107,10 @@ export class SideRoomItem extends React.Component {
   }
 
   getActiveRoom() {
-    this.socket.emit("leave room", this.props.activeRoom);
+    this.socket.emit("leave room", this.props.id);
+
     this.props.getRoomMessages(this.props.id);
+
     this.socket.emit("join room", this.props.id);
     return this.props.setActiveRoom(this.props.id);
   }
@@ -134,7 +144,7 @@ export class SideRoomItem extends React.Component {
       members.forEach(member => {
         if(member._id !== this.props.user.id){
           room_member_name = member.username;
-          room_member_pic = member.img_url ?  member.img_url : "default-user-pic.png";
+          room_member_pic = member.img_url ?  "images/" + member.img_url : "default-user.png";
         }
 
       });
@@ -148,7 +158,7 @@ export class SideRoomItem extends React.Component {
           {members.map((member)=>(
             
             <li key={member._id} className="room-members-li">
-              <img src={member.img_url ?  member.img_url : "one-user.png" } alt="user pic" className="user-pic-chat-room-small"/>
+              <img src={member.img_url ?  "images/"+member.img_url : "one-user.png" } alt="user pic" className="user-pic-chat-room-small"/>
               <p className="room-friend-request-username">Username: {member.username}</p>
               <p className="room-friend-request-id">id: {member._id}</p>
 

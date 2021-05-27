@@ -62,7 +62,7 @@
   justify-content: center;
   background-color: #3b3a30;
   color: white;
-  height: 60px;
+  height: 65px;
 }
 
 .top-nav a {
@@ -96,6 +96,11 @@
     position: absolute;
     /* border: 1px solid #42423c; */
     margin-left: 28%;
-    margin-top: 22px;
+    margin-top: 30px;
     z-index: 2;
+}
+
+
+.set2F{
+  margin: auto;
 }
