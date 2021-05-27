@@ -45,18 +45,38 @@ export class ChatBody extends Component {
     // let newMessages = this.props.newMessages || [];    
 
     if (room && room.messages) {
-      return messages.map((message) => (
-        <p
-          key={message._id + `${Math.random(10000)}`}
-          className={`chat-message ${
-            this.props.user.id === message.author._id ? "chat-reciever" : ""
-          }`}
-        >
-          <span className="chat-name">{message.author.username}</span>
-          {message.content}
-          <span className="chat-timestamp">{this.handleTime(message.createdAt)}</span>
-        </p>
-      ));
+      let roomMessages = []
+       messages.forEach((message,idx) => {
+        if( idx === 0 || ( idx !==0 && messages[idx]._id !==  messages[idx - 1]._id )){
+
+          roomMessages.push(<p
+                key={message._id + `${Math.random(10000)}`}
+                className={`chat-message ${
+                  this.props.user.id === message.author._id ? "chat-reciever" : ""
+                }`}
+              >
+                <span className="chat-name">{message.author.username}</span>
+                {message.content}
+                <span className="chat-timestamp">{this.handleTime(message.createdAt)}</span>
+              </p>)
+        }
+      })
+    
+      return roomMessages
+      // return messages.map((message) => (
+      // // return room.messages.map((message) => (
+      //   <p
+      //     key={message._id + `${Math.random(10000)}`}
+      //     className={`chat-message ${
+      //       this.props.user.id === message.author._id ? "chat-reciever" : ""
+      //     }`}
+      //   >
+      //     <span className="chat-name">{message.author.username}</span>
+      //     {message.content}
+      //     <span className="chat-timestamp">{this.handleTime(message.createdAt)}</span>
+      //   </p>
+      // ));
+
     } else {
       return (
         <div>

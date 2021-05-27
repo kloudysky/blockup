@@ -123,9 +123,10 @@ export class VideoChat extends React.Component {
         video.play()
       })
 
-      if(!document.getElementById(userId + "div")){
+      let divTag = document.getElementById(userId + "div")
+      if(!divTag){
 
-        let divTag = document.createElement('div');
+      divTag = document.createElement('div');
         divTag.setAttribute("id", userId + "div")
         divTag.className = "video-div"
         // 
