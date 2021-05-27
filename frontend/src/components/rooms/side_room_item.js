@@ -8,6 +8,8 @@ export class SideRoomItem extends React.Component {
       transports: ["websocket"],
     });
 
+    this.firstJoin = true;
+
     this.joinSocket =  true;
     this.state = {
       
@@ -26,9 +28,12 @@ export class SideRoomItem extends React.Component {
 
   componentDidMount() {
 
-    if(this.props.activeRoom._id === this.props.id){
+    if(this.props.activeRoom._id === this.props.id && this.state.firstJoin){
+      
     
       this.socket.emit("join room", this.props.activeRoom._id);
+      this.firstJoin =  false ;
+      
     }
     
     this.socket.on("incoming message", (msg) => {
