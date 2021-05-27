@@ -31,7 +31,7 @@ const io = require("socket.io")(http, {
 const Message = require("./models/Message");
 
 mongoose
-  .connect(db, { useNewUrlParser: true })
+  .connect(db, {useNewUrlParser: true, useUnifiedTopology: true})
   .then(() => console.log("Connected to MongoDB successfully"))
   .catch((err) => console.log(err));
 
@@ -47,6 +47,10 @@ app.use("/api/messages", messages);
 app.use("/api/friendships", friendships);
 app.use("/api/friendRequests", friendRequests);
 
+http.listen(PORT, () => {
+  console.log("listening on *:" + `${PORT}`);
+});
+
 let socketList = {}
 io.on("connection", (socket) => {
   console.log("testingggggggggggggg", socket.id )
@@ -56,7 +60,7 @@ io.on("connection", (socket) => {
 
   socket.on('join video chat', (roomId, userId) => {
   
-    console.log("video_room: ", roomId, "user: ", userId,"**************")
+    console.log("video_room: ", roomId, "user: ", userId, "**************")
     socket.join(roomId)
     socket.to(roomId).emit('user-connected', userId)
 
@@ -79,15 +83,15 @@ io.on("connection", (socket) => {
     console.log("********* login", socketList, "********")
   })
 
-  socket.on("logout", (data)=>{
-    console.log("********* logout", data)
-    if( data in socketList){
-      delete socketList[data]
-    }
-    // socketList.push({ id: data[0], username: data[1], socket: socket.id})
-    console.log("********* logout", data, "********")
-    console.log("********* login", socketList, "********")
-  })
+  // socket.on("logout", (data)=>{
+  //   console.log("********* logout", data)
+  //   if( data in socketList){
+  //     delete socketList[data]
+  //   }
+  //   // socketList.push({ id: data[0], username: data[1], socket: socket.id})
+  //   console.log("********* logout", data, "********")
+  //   console.log("********* login", socketList, "********")
+  // })
 
   socket.on("friend request",(data)=>{
      let id = data.receiver_id;
@@ -153,16 +157,24 @@ io.on("connection", (socket) => {
   })
 
   socket.on("join room", (room) => {
-    console.log("ROOM ID", "------", socket.id);
-    console.log(room);
+
     socket.join(room);
+    console.log("some one join the room ROOM ID >>>>>>",room);
   });
+
+
+
+  socket.on("messages", (data) => {
+
+      socket.to(data[0]).emit("incoming message", data[1]);
+
+  })
 
   socket.on("leave room", (room) => {
     socket.leave(room);
+    console.log("some one left the room ROOM ID ********",room );
   });
+
 });
 
-http.listen(PORT, () => {
-  console.log("listening on *:" + `${PORT}`);
-});
+

@@ -6,6 +6,7 @@ import {
   fetchRoomMessages,
   receiveRoomMessage,
 } from "../../actions/message_actions";
+
 import SideRoomIndex from "./side_room_index";
 import { fetchFriendships } from "../../actions/friendship_actions";
 

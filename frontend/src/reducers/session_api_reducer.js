@@ -2,6 +2,7 @@ import {
   RECEIVE_CURRENT_USER,
   RECEIVE_USER_LOGOUT,
   RECEIVE_USER_SIGN_IN,
+  RECEIVE_IMAGE
 } from "../actions/session_actions";
 
 import { RECEIVE_FRIENDSHIPS } from '../actions/friendship_actions'
@@ -16,6 +17,7 @@ const initialState = {
 const SessionAPIReducer = (state = initialState, action) => {
   switch (action.type) {
     case RECEIVE_CURRENT_USER:
+      
       console.log("SESSION API REDUCER");
       let isAuthenticated = false;
       
@@ -39,6 +41,10 @@ const SessionAPIReducer = (state = initialState, action) => {
         isVerified: action.currentUser.verified,
         user: currentUser,
       };
+
+    case RECEIVE_IMAGE:
+      
+      return Object.assign({},state,{img_url: action.img_url})
   
     case RECEIVE_USER_LOGOUT:
       return {

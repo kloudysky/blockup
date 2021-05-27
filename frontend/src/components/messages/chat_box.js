@@ -36,14 +36,14 @@ export class ChatBox extends React.Component {
   }
 
   componentDidMount() {
-    if(this.props.activeRoom !== null && this.props.activeRoom !== undefined ){
-
-      this.socket.emit("join room", this.props.activeRoom._id || "null");
-    }
+    // if(this.props.activeRoom !== null && this.props.activeRoom !== undefined ){
+    // }
   }
 
+
+
   sendSocketIO(msg) {
-    this.socket.emit("message", msg);
+    // this.socket.emit("message", msg);
   }
 
   handlePicker(){
@@ -118,18 +118,25 @@ export class ChatBox extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    if(!this.state.isListening){    
-      const msg = {
-        content: this.state.content,
-        author: this.props.currentUser.id,
-        room: this.props.activeRoom._id,
-        
-      };
-      this.props.createMessage(msg);
-      this.setState({ content: "" });
-      this.sendSocketIO(msg);
-    }else{
-      this.setState({ micOn: true });
+    if(this.state.content){   
+      if(!this.state.isListening){    
+          const msg = {
+            content: this.state.content,
+            author: this.props.currentUser.id,
+            room: this.props.activeRoom._id,
+            
+          };
+
+          this.props.createMessage(msg).then(()=>{
+      
+            this.socket.emit("messages",[this.props.activeRoom._id, this.props.messages.slice(-1)[0] ])
+          });
+
+          this.setState({ content: "" });
+          // this.sendSocketIO(msg);
+        }else{
+          this.setState({ micOn: true });
+        }
     }
 
   }

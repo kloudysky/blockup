@@ -25,7 +25,7 @@ router.post('/new' , (req, res) => {
             // friendRequest.save().then(friendRequest => res.json(friendRequest))
             friendRequest.save().then(friendRequest =>  {
                 FriendRequest.findById(friendRequest._id)
-                .populate('senderId','username').populate('receiverId','username')
+                .populate('senderId','username img_url').populate('receiverId','username img_url')
                 .then(friendRequest => {
                     res.json(friendRequest)
                 })
@@ -54,7 +54,7 @@ router.post('/new' , (req, res) => {
 router.get('/:friend_id', (req, res) => {
     // Friendship.find({friend1: req.params.friend_id})
     FriendRequest.find({$or: [{senderId: req.params.friend_id}, {receiverId: req.params.friend_id}]})
-        .populate('senderId','username').populate('receiverId','username')
+        .populate('senderId','username img_url').populate('receiverId','username img_url')
         .then(friendRequests => res.json(friendRequests))
         // .catch(err =>
         //     res.status(404).json({ noFriendRequestfound: 'No friendRequest found from this user' }

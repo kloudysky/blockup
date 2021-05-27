@@ -15,6 +15,98 @@ const Message = require("./../../models/Message");
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 
+const multer = require('multer')
+const path = require("path");
+
+const fs = require("fs")
+
+
+const storage = multer.diskStorage({
+  // destination: "./frontend/public",
+  destination: "./frontend/public/images",
+  // destination: "./images",
+  filename: function(req, file, cb){
+     cb(null, Date.now() + '-' + req.headers.userid + ".png");
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits:{fileSize: 5000000},
+}).single("file");
+
+router.patch("/upload", (req, res) => {
+
+  if(req.headers.original !== "default-user.png"){
+
+    // // if (fs.existsSync("./frontend/public/images/" + req.headers.userid + ".png") ){
+    // //   fs.unlinkSync("./frontend/public/images/" + req.headers.userid + ".png");
+    // if (fs.existsSync("./frontend/public/images/" + req.headers.original) ){
+    //   fs.unlinkSync("./frontend/public/images/" + req.headers.original);
+    //   console.log(req.headers.original,"     exist.........")
+    // }else{
+    //   console.log("./frontend/public/images/" + req.headers.original +  "  no.........")
+      
+    // }
+    
+    fs.unlinkSync("./frontend/public/images/" + req.headers.original);
+
+  }
+  
+  // setTimeout(()=>{
+
+    console.log("@@@@@@@@@@@@@@@@@")
+    upload(req, res, (err) => {
+      console.log("Request ---", req.body);
+      console.log("Request file ---", req.file);
+
+      if (err) {
+        console.log(err,"************")
+      }
+  
+      // User.findOneAndUpdate({_id: req.headers.userid},{$set:{img_url: req.headers.userid + ".png"}}, {new: true, useFindAndModify: false },
+      User.findOneAndUpdate({_id: req.headers.userid},{$set:{img_url: req.file.filename}}, {new: true, useFindAndModify: false },
+        // (err)=>{if(!err) {return res.json({status:"success",message:"username updated"});}}
+      )
+      .then((result) => {
+        console.log(result,"***********.@@@@@@@")
+  
+  
+        console.log(req.headers.username,req.headers.verified,req.headers.otpauth_url)
+  
+        const payload = {
+          id: req.headers.userid,
+          username: req.headers.username,
+          verified: req.headers.verified,
+          img_url: req.file.filename,
+          otpauth_url: req.headers.otpauth_url,
+        };
+  
+        jwt.sign(
+          payload,
+          keys.secretOrKey,
+          { expiresIn: 3600 },
+          (err, token) => {
+            res.json({
+              success: true,
+              token: "Bearer" + token,
+            });
+          }
+        );
+  
+        // res.json(result);
+      })
+  
+  
+    });
+
+  // }, 3000)
+
+  
+
+
+});
+
 router.get("/test", (req, res) => res.json({ msg: "This is the users route" }));
 
 router.get(
@@ -44,7 +136,7 @@ router.post("/register", (req, res) => {
       const newUser = new User({
         username: req.body.username,
         email: req.body.email,
-        img_url: "default-user-pic.png",
+        img_url: "default-user.png",
         password: req.body.password,
         secret: auth_token.base32,
         otpauth_url: auth_token.otpauth_url,
@@ -102,7 +194,7 @@ router.post("/register", (req, res) => {
                 messages: [], 
               });
             
-              const messsage = `Hi ${user.username}. Welcome to Blockup! We are delghted you signed up. Please let me know if you have any questions. I am always happy to help 😃. Also, feel free to talk with our delvelopers in the group chat. Thanks, Blockup Assistant.`
+              const messsage = `Hi ${user.username}. Welcome to Blockup! We are delighted you signed up. Please let me know if you have any questions. I am always happy to help 😃. Also, feel free to talk with our developers in the group chat. Thanks, Blockup Assistant.`
 
               newRoom1.save().then((result=>{
                 const newMessage = new Message({
@@ -111,7 +203,11 @@ router.post("/register", (req, res) => {
                   room: result._id,
                 });
             
-                newMessage.save()
+                newMessage.save().then((message)=>{
+                  newUser.password = hash;
+                  newRoom1.messages.push(message._id)
+                  newRoom1.save()
+                })
               }))
 
               const newRoom2 = new Room({
