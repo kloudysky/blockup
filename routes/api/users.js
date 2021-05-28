@@ -39,17 +39,18 @@ router.patch("/upload", (req, res) => {
 
   if(req.headers.original !== "default-user.png"){
 
-    // // if (fs.existsSync("./frontend/public/images/" + req.headers.userid + ".png") ){
-    // //   fs.unlinkSync("./frontend/public/images/" + req.headers.userid + ".png");
-    // if (fs.existsSync("./frontend/public/images/" + req.headers.original) ){
-    //   fs.unlinkSync("./frontend/public/images/" + req.headers.original);
-    //   console.log(req.headers.original,"     exist.........")
-    // }else{
-    //   console.log("./frontend/public/images/" + req.headers.original +  "  no.........")
+    // if (fs.existsSync("./frontend/public/images/" + req.headers.userid + ".png") ){
+    //   fs.unlinkSync("./frontend/public/images/" + req.headers.userid + ".png");
+    if (fs.existsSync("./frontend/public/images/" + req.headers.original) ){
+      fs.unlinkSync("./frontend/public/images/" + req.headers.original);
+      console.log(req.headers.original,"     exist.........")
+    }else{
+      console.log("./frontend/public/images/" + req.headers.original +  "  no.........")
       
-    // }
-    
-    fs.unlinkSync("./frontend/public/images/" + req.headers.original);
+    }
+  
+      
+    // fs.unlinkSync("./frontend/public/images/" + req.headers.original);
 
   }
   
