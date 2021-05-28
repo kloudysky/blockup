@@ -1,9 +1,12 @@
 import React from "react";
 import openSocket from "socket.io-client";
+// import io from "socket.io-client";
 
 export class SideRoomItem extends React.Component {
   constructor(props) {
     super(props);
+    
+    // this.socket = io();
     this.socket = openSocket("http://localhost:5000", {
       transports: ["websocket"],
     });
@@ -11,6 +14,7 @@ export class SideRoomItem extends React.Component {
     this.firstJoin = true;
 
     this.joinSocket =  true;
+
     this.state = {
       
       showMembers: false,

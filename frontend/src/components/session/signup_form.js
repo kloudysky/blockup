@@ -90,7 +90,7 @@ class SignupForm extends React.Component {
           <p>Log in above two accounts at the same time: </p>
           <button className="two-accounts" onClick={this.handleDemoUser([{email: "demo_user_1@gmail.com", password: "aaaaaa"},{email: "demo_user_2@gmail.com",password: "aaaaaa"}])}>Click</button>
 
-          <p className="login-noti">Note: Logging in with above two accounts at the same time, the original window will load profile page logged in as demo_user_1 and a new pop-up windown will load webpage logged in as demo_user_2. </p>
+          <p className="login-noti">Note: Logging in with above two accounts at the same time, the original window will load webpage logged in as demo_user_1 and a new pop-up windown will load webpage logged in as demo_user_2. </p>
 
         </div>
 

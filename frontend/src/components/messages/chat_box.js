@@ -1,5 +1,6 @@
 import React from "react";
 import Chatbody from "./chat_body";
+// import io from "socket.io-client";
 import openSocket from "socket.io-client";
 import {Link} from 'react-router-dom';
 import {Picker, emojiIndex} from 'emoji-mart';
@@ -8,6 +9,7 @@ import 'emoji-mart/css/emoji-mart.css';
 
 export class ChatBox extends React.Component {
   constructor(props) {
+
     super(props);
     this.state = {
       content: "",
@@ -18,6 +20,7 @@ export class ChatBox extends React.Component {
 
     };
 
+    // this.socket = io();
     this.socket = openSocket("http://localhost:5000", {
       transports: ["websocket"],
     });
