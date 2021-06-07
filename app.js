@@ -22,13 +22,30 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-// "http://localhost:3000"
 const http = require("http").Server(app);
-const io = require("socket.io")(http, {
-  cors: {
-    origin: "https://blockup.herokuapp.com"
-  },
-});
+// const io = require("socket.io")(http, {
+//   cors: {
+//     origin: "http://localhost:3000",
+//   },
+// });
+
+const cors = require('cors')
+const io = require("socket.io")(http);
+const whitelist = ['http://localhost:3000', 'http://localhost:5000', 'https://blockup.herokuapp.com']
+const corsOptions = {
+  origin: function (origin, callback) {
+    console.log("** Origin of request " + origin)
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      console.log("Origin acceptable")
+      callback(null, true)
+    } else {
+      console.log("Origin rejected")
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+app.use(cors(corsOptions))
+
 const Message = require("./models/Message");
 
 mongoose
