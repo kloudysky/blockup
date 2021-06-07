@@ -25,7 +25,7 @@ if (process.env.NODE_ENV === "production") {
 const http = require("http").Server(app);
 const io = require("socket.io")(http, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000","https://blockup.herokuapp.com"]
   },
 });
 const Message = require("./models/Message");
