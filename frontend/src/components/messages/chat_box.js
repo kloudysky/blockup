@@ -21,7 +21,7 @@ export class ChatBox extends React.Component {
     };
 
     // this.socket = io();
-    this.socket = openSocket("http://localhost:5000", {
+    this.socket = openSocket(["http://localhost:5000", "https://blockup.herokuapp.com"], {
       transports: ["websocket"],
     });
 
