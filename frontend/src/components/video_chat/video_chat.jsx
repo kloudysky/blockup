@@ -15,8 +15,12 @@ export class VideoChat extends React.Component {
     });
 
     this.myPeer = new Peer(this.props.user.id, {
-        host: '/',
-        port: '3001'
+        host: "https://blockup.herokuapp.com", 
+        prot: '443',
+        secure: true
+        // host: '/',
+        // port: '3001'
+
     });
 
     this.videoRef = React.createRef()
