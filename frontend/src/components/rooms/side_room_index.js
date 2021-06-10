@@ -17,7 +17,7 @@ export class SideRoomIndex extends Component {
     };
 
 
-    this.socket = openSocket("http://localhost:5000", {
+    this.socket = openSocket(["http://localhost:5000", "https://blockup.herokuapp.com"], {
       transports: ["websocket"],
     });
 
