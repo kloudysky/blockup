@@ -15,7 +15,7 @@ export class VideoChat extends React.Component {
     });
 
     this.myPeer = new Peer(this.props.user.id, {
-        host: "hidden-beach-54481.herokuapp.com/myapp", 
+        host: "https://blockup.herokuapp.com", 
         prot: '443',
         secure: true
         // host: '/',
