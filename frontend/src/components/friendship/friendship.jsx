@@ -326,7 +326,7 @@ class Friendship extends React.Component {
         <div className="friendship-all-friends">
                 {Object.values(this.props.friendships).map((friendship,idx)=>(
                   <div className="individual-msg" key={idx}>
-                      <img src={ friendship.friend1._id === this.props.user.id?  (friendship.friend2.img_url ? "images/"+friendship.friend2.img_url : "default-user.png" ) :   (friendship.friend1.img_url ? "images/"+friendship.friend1.img_url : "default-user.png" ) } alt="user pic" className="user-pic-friendship"/>
+                      <img src={ friendship.friend1._id === this.props.user.id?  (friendship.friend2.img_url ? friendship.friend2.img_url : "default-user.png" ) :   (friendship.friend1.img_url ? friendship.friend1.img_url : "default-user.png" ) } alt="user pic" className="user-pic-friendship"/>
                       <p className="friend-page-username">{friendship.friend1._id === this.props.user.id ? friendship.friend2.username : friendship.friend1.username}</p>
                       <p className="friend-page-lastest-msg">{this.props.roomsFor2[friendship.friend1._id === this.props.user.id ? friendship.friend2._id : friendship.friend1._id]}</p>
                       {/* <Link to={`/`} className="msg-link">✉️ </Link> */}
@@ -380,7 +380,7 @@ class Friendship extends React.Component {
 
               <div className="friendrequest-img-username">
 
-                <img src={friendReq.senderId.img_url ?  "images/"+friendReq.senderId.img_url : "default-user.png" } alt="user pic" className="user-pic-friendrequest"/>
+                <img src={friendReq.senderId.img_url ?  friendReq.senderId.img_url : "default-user.png" } alt="user pic" className="user-pic-friendrequest"/>
                 <p>{friendReq.senderId.username}</p>
 
               </div>
@@ -402,7 +402,7 @@ class Friendship extends React.Component {
           {friend_sent.map((req,idx)=>(
             <div key={idx} className="friendrequest-container">
               <div className="friendrequest-img-username">
-                <img src={req.receiverId.img_url ?  "images/"+ req.receiverId.img_url : "default-user.png" } alt="user pic" className="user-pic-friendrequest"/>
+                <img src={req.receiverId.img_url ?  req.receiverId.img_url : "default-user.png" } alt="user pic" className="user-pic-friendrequest"/>
                 <p>{req.receiverId.username}</p>
               </div>
               {/* <button onClick={(e)=>{this.props.deleteFriendRequest(e)}}>Cancel</button> */}

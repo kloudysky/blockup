@@ -153,7 +153,7 @@ export class SideRoomItem extends React.Component {
       members.forEach(member => {
         if(member._id !== this.props.user.id){
           room_member_name = member.username;
-          room_member_pic = member.img_url ?  "images/" + member.img_url : "default-user.png";
+          room_member_pic = member.img_url ?  member.img_url : "default-user.png";
         }
 
       });
@@ -167,7 +167,7 @@ export class SideRoomItem extends React.Component {
           {members.map((member)=>(
             
             <li key={member._id} className="room-members-li">
-              <img src={member.img_url ?  "images/"+member.img_url : "one-user.png" } alt="user pic" className="user-pic-chat-room-small"/>
+              <img src={member.img_url ? member.img_url : "one-user.png" } alt="user pic" className="user-pic-chat-room-small"/>
               <p className="room-friend-request-username">Username: {member.username}</p>
               <p className="room-friend-request-id">id: {member._id}</p>
 

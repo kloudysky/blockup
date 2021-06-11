@@ -179,7 +179,7 @@ export class SideRoomIndex extends Component {
         <div className="sidebar-header">
           <div className="sidebar-header-left">
             {/* <Link to={`/profile`} className="user-icon-link"> <i className="fas fa-user-circle"></i> </Link> */}
-            <Link to={`/profile`} className="user-icon-link"> {this.props.user.img_url ?  <img src={"images/" + this.props.user.img_url} alt="user pic" className="user-pic-chat-room-circle"/> : <i className="fas fa-user-circle"></i> }
+            <Link to={`/profile`} className="user-icon-link"> {this.props.user.img_url ?  <img src={this.props.user.img_url} alt="user pic" className="user-pic-chat-room-circle"/> : <i className="fas fa-user-circle"></i> }
             </Link>
             {/* <i className="fas fa-user-circle"></i> */}
             <h3>{this.props.user.username}</h3>
