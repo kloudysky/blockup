@@ -9,6 +9,7 @@ class Profile extends React.Component {
             extentionError: '',
             tooLargeError: '',
             emptyError: '',
+            loading: false,
         }
 
         this.handelPic = this.handelPic.bind(this)
@@ -39,6 +40,8 @@ class Profile extends React.Component {
 
         e.preventDefault()
 
+        
+
         const data = new FormData();
         const imgFile = this.state.picture
         data.append('file', imgFile);
@@ -67,13 +70,19 @@ class Profile extends React.Component {
         }
 
         this.setState({
+        
             extentionError: extention,
             tooLargeError: tooLarge,
-            emptyError: empty
+            emptyError: empty,
+            
         })
 
 
         if(errors === 0){
+
+            this.setState({
+                loading: true
+            })
 
             const config = {
                 headers: {
@@ -89,10 +98,11 @@ class Profile extends React.Component {
 
               this.props.uploadPicture(data, config)
               .then(() => { 
+
                 this.setState({
                     changePic: !this.state.changePic,
                     picture: '',
-                    
+                    loading: false
                 })           
               });
         }
@@ -100,36 +110,50 @@ class Profile extends React.Component {
 
     render() {
         const {user} = this.props;
-        return (
-            <div className="profile">
-                <div className="profilebody">
-                    <p>Hello, {user.username}!</p>
-                    <p>ID: {user.id}</p>
+        if(this.state.loading){
 
-                       {this.props.verified ? <p className="profile-2f-verified">Two Factor Authentication: Verified </p> : <p className="profile-2f-unverified">Two Factor Authentication: Unverifid </p>  }
-                    {/* <img src={ this.state.userPic? this.state.userPic : "default-user.png" } className="profile-pic" alt="profile"/> */}
-                    {/* <img src="./images/60a7641780bcf83ef5ffa4a4" className="profile-pic" alt="profile"/> */}
-                    {/* <img src="../../../images/60a7641780bcf83ef5ffa4a4.png" className="profile-pic" alt="profile"/> */}
-                    {/* <img src={ this.state.userPic? "images/" + this.state.userPic : "default-user.png" } className="profile-pic" alt="profile"/> */}
-                    <img src={this.props.user.img_url? "images/" +this.props.user.img_url : "default-user.png" } className="profile-pic" alt="profile"/>
-                    
-                    {this.state.extentionError}
-                    {this.state.tooLargeError}
-                    {this.state.emptyError}
+            return (
 
-                    <form onSubmit={this.handelUpload} className="uploadPic">
-
-                    {this.state.changePic ?  <input type="file" onChange={this.handleUpdate}/> : <button onClick={this.handelPic}>Upload a profile picture</button>}
-                    {this.state.changePic ? <button type="submit">Upload</button> : null}
-                    
-                    </form>
-
-                    {this.state.changePic ? <button onClick={this.handelPic}>Cancel</button> : null}
-                    
+                <div className="profile">
+                    <div className="profilebody">
+                        <h3 style={{"height": "250px", "padding-top":"50%"}}>Picture is Loading...</h3>
+                    </div>
                 </div>
-            </div>
+                
+            )
 
-        )
+        }else{
+
+            return (
+                <div className="profile">
+                    <div className="profilebody">
+                        <p>Hello, {user.username}!</p>
+                        <p>ID: {user.id}</p>
+
+                        {this.props.verified ? <p className="profile-2f-verified">Two Factor Authentication: Verified </p> : <p className="profile-2f-unverified">Two Factor Authentication: Unverifid </p>  }
+                        
+                        <img src={this.props.user.img_url? this.props.user.img_url : "default-user.png" } className="profile-pic" alt="profile"/>
+                        
+                        {this.state.extentionError}
+                        {this.state.tooLargeError}
+                        {this.state.emptyError}
+
+                        <form onSubmit={this.handelUpload} className="uploadPic">
+
+                        {this.state.changePic ?  <input type="file" onChange={this.handleUpdate}/> : <button onClick={this.handelPic}>Upload a profile picture</button>}
+                        {this.state.changePic ? <button type="submit">Upload</button> : null}
+                        
+                        </form>
+
+                        {this.state.changePic ? <button onClick={this.handelPic}>Cancel</button> : null}
+                        
+                    </div>
+                </div>
+
+            )
+        }
+
+              
     }
 }
 
