@@ -13,10 +13,10 @@ Blockup is a communication app built with the MERN stack (MongoDB | Express | Re
 ## Video Chat
 ![VideoChat](README_assets/videoChat.gif)
 
-## Adding friends
+## Adding Friends
 ![addFriends](README_assets/addFriends.gif)
 
-## Upload profile picture
+## Upload Profile Picture
 ![uploadPicture](README_assets/uploadPicture.gif)
 
 
