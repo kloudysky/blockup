@@ -22,6 +22,13 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+if (process.env.NODE_ENV === "production") {
+  app.enable('trust proxy')
+  app.use((req, res, next) => {
+      req.secure ? next() : res.redirect('https://' + req.headers.host + req.url)
+  })
+}
+
 const http = require("http").Server(app);
 const io = require("socket.io")(http, {
   // cors: {
