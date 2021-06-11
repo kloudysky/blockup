@@ -29,7 +29,8 @@ if (process.env.NODE_ENV === "production") {
   })
 }
 
-const http = require("http").Server(app);
+const http = require("http").createServer(app);
+// const http = require("http").Server(app);
 const io = require("socket.io")(http, {
   // cors: {
   //   origin: "http://localhost:3000",
