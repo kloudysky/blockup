@@ -18,70 +18,115 @@ const validateLoginInput = require("../../validation/login");
 const multer = require('multer')
 const path = require("path");
 
-const fs = require("fs")
+// const fs = require("fs")
 
+const AWS = require('aws-sdk')
+const uuid = require('uuid')
+const dotenv = require('dotenv')
 
-const storage = multer.diskStorage({
-  // destination: "./frontend/public",
-  destination: "./frontend/public/images",
-  // destination: "./images",
-  filename: function(req, file, cb){
-     cb(null, Date.now() + '-' + req.headers.userid + ".png");
+dotenv.config()
+
+// const region =  process.env.AWS_REGION
+// const accessKeyId= process.env.AWS_ACCESS_KEY_ID
+// const secretAccessKey= process.env.AWS_SECRET_ACCESS_KEY
+
+AWS.config.update({
+  
+  accessKeyId: process.env.AWS_ID,
+  secretAccessKey: process.env.AWS_SECRET,
+  region: process.env.AWS_REGION,
+  
+})
+const s3 = new AWS.S3();
+
+const storage = multer.memoryStorage({
+  destination: function(req, file, callback) {
+      callback(null, '')
   }
-});
+})
 
-const upload = multer({
-  storage: storage,
-  limits:{fileSize: 5000000},
-}).single("file");
+const upload = multer({storage}).single("file")
 
-router.patch("/upload", (req, res) => {
+// const storage = multer.diskStorage({
+//   // destination: "./frontend/public",
+//   destination: "./frontend/public/images",
+//   // destination: "./images",
+//   filename: function(req, file, cb){
+//      cb(null, Date.now() + '-' + req.headers.userid + ".png");
+//   }
+// });
 
-  if(req.headers.original !== "default-user.png"){
+// const upload = multer({
+//   storage: storage,
+//   limits:{fileSize: 5000000},
+// }).single("file");
 
-    // if (fs.existsSync("./frontend/public/images/" + req.headers.userid + ".png") ){
-    //   fs.unlinkSync("./frontend/public/images/" + req.headers.userid + ".png");
-    if (fs.existsSync("./frontend/public/images/" + req.headers.original) ){
-      fs.unlinkSync("./frontend/public/images/" + req.headers.original);
-      console.log(req.headers.original,"     exist.........")
-    }else{
-      console.log("./frontend/public/images/" + req.headers.original +  "  no.........")
+
+// router.patch("/upload", (req, res) => {
+  router.patch("/upload", upload, (req, res) => {
+
+  // if(req.headers.original !== "default-user.png"){
+
+  //   // if (fs.existsSync("./frontend/public/images/" + req.headers.userid + ".png") ){
+  //   //   fs.unlinkSync("./frontend/public/images/" + req.headers.userid + ".png");
+  //   if (fs.existsSync("./frontend/public/images/" + req.headers.original) ){
+  //     fs.unlinkSync("./frontend/public/images/" + req.headers.original);
+  //     console.log(req.headers.original,"     exist.........")
+  //   }else{
+  //     console.log("./frontend/public/images/" + req.headers.original +  "  no.........")
       
-    }
+  //   }
   
       
-    // fs.unlinkSync("./frontend/public/images/" + req.headers.original);
+  //   // fs.unlinkSync("./frontend/public/images/" + req.headers.original);
 
+  // }
+
+  let myFile = req.file.originalname.split(".")
+  const fileType = myFile[myFile.length - 1]
+
+
+  const params = {
+      ContentType: req.file.mimetype, 
+      ACL: 'public-read',
+      Bucket: process.env.AWS_BUCKET_NAME,
+      // Key: `${uuid()}.${fileType}`,
+      Key: req.headers.username + `-${uuid.v4()}.${fileType}`,
+      Body: req.file.buffer
   }
-  
-  // setTimeout(()=>{
 
-    console.log("@@@@@@@@@@@@@@@@@")
-    upload(req, res, (err) => {
-      console.log("Request ---", req.body);
-      console.log("Request file ---", req.file);
+    console.log("$$$$$$",req.headers.username + `-${uuid.v4()}.${fileType}`, myFile,fileType,"$$$$$$")
+    // upload(req, res, (err) => {
+      // console.log("Request ---", req.body);
+      // console.log("Request file ---", req.file);
 
-      if (err) {
-        console.log(err,"************")
+      s3.upload(params, (error, data) => {
+
+      if (error) {
+        console.log("***********",error,"************")
       }
   
-      // User.findOneAndUpdate({_id: req.headers.userid},{$set:{img_url: req.headers.userid + ".png"}}, {new: true, useFindAndModify: false },
-      User.findOneAndUpdate({_id: req.headers.userid},{$set:{img_url: req.file.filename}}, {new: true, useFindAndModify: false },
+      console.log(data.Location)
+      // User.findOneAndUpdate({_id: req.headers.userid},{$set:{img_url: req.file.filename}}, {new: true, useFindAndModify: false },
+      User.findOneAndUpdate({_id: req.headers.userid},{$set:{img_url: data.Location}}, {new: true, useFindAndModify: false },
         // (err)=>{if(!err) {return res.json({status:"success",message:"username updated"});}}
       )
       .then((result) => {
-        console.log(result,"***********.@@@@@@@")
+        // console.log("@@@@@@@",result,"@@@@@@@")
   
   
-        console.log(req.headers.username,req.headers.verified,req.headers.otpauth_url)
+        // console.log(req.headers.username,req.headers.verified,req.headers.otpauth_url)
   
         const payload = {
           id: req.headers.userid,
           username: req.headers.username,
           verified: req.headers.verified,
-          img_url: req.file.filename,
+          // img_url: req.file.filename,
+          img_url: result.img_url,
           otpauth_url: req.headers.otpauth_url,
         };
+
+        // console.log("@@@@@@@",payload,"@@@@@@@")
   
         jwt.sign(
           payload,
@@ -101,9 +146,7 @@ router.patch("/upload", (req, res) => {
   
     });
 
-  // }, 3000)
 
-  
 
 
 });
@@ -153,7 +196,7 @@ router.post("/register", (req, res) => {
             .save()
             .then((user) => {
               const payload = { id: user.id, username: user.username };
-              console.log(user);
+              // console.log(user);
 
               jwt.sign(
                 payload,
