@@ -116,7 +116,7 @@ class Profile extends React.Component {
 
                 <div className="profile">
                     <div className="profilebody">
-                        <h3 style={{"height": "250px", "padding-top":"50%"}}>Picture is Loading...</h3>
+                        <h3 style={{"height": "250px", "paddingTop":"50%"}}>Picture is Loading...</h3>
                     </div>
                 </div>
                 
