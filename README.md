@@ -31,9 +31,9 @@ Blockup adds an extra layer of security to users' account by implement Two-facto
 ## Friending
 ![addFriends](README_assets/addFriends.gif)
 
-Blockup users are able to sent friend request and receive friend request to other blockup uses. After the friend request sending, the friend request receiver will get friend request notification instantly. The two-people room will created after the receiver accept the friend request.  Also. the receiver can cancel the requests they received, and the sender can cancel the requests they sent.
+Blockup users are able to sent friend request and receive friend request to other blockup users. After the friend request is send, the friend request receiver will get a friend request notification instantly. The two-people room will created after the receiver accept the friend request.  Also. the receiver can cancel the requests they received, and the sender can cancel the requests they sent.
 
-The friends page shows the list of the user's friends with their last conversation and pictures. Users can enter the two-peopele room on the friends page and able to unfriend with their friends. However, the the two-peopele room will be deleted once these two people are unfriended. 
+The friends page shows the list of the user's friends with their username, profile pictures, and the most recent message between them. Users can enter the two-peopele room on the friends page and able to unfriend with their friends. However, the the two-peopele room will be deleted once these two people are unfriended. 
 
 ```js
 
@@ -114,7 +114,7 @@ Blockup provides users a convenient way to create mutiple chat rooms with their 
 ## Live Messaging
 ![Messaging](README_assets/messaging.gif)
 
-Blockup allows users to send live text message and emoji. In addtion, by utilizing web speech api, Blockup provides users to record their vioce and convert it to text, so users can send their live vioce to text messages. 
+Blockup allows users to send live text message and emoji. In addtion, by utilizing web speech api, Blockup provides users to record their vioce and convert it to text, so users can send their live voice to text messages.
 
 ```js
 
@@ -143,7 +143,7 @@ Blockup allows users to send live text message and emoji. In addtion, by utilizi
 ```
 
 
-## Video Chat
+## Video/Audio Chat 
 ![VideoChat](README_assets/videoChat.gif)
 
 Blockup users can join/exit the video chat or voice chat whenever they want. 
