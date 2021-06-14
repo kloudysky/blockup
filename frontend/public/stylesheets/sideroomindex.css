@@ -112,7 +112,7 @@
   padding: 7px;
 }
 
-.list-all-friends{
+.all-friends{
   display: flex;
   width: 100%;
   flex-direction: column;

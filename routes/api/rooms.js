@@ -72,9 +72,6 @@ router.post("/new", (req, res) => {
 
   newRoom
   .save()
-<<<<<<< HEAD
-  .then((room) => { room.populate('members'); console.log("after pop", room.members); res.json(room)})
-=======
   // .then((room) => { room.populate('members'); console.log("after pop", room); res.json(room)})
   .then((room) => {
     console.log("**************1",room)
@@ -86,7 +83,6 @@ router.post("/new", (req, res) => {
         console.log(err);
       })
   })
->>>>>>> main
   .catch((err) => {
     console.log(err);
     res.status(404).json({

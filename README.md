@@ -175,7 +175,7 @@ Blockup users can join/exit the video chat or voice chat whenever they want.
 ```
 
 
-## Upload Profile Picture
+## Profile Picture Uploading
 ![uploadPicture](README_assets/uploadPicture.gif)
 
 Blockup allows users to upload/change their profile pictures to AWS S3.
