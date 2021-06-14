@@ -73,6 +73,29 @@ export class SideRoomIndex extends Component {
     ele.style.display = "none";
   }
 
+<<<<<<< HEAD
+  update(field) {
+    if (field === "name") {
+      return (e) =>
+        this.setState({
+          name: e.currentTarget.value,
+        });
+    } else {
+      return (e) =>
+        {
+          if(e.currentTarget.checked){
+            this.setState({
+              members: [...this.state.members, e.currentTarget.value],
+          })
+        }else{
+          let index = this.state.members.indexOf(e.currentTarget.value);
+          let mutatedMembers = this.state.members;
+          mutatedMembers.splice(index, 1);
+          this.setState({
+            members: mutatedMembers
+          })
+        }
+=======
   createRoom(e){
     e.preventDefault();
     
@@ -136,6 +159,7 @@ export class SideRoomIndex extends Component {
             });
           }
 
+>>>>>>> main
       }
     }
   }
@@ -158,6 +182,15 @@ export class SideRoomIndex extends Component {
     if (this.props.friends) {
       friends = this.props.friends.map((friend) => {
         return (
+<<<<<<< HEAD
+            <label className="friend-label" for={friend.id}>
+              <input type="checkbox" key={friend.id} value={friend.id} id={friend.id} name={friend.id} onChange={this.update("members")}/>
+              {friend.username}
+              </label>
+        );
+      });
+    }
+=======
             <label className="friend-label" htmlFor={friend.id} key={friend.id}><input type="checkbox" key={friend.id} value={friend.id} id={friend.id} onChange={this.update("members")} />{friend.username}</label>
         );
       });
@@ -174,6 +207,7 @@ export class SideRoomIndex extends Component {
      
     })
 
+>>>>>>> main
     return (
       <div className="sidebar">
         <div className="sidebar-header">
@@ -196,8 +230,12 @@ export class SideRoomIndex extends Component {
               placeholder="Room name"
               onChange={this.update("name")}>
             </input>
+<<<<<<< HEAD
+            <div className="list-all-friends">
+=======
             <p className="select-friends">Please select at least two friends below: </p>
             <div className="all-friends" >
+>>>>>>> main
               {friends}
             </div>
             <input
