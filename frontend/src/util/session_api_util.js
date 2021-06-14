@@ -20,3 +20,9 @@ export const signup = (userData) => {
 export const login = (userData) => {
   return axios.post("/api/users/login", userData);
 };
+
+export const  uploadPicture = (data,config) => {
+  
+  return axios.patch('/api/users/upload', data, config)
+
+}

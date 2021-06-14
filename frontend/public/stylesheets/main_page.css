@@ -116,3 +116,33 @@ p {
   font-size: 400px;
   color: #3b3a30;
 }
+
+.demo-users{
+  margin-top: 20px;
+  margin-left: 75%;
+}
+
+.demouser1{
+  margin: 0px 80px;
+}
+
+.demouser2{
+  margin: 0px 80px;
+}
+
+.two-accounts{
+  margin: 0px 80px;
+  width: 50px;
+}
+
+.login-noti{
+  font-size: 13px;
+  margin-top: 30px;
+  color: rgb(160, 157, 157);
+}
+
+.or{
+  font-size: 14px;
+  margin: 0px 120px;
+  padding: 0px;
+}

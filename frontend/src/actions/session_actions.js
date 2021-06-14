@@ -1,10 +1,15 @@
 import * as APIUtil from "../util/session_api_util";
 import jwt_decode from "jwt-decode";
+import openSocket from "socket.io-client";
 
+const socket = openSocket(["http://localhost:5000", "https://blockup.herokuapp.com"], {
+      transports: ["websocket"],
+    });
 export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 export const RECEIVE_SESSION_ERRORS = "RECEIVE_SESSION_ERRORS";
 export const RECEIVE_USER_LOGOUT = "RECEIVE_USER_LOGOUT";
 export const RECEIVE_USER_SIGN_IN = "RECEIVE_USER_SIGN_IN";
+export const RECEIVE_IMAGE= "RECEIVE_IMAGE";
 
 // We'll dispatch this when our user signs in
 export const receiveCurrentUser = (currentUser) => ({
@@ -28,6 +33,11 @@ export const logoutUser = () => ({
   type: RECEIVE_USER_LOGOUT,
 });
 
+export const receiveImage = (img_url) => ({
+  type: RECEIVE_IMAGE,
+  img_url
+})
+
 // Upon signup, dispatch the approporiate action depending on which type of response we receieve from the backend
 export const signup = (user) => (dispatch) =>
   APIUtil.signup(user).then(
@@ -37,23 +47,41 @@ export const signup = (user) => (dispatch) =>
 
 // Upon login, set the session token and dispatch the current user. Dispatch errors on failure.
 export const login = (user) => (dispatch) =>
-  APIUtil.login(user)
-    .then((res) => {
+{  
+  
+  return ( APIUtil.login(user)
+  .then((res) => {
+    
+    
       const { token } = res.data;
       localStorage.setItem("jwtToken", token);
       APIUtil.setAuthToken(token);
       const decoded = jwt_decode(token);
+      
       dispatch(receiveCurrentUser(decoded));
-    })
-    .catch((err) => {
-      dispatch(receiveErrors(err.response.data));
-    });
+      socket.emit("login", [decoded.id, decoded.username])
+      })
+      .catch((err) => {
+        
+        dispatch(receiveErrors(err.response.data));
+      })
+    )
+  }
 
 // We wrote this one earlier
 export const logout = () => (dispatch) => {
-  localStorage.removeItem("jwtToken");
-  APIUtil.setAuthToken(false);
-  dispatch(logoutUser());
+  
+  // if(localStorage.jwtToken){
+
+    // const decoded = jwt_decode(localStorage.jwtToken);
+    // socket.emit("logout", decoded.id)
+  // }
+
+
+    localStorage.removeItem("jwtToken");
+    APIUtil.setAuthToken(false);
+    dispatch(logoutUser());
+    
 };
 
 export const verifyTwoFA = (data) => (dispatch) => {
@@ -61,3 +89,21 @@ export const verifyTwoFA = (data) => (dispatch) => {
     .then((response) => dispatch(receiveCurrentUser(response.data)))
     .catch((err) => dispatch(receiveErrors(err.response.data)));
 };
+
+export const uploadPicture = (data,config) => (dispatch) => {
+  
+  return(
+    
+    APIUtil.uploadPicture(data,config)
+    .then((res) => {
+    // .then((response) => dispatch(receiveImage(response.data.img_url)))
+    const { token } = res.data;
+    localStorage.setItem("jwtToken", token);
+    APIUtil.setAuthToken(token);
+    const decoded = jwt_decode(token);
+    
+    dispatch(receiveCurrentUser(decoded));
+    })
+  )
+  
+}

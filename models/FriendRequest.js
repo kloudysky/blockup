@@ -13,7 +13,6 @@ const FriendRequestSchema = new Schema({
     }, 
     status: {
         type: String,
-
         default: "Pending"
     }},{
         timestamps: true,

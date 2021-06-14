@@ -9,3 +9,48 @@
 .room-item{
     padding: 1px;
 }
+.room-members-ul{
+    margin: 0 25px;
+    border-bottom: 1px solid #d7d6d6;
+    padding-bottom: 10px;
+}
+
+.room-members-li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.room-friend-request-username{
+    width: 210px;
+    font-size: 15px;
+}
+
+.room-friend-request-id{
+    width: 230px;
+    font-size: 15px;
+}
+.show-room-members{
+    display: flex;
+    height: 20px;
+    width: auto;
+    justify-content: center;
+    align-items: center;
+    padding: 6px;
+    border-radius: 11px;
+    font-size: 12px;
+    margin-left: 10px;
+    border: 1px solid;
+}
+
+.show-room-members:hover{
+    cursor: pointer;
+    background-color: red;
+    font-weight: bold;
+  }
+
+  #modal > .select-friends{
+    font-size: 15px;
+    margin-top: 12px;
+  }
+

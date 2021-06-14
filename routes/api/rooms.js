@@ -6,13 +6,20 @@ const passport = require("passport");
 const validateRoomNameInput = require("../../validation/room");
 const RoomMember = require("../../models/RoomMember");
 
-router.get("/user/:user_id", (req, res) => {
-  //    Room.find({"members": {id: req.params.user_id}});
 
-  Room.find({
-    $or: [{ members: { $elemMatch: { id: `${req.params.user_id}` } } }],
-  })
-    .limit(10)
+router.get("/user/:user_id", (req, res) => {
+     Room.find({"members": {_id: req.params.user_id}})
+     .populate( "members", "_id username img_url")
+     .populate("messages", "content -_id")
+     
+    //  {
+    // path: "messages",
+    // populate: { path: "author username" },
+  // }
+  // Room.find({
+  //   $or: [{ members: { $elemMatch: { id: req.params.user_id } } }],
+  // })
+    // .limit(10)
     .then((rooms) => {
       res.json(rooms);
     });
@@ -44,7 +51,7 @@ router.get("/:id", (req, res) => {
 
 router.post("/new", (req, res) => {
   // const { errors, isValid } = validateRoomNameInput(req.body);
-  // debugger;
+  // ;
   // if (!isValid) {
   //   return res.status(400).json(errors);
   // }
@@ -55,7 +62,7 @@ router.post("/new", (req, res) => {
     name: name,
     img_url: req.body.img_url || "",
     members: otherMembers,
-    messages: [],
+    messages: [], 
   });
 
   console.log("newRooom", newRoom);
@@ -65,7 +72,21 @@ router.post("/new", (req, res) => {
 
   newRoom
   .save()
+<<<<<<< HEAD
   .then((room) => { room.populate('members'); console.log("after pop", room.members); res.json(room)})
+=======
+  // .then((room) => { room.populate('members'); console.log("after pop", room); res.json(room)})
+  .then((room) => {
+    console.log("**************1",room)
+    Room.findById(room._id)
+    .populate( "members", "_id username")
+    .then(room1 => {
+      console.log("**************2",room1)
+      res.json(room1)}).catch((err) => {
+        console.log(err);
+      })
+  })
+>>>>>>> main
   .catch((err) => {
     console.log(err);
     res.status(404).json({

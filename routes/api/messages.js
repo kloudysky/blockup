@@ -49,13 +49,26 @@ router.post(
       Room.findOneAndUpdate(
         { _id: req.body.room },
         { $push: { messages: result._id } }
-      );
+        , {new: true, useFindAndModify: false}
+        ,(error, success)=>{
+            if(error){
+              console.log(error,"not append message...............");
+            }else{
+              console.log(success.messages.slice(-1),"appended message...............")
+            }
+          }
+      )
+
       Message.find({ _id: result._id })
         .populate("author", "username")
         .then((message) => {
-          socket.to(req.body.room).emit("incoming message", message[0]);
+          
+          // socket.to(req.body.room).emit("incoming message", message[0]);
+          
+          console.log(message[0]);
           res.json(message[0]);
         });
+        
     });
   }
 );

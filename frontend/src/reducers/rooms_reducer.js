@@ -4,6 +4,7 @@ import {
   RECEIVE_SINGLE_ROOM,
   DELETE_ROOM,
 } from "../actions/room_actions";
+import { RECEIVE_USER_LOGOUT } from "../actions/session_actions";
 
 const RoomsReducer = (state = {}, action) => {
   Object.freeze(state);
@@ -17,13 +18,16 @@ const RoomsReducer = (state = {}, action) => {
       action.rooms.forEach((room) => {
         roomsObj[room._id] = room;
       });
-      const newState = Object.assign({}, nextState, roomsObj);
-      return newState;
+      // const newState = Object.assign({}, nextState, roomsObj);
+      // return newState;
+      return roomsObj;
     case RECEIVE_SINGLE_ROOM:
       return action.room;
     case DELETE_ROOM:
       delete nextState[action.room._id];
       return nextState;
+    case RECEIVE_USER_LOGOUT:
+      return Object.assign({});
     default:
       return state;
   }

@@ -1,6 +1,6 @@
 import React from "react";
 import qrcode from "qrcode";
-import { withRouter } from "react-router-dom";
+import { withRouter} from "react-router-dom";
 
 class TwoFASetup extends React.Component {
   constructor(props) {
@@ -34,11 +34,14 @@ class TwoFASetup extends React.Component {
       });
   }
 
+
   getQrCode() {
     let imgdata;
     const errors = this.props.errors.message;
     if (this.props.verified) {
+      // return <Redirect to='/profile' />
       return <h1>Your 2FA has been setup</h1>;
+
     } else {
       return (
         <div className="twofa-container">

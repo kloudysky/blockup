@@ -15,13 +15,18 @@
   font-size: 30px;
 }
 
+.chat-profile-link> i {
+  font-size: 30px;
+}
+
 .chat-header-info {
   flex: 1;
   padding-left: 20px;
 }
 
 .chat-header-info > h3 {
-  margin-bottom: 3px;
+  margin-bottom: -18px;
+  margin-top: 22px;
   font-weight: 500;
 }
 
@@ -67,7 +72,8 @@
   position: absolute;
   top: -25px;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 16px;
+  width: max-content;
 }
 
 .chat-reciever {
@@ -95,8 +101,14 @@
   border: none;
 }
 
-.chat-footer > form > button {
+/* .chat-footer > form > button {
   display: none;
+} */
+
+.paper-plane{
+  border: none;
+  font-size: larger;
+  margin: 0px 7px;
 }
 
 .chat-footer > .MuiSvgIcon-root {
