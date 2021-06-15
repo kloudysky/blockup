@@ -57,8 +57,11 @@ router.post("/new", (req, res) => {
   // }
   const { user, name } = req.body;
   let otherMembers = req.body.members || [];
-  otherMembers.push(user.id);
-  let newRoom = new Room({
+  // otherMembers.push(user.id);
+  // let newRoom = new Room({
+    otherMembers.push({_id: user.id});
+
+    const newRoom = new Room({
     name: name,
     img_url: req.body.img_url || "",
     members: otherMembers,
@@ -67,8 +70,8 @@ router.post("/new", (req, res) => {
 
   console.log("newRooom", newRoom);
 
-  Room.findById(newRoom._id).populate('members');
-  console.log("newRooom after pop ****", newRoom.members);
+  // Room.findById(newRoom._id).populate('members');
+  // console.log("newRooom after pop ****", newRoom.members);
 
   newRoom
   .save()

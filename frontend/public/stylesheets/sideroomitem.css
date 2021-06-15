@@ -29,7 +29,7 @@
 .destroy-room{
   display: flex;
   height: 20px;
-  width: auto;
+  width: 55px;
   justify-content: center;
   align-items: center;
   padding: 6px;
