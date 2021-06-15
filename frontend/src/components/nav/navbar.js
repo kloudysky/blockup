@@ -83,31 +83,28 @@ class NavBar extends React.Component {
 
     // })
 
-    this.socket.on("delete room received", (data)=>{
-      
-      if(data.socket_receiver_id === this.props.currentUser.id){
+    // this.socket.on("delete room received", (data)=>{
+    
+    //   if(data.socket_receiver_id === this.props.currentUser.id){       
+    //     if(this.props.activeRoom && this.props.activeRoom._id === data.roomId){
 
-       
-        if(this.props.activeRoom && this.props.activeRoom._id === data.roomId){
+    //       if(this.props.rooms.length > 1){
+          
+    //         let setRoom = this.props.rooms.slice(-1)[0]._id === data.roomId ? this.props.rooms.slice(-2)[0]._id : this.props.rooms.slice(-1)[0]._id
+           
+    //         this.props.setActiveRoom(setRoom ).then(()=>{
 
-          this.props.resetActiveRoom()
-        }
+    //           this.props.fetchRoomMessages(setRoom )
 
-          setTimeout(()=>this.props.fetchUserRooms(this.props.currentUser.id).then(()=>{
-            if(this.props.activeRoom === -1 || this.props.activeRoom === undefined) { 
+    //         })
 
-              if(this.props.rooms.length > 0){
-                this.props.fetchActiveRoom(this.props.rooms[0]._id).then(
-                  ()=>{this.props.fetchRoomMessages(this.props.rooms[0]._id)}
-                  );
-                }
-              }
+    //       }else{
 
-            }) , 10)       
-        
-      }
-
-    })
+    //         this.props.resetActiveRoom();
+    //       }
+    //     }    
+    //   }
+    // })
 
 
   }

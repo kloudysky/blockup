@@ -36,31 +36,73 @@ export class SideRoomIndex extends Component {
     const id = this.props.user.id;
 
     this.props.fetchUserRooms(id).then(()=>{
+
+      if(this.props.rooms.length === 0){
+        this.props.resetActiveRoom()
+      }
+
       if(this.props.activeRoom === -1 || this.props.activeRoom === undefined) {
         if(this.props.rooms.length > 0){
           this.props.setActiveRoom(this.props.rooms[0]._id).then(
             ()=>{this.props.fetchRoomMessages(this.props.rooms[0]._id)}
           );
         }
-  
+        
       }
-
+      
       if(this.props.activeRoom && this.props.activeRoom !== -1){
         this.props.fetchRoomMessages(this.props.activeRoom._id)
       }
-
-      }
-    )
+      
+      }).then(()=>{this.props.fetchFriends(id)})
 
     this.socket.on("create room received", (data)=>{
 
       if(data.socket_receiver_id === this.props.user.id){
-        
-        this.props.fetchUserRooms(this.props.user.id)
+
+
+        this.props.fetchUserRooms(this.props.user.id).then(()=>{
+          
+          if(this.props.activeRoom === -1 && this.props.rooms.length > 0){
+            this.props.setActiveRoom(this.props.rooms[0]._id)
+
+          }
+
+        })
       }
     })
 
-    this.props.fetchFriends(id);
+    this.socket.on("delete room received", (data)=>{
+
+      if(data.socket_receiver_id === this.props.user.id){    
+        
+        this.props.fetchUserRooms(this.props.user.id).then(()=>{
+
+
+            if(this.props.rooms.length > 0){
+            // if(this.props.rooms.length > 1){
+            
+              // let setRoom = this.props.rooms.slice(-1)[0]._id === data.roomId ? this.props.rooms.slice(-2)[0]._id : this.props.rooms.slice(-1)[0]._id
+            
+              this.props.setActiveRoom(this.props.rooms.slice(-1)[0]._id).then(()=>{
+    
+                this.props.fetchRoomMessages(this.props.rooms.slice(-1)[0]._id)
+    
+              })
+    
+            }else{
+    
+              this.props.resetActiveRoom();
+            }
+
+        })
+       
+
+        }    
+
+    })
+
+
 
   }
 
@@ -81,7 +123,6 @@ export class SideRoomIndex extends Component {
     
     if( Object.keys(this.state.members).length > 1 && this.state.name !== ""){
       
-
       const roomMembers = [];
 
       Object.keys(this.state.members).forEach((member)=>{
@@ -104,12 +145,16 @@ export class SideRoomIndex extends Component {
       .then(()=>{
 
         // this.props.fetchUserRooms(this.props.user.id)
-        if(this.props.activeRoom === -1 || this.props.activeRoom === null){
- 
-          this.props.setActiveRoom(this.props.rooms.slice(-1)[0]._id).then(()=>{
-         
-          })
+        // if(this.props.activeRoom === -1 || this.props.activeRoom === null){
+        //   const roomMessageId = this.props.rooms.slice(-1)[0]._id
+        //   this.props.setActiveRoom(roomMessageId).then(()=>{
+        //     this.props.fetchRoomMessages(roomMessageId)
+        //   })
+          
+        // }
+        if(this.props.activeRoom && this.props.activeRoom !== -1){
 
+          this.props.fetchRoomMessages(this.props.activeRoom._id)
         }
 
         const members = Object.keys(this.state.members) 

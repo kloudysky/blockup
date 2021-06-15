@@ -33,13 +33,17 @@ export class SideRoomItem extends React.Component {
 
   componentDidMount() {
 
-    if(this.props.activeRoom._id === this.props.id && this.state.firstJoin){
-      
-    
-      this.socket.emit("join room", this.props.activeRoom._id);
-      this.firstJoin =  false ;
-      
+    if(this.props.id === this.props.activeRoom._id){
+
+      this.socket.emit("join room", this.props.id);
     }
+
+    // if(this.props.activeRoom._id === this.props.id && this.state.firstJoin){
+    
+    //   this.socket.emit("join room", this.props.activeRoom._id);
+    //   this.firstJoin =  false ;
+      
+    // }
     
     this.socket.on("incoming message", (msg) => {
 
@@ -84,75 +88,52 @@ export class SideRoomItem extends React.Component {
   }
 
 
-  closeModal(id){
-    return()=>{
-
-      // const ele = document.getElementById("delete-room-modal");
-      const ele = document.getElementById(id);
-      if(ele){
-        ele.style.display = "none";
-      }
-
-    }
-  }
-
   deleteRoom(id){
     return()=>{
 
-      const roomMembers = this.props.activeRoom.members
+
+
+      const room = this.props.rooms.filter((room)=> room._id ===id)[0]
+      const roomMembers =[]
 
       this.props.destroyRoom(id).then(()=> {
      
-        const index = roomMembers.indexOf(this.props.user.id);
-
-       
-        if (index > -1) {
-          roomMembers.splice(index, 1);
-        }
-
+        // const index = roomMembers.indexOf(this.props.user.id);
+        // if (index > -1) {
+        //   roomMembers.splice(index, 1);
+        // }
+        
+        room.members.forEach((member)=>{
+            if(member._id !== this.props.user.id){
+              roomMembers.push(member._id)}
+            })
+     
         this.socket.emit("delete room", {members: roomMembers, roomId: id});
 
         if(this.props.rooms.length > 1){
           
           
-            let setRoom = this.props.rooms.slice(-1)[0]._id === id ? this.props.rooms.slice(-2)[0]._id : this.props.rooms.slice(-1)[0]._id
-           
+          
+          let setRoom = this.props.rooms.slice(-1)[0]._id === id ? this.props.rooms.slice(-2)[0]._id : this.props.rooms.slice(-1)[0]._id
+          // this.props.fetchUserRooms(this.props.user._id ).then(()=>{
+            
             this.props.setActiveRoom(setRoom ).then(()=>{
 
-              this.props.fetchRoomMessages(setRoom )
+              this.props.fetchRoomMessages(setRoom)
 
+
+              const ele = document.getElementById(id + "roomId");
+              if(ele){
+                ele.style.display = "none";
+                }
             })
+          // })
 
         }else{
 
           this.props.resetActiveRoom();
         }
           
-
-        
-        // if(this.props.rooms.length > 0){
-        //     
-        //         this.props.setActiveRoom(this.props.rooms[0]._id)
-        // }
-
-
-        // // setTimeout(()=>
-        // this.props.fetchUserRooms(this.props.user.id).then(()=>{
-        //   // if(this.props.activeRoom === -1 || this.props.activeRoom === undefined) {
-        //     if(this.props.rooms.length > 0){
-          
-        //       this.props.setActiveRoom(this.props.rooms[0]._id).then(
-               
-        //         ()=>{
-    
-        //           this.props.fetchRoomMessages(this.props.rooms[0]._id)
-        //         }
-        //       );
-        //     }
-        //   // }
-        // }) 
-        // // , 3)
-
         this.closeModal(id)();
 
       })
@@ -165,11 +146,10 @@ export class SideRoomItem extends React.Component {
 
     // this.socket.emit("leave room", this.props.id);
 
-    debugger
     this.props.getRoomMessages(this.props.id);
 
     this.socket.emit("join room", this.props.id);
-    return this.props.setActiveRoom(this.props.id);
+    this.props.setActiveRoom(this.props.id);
   }
 
   hanleShowMembers(){
@@ -192,6 +172,8 @@ export class SideRoomItem extends React.Component {
     // } else {
     //   roomName = "No Rooms no active room";
     // }
+
+ 
 
     const members = this.props.roomMembers
     let room_member_name;
@@ -227,7 +209,7 @@ export class SideRoomItem extends React.Component {
 
     return (
 
-      <div>
+      <div id={this.props.id + "roomId"}>
 
 
           <div className="sidebar-chat">
@@ -240,8 +222,6 @@ export class SideRoomItem extends React.Component {
                     {/* <h3>{this.props.name}</h3> */}
                   </div>
                   {/* <button className="destroy-room" onClick={() => this.props.destroyRoom(this.props.id)}>delete</button> */}
-
-               
 
               </div>
 
