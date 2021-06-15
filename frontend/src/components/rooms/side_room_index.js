@@ -37,7 +37,7 @@ export class SideRoomIndex extends Component {
 
     this.props.fetchUserRooms(id).then(()=>{
 
-      if(this.props.rooms.length === 0){
+      if(this.props.rooms.length === 0 && this.props.activeRoom !== -1 && this.props.activeRoom !== null && this.props.activeRoom ){
         this.props.resetActiveRoom()
       }
 

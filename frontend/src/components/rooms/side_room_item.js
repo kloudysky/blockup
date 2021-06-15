@@ -6,7 +6,7 @@ export class SideRoomItem extends React.Component {
   constructor(props) {
     super(props);
     
-    // this.socket = io();
+
     this.socket = openSocket([ "https://blockup.herokuapp.com","http://localhost:5000"], {
     // this.socket = openSocket("http://localhost:5000", {
       transports: ["websocket"],
@@ -33,17 +33,15 @@ export class SideRoomItem extends React.Component {
 
   componentDidMount() {
 
-    if(this.props.id === this.props.activeRoom._id){
+    // if(this.props.id === this.props.activeRoom._id){
 
-      this.socket.emit("join room", this.props.id);
-    }
-
-    // if(this.props.activeRoom._id === this.props.id && this.state.firstJoin){
-    
-    //   this.socket.emit("join room", this.props.activeRoom._id);
-    //   this.firstJoin =  false ;
-      
+    //   this.socket.emit("join room", this.props.id);
     // }
+
+    if(this.props.activeRoom._id === this.props.id && this.state.firstJoin){
+      this.socket.emit("join room", this.props.activeRoom._id);
+      this.firstJoin =  false ;
+    }
     
     this.socket.on("incoming message", (msg) => {
 

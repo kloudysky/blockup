@@ -79,7 +79,7 @@ The friends page shows the list of the user's friends with their username, profi
 ```
 
 ## Mutiple Chat Rooms
-![MutipleChatRoom](README_assets/mutipleChatRoom.png)
+![MutipleChatRoom](README_assets/mutipleChatRoom.gif)
 
 Blockup provides users a convenient way to create mutiple chat rooms with their friends. Once the room is created, anyone belongs to the room is able to check the room members, send messages, join video chat, join voice chat and delete the room.
 
