@@ -22,12 +22,12 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-if (process.env.NODE_ENV === "production") {
-  app.enable('trust proxy')
-  app.use((req, res, next) => {
-      req.secure ? next() : res.redirect('https://' + req.headers.host + req.url)
-  })
-}
+// if (process.env.NODE_ENV === "production") 
+//   app.enable('trust proxy')
+//   app.use((req, res, next) => {
+//       req.secure ? next() : res.redirect('https://' + req.headers.host + req.url)
+//   })
+// }
 
 const http = require("http").createServer(app);
 // const http = require("http").Server(app);
@@ -149,7 +149,7 @@ io.on("connection", (socket) => {
   socket.on("delete room", (data)=>{
 
     data.members.forEach( id => {
-      
+
       if( id in socketList ){
         console.log(socketList[id],"-------------")
         socket.broadcast.emit("delete room received", {socket_receiver_id: id, roomId: data.roomId})
