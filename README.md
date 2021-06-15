@@ -85,28 +85,37 @@ Blockup provides users a convenient way to create mutiple chat rooms with their 
 
 ```js
 
-//side_room_index.js 
+//side_room_item.js 
 
-    this.props.fetchUserRooms(id).then(()=>{
-      if(this.props.activeRoom === -1 || this.props.activeRoom === undefined) {
-        if(this.props.rooms.length > 0){
-          this.props.setActiveRoom(this.props.rooms[0]._id).then(
-            ()=>{this.props.fetchRoomMessages(this.props.rooms[0]._id)}
-          );
+    const room = this.props.rooms.filter((room)=> room._id ===id)[0]
+      const roomMembers =[]
+
+      this.props.destroyRoom(id).then(()=> {
+        
+        room.members.forEach((member)=>{
+            if(member._id !== this.props.user.id){
+              roomMembers.push(member._id)
+              }
+          })
+     
+        this.socket.emit("delete room", {members: roomMembers, roomId: id});
+
+        if(this.props.rooms.length > 1){
+          
+          let setRoom = this.props.rooms.slice(-1)[0]._id === id ? this.props.rooms.slice(-2)[0]._id : this.props.rooms.slice(-1)[0]._id
+            
+          this.props.setActiveRoom(setRoom ).then(()=>{
+            this.props.fetchRoomMessages(setRoom)
+            const ele = document.getElementById(id + "roomId");
+            if(ele){
+                ele.style.display = "none";
+              }
+            })
+        }else{
+          this.props.resetActiveRoom();
         }
-      }
-
-      if(this.props.activeRoom && this.props.activeRoom !== -1){
-        this.props.fetchRoomMessages(this.props.activeRoom._id)
-        }
-      }
-    )
-
-    this.socket.on("create room received", (data)=>{
-      if(data.socket_receiver_id === this.props.user.id){
-        this.props.fetchUserRooms(this.props.user.id)
-      }
-    })
+        this.closeModal(id)();
+      })
 
 ```
 

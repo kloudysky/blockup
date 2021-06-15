@@ -8,10 +8,14 @@ const mapStateToProps = (state,ownProps) => {
     });
 
     const members = {};
-
-    state.rooms[ownProps.match.params.roomId].members.forEach(member => {
+    const room = state.rooms[ownProps.match.params.roomId];
+    if(room){  
+      room.members.forEach(member => {
       members[member._id] = member.username
-    });
+      })
+    }else{
+      members[state.session.user.id] = state.session.user.username
+    }
 
   return {
     user: state.session.user,

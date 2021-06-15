@@ -32,13 +32,13 @@
 }
 .show-room-members{
     display: flex;
-    height: 20px;
+    height: 18px;
     width: 70px;
     justify-content: center;
     align-items: center;
     padding: 6px;
     border-radius: 11px;
-    font-size: 12px;
+    font-size: 11px;
     margin-left: auto;
     border: 1px solid;
     margin-top: 5px;
