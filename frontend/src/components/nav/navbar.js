@@ -7,7 +7,8 @@ class NavBar extends React.Component {
   constructor(props) {
     super(props);
 
-    this.socket = openSocket(["http://localhost:5000", "https://blockup.herokuapp.com"], {
+    this.socket = openSocket(["https://blockup.herokuapp.com", "http://localhost:5000"], {
+    // this.socket = openSocket("http://localhost:5000", {
       transports: ["websocket"],
     });
 
@@ -74,21 +75,20 @@ class NavBar extends React.Component {
     })
 
 
-    this.socket.on("create room received", (data)=>{
+    // this.socket.on("create room received", (data)=>{
       
-      if(data.socket_receiver_id === this.props.currentUser.id){
-  
-        this.props.fetchUserRooms(this.props.currentUser.id)
-      }
+    //   if(data.socket_receiver_id === this.props.currentUser.id){
+    //     this.props.fetchUserRooms(this.props.currentUser.id)
+    //   }
 
-    })
+    // })
 
     this.socket.on("delete room received", (data)=>{
       
       if(data.socket_receiver_id === this.props.currentUser.id){
 
        
-        if(this.props.activeRoom._id === data.roomId){
+        if(this.props.activeRoom && this.props.activeRoom._id === data.roomId){
 
           this.props.resetActiveRoom()
         }

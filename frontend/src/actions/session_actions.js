@@ -2,7 +2,8 @@ import * as APIUtil from "../util/session_api_util";
 import jwt_decode from "jwt-decode";
 import openSocket from "socket.io-client";
 
-const socket = openSocket(["http://localhost:5000", "https://blockup.herokuapp.com"], {
+const socket = openSocket(["https://blockup.herokuapp.com","http://localhost:5000"], {
+// const socket = openSocket("http://localhost:5000", {
       transports: ["websocket"],
     });
 export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";

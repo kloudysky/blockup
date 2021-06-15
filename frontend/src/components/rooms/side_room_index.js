@@ -17,7 +17,8 @@ export class SideRoomIndex extends Component {
     };
 
 
-    this.socket = openSocket(["http://localhost:5000", "https://blockup.herokuapp.com"], {
+    this.socket = openSocket([ "https://blockup.herokuapp.com","http://localhost:5000"], {
+    // this.socket = openSocket("http://localhost:5000", {
       transports: ["websocket"],
     });
 
@@ -74,9 +75,12 @@ export class SideRoomIndex extends Component {
   }
 
   createRoom(e){
+    
     e.preventDefault();
     
+    
     if( Object.keys(this.state.members).length > 1 && this.state.name !== ""){
+      
 
       const roomMembers = [];
 
@@ -96,12 +100,29 @@ export class SideRoomIndex extends Component {
       };
 
       this.props.createRoom(room)
-      .then(()=>{
-        
-        const members = Object.keys(this.state.members) 
-        
 
+      .then(()=>{
+
+        // this.props.fetchUserRooms(this.props.user.id)
+        if(this.props.activeRoom === -1 || this.props.activeRoom === null){
+ 
+          this.props.setActiveRoom(this.props.rooms.slice(-1)[0]._id).then(()=>{
+         
+          })
+
+        }
+
+        const members = Object.keys(this.state.members) 
+      
         this.socket.emit("create room", members)
+      
+      
+        this.setState({
+          less2peope: "",
+          name: "",
+          members: {},
+          keyWords: '',
+        })
 
         });
         
@@ -155,24 +176,33 @@ export class SideRoomIndex extends Component {
 
   render() {
     let friends = "";
+    const members = this.state.members
     if (this.props.friends) {
       friends = this.props.friends.map((friend) => {
         return (
-            <label className="friend-label" htmlFor={friend.id} key={friend.id}><input type="checkbox" key={friend.id} value={friend.id} id={friend.id} onChange={this.update("members")} />{friend.username}</label>
+            // <label className="friend-label" htmlFor={friend.id} key={friend.id}><input type="checkbox" key={friend.id} value={friend.id} id={friend.id} onChange={this.update("members")} />{friend.username}</label>
+            <label className="friend-label" htmlFor={friend.id} key={friend.id}><input type="checkbox"  key={friend.id} value={friend.id} id={friend.id} onChange={this.update("members")} checked={members[friend.id] === true ? true : false} />{friend.username}</label>
         );
       });
     }
 
     let rooms = this.props.rooms
-    rooms = rooms.filter((room)=> {
 
-      let target = room.name;
-      if(room.members.length === 2){
-        target = room.members[0]._id === this.props.user.id ? room.members[1].username : room.members[0].username
-      }
-      return target.toUpperCase().includes(this.state.keyWords.toUpperCase()) 
-     
-    })
+    if(this.state.keyWords){
+
+      rooms = rooms.filter((room)=> {
+  
+        let target = room.name;
+        if(room.members.length === 2){
+          target = room.members[0]._id === this.props.user.id ? room.members[1].username : room.members[0].username
+        }
+        return target.toUpperCase().includes(this.state.keyWords.toUpperCase()) 
+       
+      })
+
+    }
+
+
 
     return (
       <div className="sidebar">
@@ -193,6 +223,7 @@ export class SideRoomIndex extends Component {
             <div className="close-modal" onClick={this.closeModal}>X</div>
             <p>Create a new room</p>
             <input
+              value={this.state.name}
               placeholder="Room name"
               onChange={this.update("name")}>
             </input>
@@ -220,7 +251,8 @@ export class SideRoomIndex extends Component {
 
         <div className="sidebar-chats">
  
-           {rooms.length > 0  && this.props.activeRoom  && this.props.activeRoom !== -1 ? (
+           {/* {rooms.length > 0  && this.props.activeRoom && this.props.activeRoom ? ( */}
+           {rooms.length > 0  && this.props.activeRoom && this.props.activeRoom !== -1 && this.props.activeRoom !== undefined ?(
               rooms.map((room) => (
               <SideRoomItem
                 key={room._id}
@@ -239,6 +271,7 @@ export class SideRoomIndex extends Component {
                 resetActiveRoom={this.props.resetActiveRoom}
                 fetchUserRooms={this.props.fetchUserRooms}
                 fetchRoomMessages={this.props.fetchRoomMessages}
+                deleteRoom={this.deleteRoom}
 
               />
             ))
