@@ -20,8 +20,9 @@ export class ChatBox extends React.Component {
 
     };
 
-    // this.socket = io();
-    this.socket = openSocket(["http://localhost:5000", "https://blockup.herokuapp.com"], {
+    
+    this.socket = openSocket([ "https://blockup.herokuapp.com", "http://localhost:5000"], {
+    // this.socket = openSocket("http://localhost:5000", {
       transports: ["websocket"],
     });
 
@@ -163,8 +164,8 @@ export class ChatBox extends React.Component {
 
           </div>
           <div className="-right">
-          <Link to={ !room ?  "" : `/video/${this.props.activeRoom._id}/true`} className="msg-link"><i className="fas fa-video"></i></Link>
-          <Link to={ !room ?  "" : `/video/${this.props.activeRoom._id}/false`} className="msg-link"> <i className="fas fa-phone"></i></Link>
+          <Link to={ this.props.activeRoom && this.props.activeRoom !== -1 ?  `/video/${this.props.activeRoom._id}/true` : `/video/${this.props.currentUser.id}/true` } className="msg-link"><i className="fas fa-video"></i></Link>
+          <Link to={ this.props.activeRoom && this.props.activeRoom !== -1 ?  `/video/${this.props.activeRoom._id}/false` : `/video/${this.props.currentUser.id}/false` } className="msg-link"> <i className="fas fa-phone"></i></Link>
           </div>
         </div>
         <Chatbody

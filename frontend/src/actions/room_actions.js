@@ -1,4 +1,5 @@
 import { createRoom, deleteRoom, getUserRooms, showRoom } from "../util/room_api_util";
+import { receiveActiveRoom } from "../actions/ui_actions"
 
 export const RECEIVE_NEW_ROOM = "RECEIVE_NEW_ROOM";
 export const RECEIVE_ROOMS = "RECEIVE_ROOMS";
@@ -36,7 +37,10 @@ export const composeRoom = data => dispatch => {
     return (createRoom(data)
         .then(room => { 
             
-            dispatch(receiveNewRoom(room.data))})
+            dispatch(receiveNewRoom(room.data))
+            dispatch(receiveActiveRoom(room.data))
+        
+        })
         // .catch(err => {
         //     
         //     console.log(err)

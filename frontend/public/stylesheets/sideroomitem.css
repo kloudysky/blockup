@@ -28,14 +28,14 @@
 
 .destroy-room{
   display: flex;
-  height: 20px;
-  width: auto;
+  height: 18px;
+  width: 55px;
   justify-content: center;
   align-items: center;
   padding: 6px;
   border-radius: 11px;
   border: 1px solid;
-  font-size: 12px;
+  font-size: 11px;
   margin-left: auto;
 }
 
