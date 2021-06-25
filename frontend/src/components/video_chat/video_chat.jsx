@@ -10,8 +10,8 @@ export class VideoChat extends React.Component {
       ids: []
     }
 
-    // this.socket = openSocket(["https://blockup.herokuapp.com", "http://localhost:5000"], {
-    this.socket = openSocket("http://localhost:5000", {
+    this.socket = openSocket(["https://blockup.herokuapp.com", "http://localhost:5000"], {
+    // this.socket = openSocket("http://localhost:5000", {
       transports: ["websocket"],
     });
 
