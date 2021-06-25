@@ -33,7 +33,8 @@ const mapStateToProps = (state) => {
     rooms: state.rooms,
     roomsFor2: rooms2,
     friends: userFriends,
-    requests: userRequests
+    requests: userRequests,
+    activeRoom: state.ui.activeRoom,
   };
 };
 

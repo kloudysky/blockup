@@ -79,7 +79,7 @@ router.post("/new", (req, res) => {
   .then((room) => {
     console.log("**************1",room)
     Room.findById(room._id)
-    .populate( "members", "_id username")
+    .populate( "members", "_id username img_url")
     .then(room1 => {
       console.log("**************2",room1)
       res.json(room1)}).catch((err) => {
