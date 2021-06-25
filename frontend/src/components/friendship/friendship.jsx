@@ -15,8 +15,8 @@ class Friendship extends React.Component {
       cannotFriendAgain: '',
     };
 
-    this.socket = openSocket([ "https://blockup.herokuapp.com","http://localhost:5000"], {
-    // this.socket = openSocket("http://localhost:5000", {
+    // this.socket = openSocket([ "https://blockup.herokuapp.com","http://localhost:5000"], {
+    this.socket = openSocket("http://localhost:5000", {
       transports: ["websocket"],
     });
 
@@ -194,11 +194,13 @@ class Friendship extends React.Component {
               };
 
               this.props.createRoom(room).then(()=>{
-                this.socket.emit("create room",[friendRequest.senderId._id]);
-              }).then(()=>{
-            
-                this.props.fetchUserRooms(this.props.user.id)
+                this.socket.emit("create room",[friendRequest.senderId._id],this.props.activeRoom);
+                
               })
+              // .then(()=>{
+            
+              //   this.props.fetchUserRooms(this.props.user.id)
+              // })
             }
 
         })
@@ -242,6 +244,9 @@ class Friendship extends React.Component {
 
   handleUnfriend(ids){
     return()=>{
+
+      let room_id;
+
       this.closeModal(ids[0]+"unfriend-modal")()
       
       this.props.deleteFriendship(ids[0]).then(()=>{
@@ -250,6 +255,7 @@ class Friendship extends React.Component {
         Object.values(this.props.rooms).forEach((ele)=>{
            
           if(ele.members.length === 2 && ele.members.every(member => ids.slice(1).includes(member._id))){
+            room_id =  ele._id
             this.props.destroyRoom((ele._id))
           }
         })
@@ -258,6 +264,10 @@ class Friendship extends React.Component {
         const socket_id = ids[1] === this.props.user.id ? ids[2] : ids[1]
         this.socket.emit("unfriend", {socket_receiver_id: socket_id, id: this.props.user.id});
 
+        const member = this.props.user.id === ids[1] ? ids[2] : ids[1]
+
+        this.socket.emit("delete room", {members: [member], roomId: room_id});
+        
       })
 
     }
@@ -277,10 +287,13 @@ class Friendship extends React.Component {
 
 
         if(rooms.length > 0){
-          
 
           this.props.setActiveRoom((rooms[0]._id)).then(()=>{
-          this.props.history.push('/web')
+          
+            this.socket.emit("enter room", this.props.activeRoom._id, this.props.user.id);
+          
+            this.props.history.push('/web')
+          
           })
         }else{
           
@@ -296,11 +309,13 @@ class Friendship extends React.Component {
           };
     
           // const that = this
+      
+
           this.props.createRoom(room).then(()=>{
 
             const friendId = ids[0] === this.props.user.id ? ids[1] : ids[0]
-
-            this.socket.emit("create room",[friendId]);
+           
+            this.socket.emit("create room",[friendId],this.props.activeRoom);
 
             this.handleRoom(ids)()
       

@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { composeRoom, deleteUserRoom, fetchUserRooms } from "../../actions/room_actions";
+import { composeRoom, deleteUserRoom, fetchUserRooms, deleteThisRoom, receiveNewRoom } from "../../actions/room_actions";
 import { fetchActiveRoom, resetActiveRoom } from "../../actions/ui_actions";
 import {
   receiveMessage,
@@ -31,7 +31,9 @@ const mapDispatchToProps = (dispatch) => {
     fetchFriends: (id) => dispatch(fetchFriendships(id)),
     createRoom: (room) => dispatch(composeRoom(room)),
     destroyRoom: (id) => dispatch(deleteUserRoom(id)),
-    resetActiveRoom: ()=> dispatch(resetActiveRoom())
+    resetActiveRoom: ()=> dispatch(resetActiveRoom()),
+    deleteThisRoom: (room)=>dispatch(deleteThisRoom(room)),
+    receiveNewRoom: (room)=>dispatch(receiveNewRoom(room)),
   };
 };
 

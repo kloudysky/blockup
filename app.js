@@ -32,9 +32,9 @@ if (process.env.NODE_ENV === "production") {
 const http = require("http").createServer(app);
 // const http = require("http").Server(app);
 const io = require("socket.io")(http, {
-  // cors: {
-  //   origin: "http://localhost:3000",
-  // },
+  cors: {
+    origin: "http://localhost:3000",
+  },
 });
 
 
@@ -134,13 +134,13 @@ io.on("connection", (socket) => {
     }
   })
 
-  socket.on("create room", (data)=>{
+  socket.on("create room", (data, newRoom)=>{
   
     data.forEach( id => {
       
       if( id in socketList ){
         console.log(socketList[id],"-------------")
-        socket.broadcast.emit("create room received", {socket_receiver_id: id})
+        socket.broadcast.emit("create room received", {socket_receiver_id: id}, newRoom)
       }
 
     });
@@ -184,6 +184,17 @@ io.on("connection", (socket) => {
     socket.leave(room);
     console.log("some one left the room ROOM ID ********",room );
   });
+  
+  socket.on("enter room", (roomId, userId) => {
+    
+    if( userId in socketList){
+      console.log(socketList[userId],"-------------","entering room *****")
+      socket.broadcast.emit("enter room received", {socket_receiver_id: userId, socket_receiver_roomId: roomId})
+    }
+
+  });
+
+  
 
 });
 

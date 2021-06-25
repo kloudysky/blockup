@@ -28,15 +28,15 @@
 
 .destroy-room{
   display: flex;
-  height: 18px;
-  width: 55px;
+  height: 16px;
+  width: 45px;
   justify-content: center;
   align-items: center;
   padding: 6px;
   border-radius: 11px;
   border: 1px solid;
-  font-size: 11px;
-  margin-left: auto;
+  font-size: 10px;
+  margin: auto;
 }
 
 .destroy-room:hover{

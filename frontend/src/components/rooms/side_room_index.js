@@ -17,8 +17,8 @@ export class SideRoomIndex extends Component {
     };
 
 
-    this.socket = openSocket([ "https://blockup.herokuapp.com","http://localhost:5000"], {
-    // this.socket = openSocket("http://localhost:5000", {
+    // this.socket = openSocket([ "https://blockup.herokuapp.com","http://localhost:5000"], {
+    this.socket = openSocket("http://localhost:5000", {
       transports: ["websocket"],
     });
 
@@ -36,68 +36,76 @@ export class SideRoomIndex extends Component {
     const id = this.props.user.id;
 
     this.props.fetchUserRooms(id).then(()=>{
-
-      if(this.props.rooms.length === 0 && this.props.activeRoom !== -1 && this.props.activeRoom !== null && this.props.activeRoom ){
-        this.props.resetActiveRoom()
-      }
-
-      if(this.props.activeRoom === -1 || this.props.activeRoom === undefined) {
-        if(this.props.rooms.length > 0){
-          this.props.setActiveRoom(this.props.rooms[0]._id).then(
-            ()=>{this.props.fetchRoomMessages(this.props.rooms[0]._id)}
-          );
+      
+        if( this.props.activeRoom !== -1 && this.props.activeRoom !== null && this.props.activeRoom ){
+          if(this.props.rooms.length > 0 ){
+            this.props.fetchRoomMessages(this.props.activeRoom._id)
+          }else{
+            this.props.resetActiveRoom()
+          }
         }
-        
-      }
-      
-      if(this.props.activeRoom && this.props.activeRoom !== -1){
-        this.props.fetchRoomMessages(this.props.activeRoom._id)
-      }
-      
-      }).then(()=>{this.props.fetchFriends(id)})
 
-    this.socket.on("create room received", (data)=>{
+        if(this.props.activeRoom === -1 || this.props.activeRoom === undefined || this.props.activeRoom === null ) {
+          if(this.props.rooms.length > 0){
+            this.props.setActiveRoom(this.props.rooms[0]._id).then(
+              ()=>{this.props.fetchRoomMessages(this.props.rooms[0]._id)}
+            );
+          }
+        }
+      }).then(()=>{this.props.fetchFriends(this.props.user.id)})
 
-      if(data.socket_receiver_id === this.props.user.id){
+    this.socket.on("create room received", (data, newRoom)=>{
 
+      // if(data.socket_receiver_id === this.props.user.id){
+        // this.props.fetchUserRooms(this.props.user.id).then(()=>{
 
-        this.props.fetchUserRooms(this.props.user.id).then(()=>{
-          
+          console.log(this.props.user,"----",this.props, "from sideroomindex recieve sockets")
+
+          this.props.receiveNewRoom(newRoom)
+
           if(this.props.activeRoom === -1 && this.props.rooms.length > 0){
             this.props.setActiveRoom(this.props.rooms[0]._id)
-
           }
 
-        })
-      }
+          
+
+       
+        // })
+
+      // }
+
     })
 
     this.socket.on("delete room received", (data)=>{
 
       if(data.socket_receiver_id === this.props.user.id){    
         
-        this.props.fetchUserRooms(this.props.user.id).then(()=>{
+        this.props.deleteThisRoom({_id: data.roomId})
+        // this.props.fetchUserRooms(this.props.user.id).then(()=>{
 
+            // if(this.props.rooms.length > 0 && data.roomId === this.props.activeRoom._id){
+            if(this.props.activeRoom && data.roomId === this.props.activeRoom._id){
 
-            if(this.props.rooms.length > 0){
-            // if(this.props.rooms.length > 1){
-            
-              // let setRoom = this.props.rooms.slice(-1)[0]._id === data.roomId ? this.props.rooms.slice(-2)[0]._id : this.props.rooms.slice(-1)[0]._id
-            
-              this.props.setActiveRoom(this.props.rooms.slice(-1)[0]._id).then(()=>{
-    
-                this.props.fetchRoomMessages(this.props.rooms.slice(-1)[0]._id)
-    
-              })
-    
+              if(this.props.rooms.length > 1){
+              
+                let setRoom = this.props.rooms.slice(-1)[0]._id === data.roomId ? this.props.rooms.slice(-2)[0]._id : this.props.rooms.slice(-1)[0]._id
+              
+                this.props.setActiveRoom(setRoom).then(()=>{
+      
+                  this.props.fetchRoomMessages(setRoom)
+      
+                  })
+                }else{
+                  this.props.resetActiveRoom();
+                }
+
             }else{
-    
-              this.props.resetActiveRoom();
+
+              const ele = document.getElementById(data.roomId + "roomId");
+              if(ele)  ele.style.display = "none";
+                
             }
-
-        })
-       
-
+        // })
         }    
 
     })
@@ -158,9 +166,12 @@ export class SideRoomIndex extends Component {
         }
 
         const members = Object.keys(this.state.members) 
+
+        this.socket.emit("enter room", this.props.activeRoom._id, this.props.user.id);
       
-        this.socket.emit("create room", members)
+        this.socket.emit("create room", members, this.props.activeRoom )
       
+
       
         this.setState({
           less2peope: "",

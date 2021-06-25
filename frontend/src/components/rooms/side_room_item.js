@@ -7,8 +7,8 @@ export class SideRoomItem extends React.Component {
     super(props);
     
 
-    this.socket = openSocket([ "https://blockup.herokuapp.com","http://localhost:5000"], {
-    // this.socket = openSocket("http://localhost:5000", {
+    // this.socket = openSocket([ "https://blockup.herokuapp.com","http://localhost:5000"], {
+    this.socket = openSocket("http://localhost:5000", {
       transports: ["websocket"],
     });
 
@@ -34,14 +34,14 @@ export class SideRoomItem extends React.Component {
   componentDidMount() {
 
     // if(this.props.id === this.props.activeRoom._id){
-
+    //   console.log(this.props.activeRoom.name)
     //   this.socket.emit("join room", this.props.id);
     // }
 
-    if(this.props.activeRoom._id === this.props.id && this.state.firstJoin){
-      this.socket.emit("join room", this.props.activeRoom._id);
-      this.firstJoin =  false ;
-    }
+    // if(this.props.activeRoom._id === this.props.id && this.state.firstJoin){
+    //   this.socket.emit("join room", this.props.activeRoom._id);
+    //   this.firstJoin =  false ;
+    // }
     
     this.socket.on("incoming message", (msg) => {
 
@@ -58,8 +58,24 @@ export class SideRoomItem extends React.Component {
       console.log(msg);
     });
 
+    this.socket.on("enter room received", (data)=>{
+   
+      if(data.socket_receiver_id === this.props.user.id ){
+       
+        this.socket.emit("join room", this.props.activeRoom._id);
+
+      }
+    })
+
   }
 
+  // componentDidUpdate(prevProps, prevState){
+  //   debugger
+  //     if( prevProps.rooms.length < this.props.rooms.length && this.props.id === this.props.activeRoom._id ){
+  //         debugger
+  //       this.socket.emit("join room", this.props.id);
+  //       }
+  // }
 
   openModal(id) {
     return()=>{
@@ -88,8 +104,6 @@ export class SideRoomItem extends React.Component {
 
   deleteRoom(id){
     return()=>{
-
-
 
       const room = this.props.rooms.filter((room)=> room._id ===id)[0]
       const roomMembers =[]
@@ -171,7 +185,6 @@ export class SideRoomItem extends React.Component {
     //   roomName = "No Rooms no active room";
     // }
 
- 
 
     const members = this.props.roomMembers
     let room_member_name;
